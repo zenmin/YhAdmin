@@ -1,0 +1,54 @@
+@CHARSET "UTF-8";
+
+* html .ajax-loading-showbox, * html .ajax-loading.overlay {
+    position: absolute;
+    top: expression(eval(document.documentElement.scrollTop));
+}
+
+.ajax-loading {
+    border: 1px solid #8CBEDA;
+    color: #37a;
+    font-size: 12px;
+    font-weight: bold;
+    opacity: 0;
+    margin-top: 250px;
+}
+
+.ajax-loading div.ajax-loading-loadingWord {
+    width: 180px;
+    height: 50px;
+    line-height: 50px;
+    border: 2px solid #D6E7F2;
+    background: #fff;
+}
+
+.ajax-loading img {
+    margin: 10px 15px;
+    float: left;
+    display: inline;
+}
+
+.ajax-loading-overlay1 {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2040;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    _padding: 0 20px 0 0;
+    background: #000000;
+    display: none;
+}
+
+.ajax-loading-showbox {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: 9999;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    margin-left: -80px;
+}

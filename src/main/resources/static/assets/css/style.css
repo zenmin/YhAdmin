@@ -1,0 +1,31 @@
+.form-search > .search-query {
+    margin-right: 20px;
+}
+.form-search > .search-label{
+    padding-top: 5px; padding-right: 5px;
+}
+.form-search > .btn{
+    margin-bottom: 3px;margin-left: 5px;
+}
+
+.ace-nav > li.green > a,
+.ace-nav > li.light-blue > a{
+    background-color: #2c6aa0
+}
+.nav-list >li > a{
+    height: 48px;
+    line-height: 48px;
+}
+.btn{
+    border-radius: 5px;
+}
+
+.dataTables_wrapper .row:last-child{
+    padding-bottom: 0px;
+}
+
+.dataTable th[class*=sorting_] {
+    color: #555;
+}
+
+

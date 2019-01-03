@@ -1,0 +1,91 @@
+﻿/* CSS Document */
+html,body,div,ol,ul,li,dl,dd,dt,menu,h1,h2,h3,h4,h5,h6,p,pre,code,fieldset,legend,form,input,button,textarea,blockquote,table,caption,tr,th,td,figure,hr,article,section,audio,video,embed,canvas,details,datalist,figure,figcaption{
+	margin:0;
+	padding:0;
+	font-family: "微软雅黑";
+	font-size: 14px;
+font-weight:normal;
+}
+
+body{
+	overflow-x: hidden;
+}
+
+input,button,textarea,select,optgroup,option,code,pre{
+	font-family:inherit;
+	font-size:inherit;
+	font-style:inherit;
+	font-weight:inherit;
+}
+h1,h2,h3,h4,h5,h6{
+	font-size:100%;
+	font-weight:normal;
+}
+li{
+	list-style:none;
+}
+img{
+	border:0;
+}
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+	vertical-align:middle;
+}
+tr,th,td{
+	vertical-align:inherit;
+}
+th{
+	text-align:center;
+}
+iframe{
+	height:inherit;
+	width:inherit;
+}
+q:before,q:after{
+	content:"";
+}
+html{
+	font-family:"\5FAE\8F6F\96C5\9ED1","arial","\5B8B\4F53",monospace;
+	_font-family:"arial","\5B8B\4F53",monospace;
+}
+a{
+	outline:0;
+}
+.clearLine{
+	_blr:expression(this.onFocus=this.blur());
+	outline:0;
+}
+header,nav,article,section,aside,hgroup,figure,figcaption,canvas,audio,video,embed,isindex,map,menu,footer,.img2a,dl,dt,dd,.db{
+	display:block;
+}
+a{
+	text-decoration:none;
+}
+.none{
+	display:none;
+}
+.clearfix:after,.wrapper:after{
+	clear:both;content:".";
+	display:block;
+	height:0;
+	visibility:hidden;
+}
+.mt10{
+	margin-top:10px;
+}
+.mt20{
+	margin-top:20px;
+}
+.mb15{
+	margin-bottom:15px;
+}
+.fwb{
+	font-weight:bold;
+}
+.ti{
+	text-indent:2em;
+}
+.cb{
+	clear:both;	
+}

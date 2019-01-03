@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta http-equiv="Cache-Control" content="no-store"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <title>YHADMIN</title>
+  <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+  <link rel="stylesheet" th:href="@{/assets-lib/swagger/css/style.css}" href="../static/assets/css/style.css"/>
+  <link rel="stylesheet" th:href="@{/assets-lib/swagger/css/typography.css}"  href="../static/assets/css/typography.css"/>
+  <link media='screen' rel='stylesheet' type='text/css' th:href="@{/assets-lib/swagger/css/reset.css}" href='css/reset.css' />
+  <link th:href="@{/assets-lib/swagger/css/screen.css}" href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link th:href="@{/assets-lib/swagger/css/reset.css}" href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
+  <link th:href="@{/assets-lib/swagger/css/print.css}" href='css/print.css' media='print' rel='stylesheet' type='text/css'/>
+
+  <script th:src="@{/assets-lib/swagger/js/object-assign-pollyfill.js}" src='lib/object-assign-pollyfill.js'></script>
+  <script th:src="@{/assets-lib/swagger/js/jquery-1.8.0.min.js}" src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/jquery.slideto.min.js}" src='lib/jquery.slideto.min.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/jquery.wiggle.min.js}" src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/jquery.ba-bbq.min.js}" src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/handlebars-4.0.5.js}" src='lib/handlebars-4.0.5.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/lodash.min.js}" src='lib/lodash.min.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/backbone-min.js}" src='lib/backbone-min.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/swagger-ui.js}" src='swagger-ui.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/highlight.9.1.0.pack.js}" src='lib/highlight.9.1.0.pack.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/highlight.9.1.0.pack_extended.js}" src='lib/highlight.9.1.0.pack_extended.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/jsoneditor.min.js}" src='lib/jsoneditor.min.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/marked.js}" src='lib/marked.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/js/swagger-oauth.js}" src='lib/swagger-oauth.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/lang/translator.js}" src='lib/swagger-oauth.js' type='text/javascript'></script>
+  <script th:src="@{/assets-lib/swagger/lang/zh-cn.js}" src='lib/swagger-oauth.js' type='text/javascript'></script>
+</head>
+
+<body class="swagger-section">
+<div id='header'>
+  <div class="swagger-ui-wrap">
+    <a id="logo" href="#"><img class="logo__img" alt="swagger" height="30" width="30" th:src="@{/assets-lib/swagger/images/logo_small.png}" src="images/logo_small.png" /><span class="logo__title">YHADMIN </span></a>
+    <form id='api_selector'>
+      <div class='input'><input placeholder="http://sso.dev.mattbaby.com/api"  id="input_baseUrl" name="baseUrl" type="text"/></div>
+      <div id='auth_container'></div>
+      <div class='input'><a id="explore" class="header__btn" href="#" data-sw-translate="" >搜索</a></div>
+    </form>
+  </div>
+</div>
+
+<div id="message-bar" class="swagger-ui-wrap" data-sw-translate="">&nbsp;</div>
+<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+<script th:src="@{/assets-lib/swagger/web_index.js}" src='lib/swagger-oauth.js' type='text/javascript'></script>
+</body>
+</html>

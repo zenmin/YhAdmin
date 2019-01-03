@@ -1,0 +1,61 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "YHADMIN",
+    "description": "在线api接口测试文档",
+    "version": "1.0.0"
+  },
+  "basePath": "/api",
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/phone/un_login/send_sms": {
+      "post": {
+        "summary": "发送验证码",
+        "description": "",
+        "parameters": [
+          {
+            "name": "phone",
+            "in": "formData",
+            "description": "手机号",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Login"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/phone/un_login/login": {
+      "post": {
+        "summary": "登录",
+        "description": "",
+        "parameters": [
+          {
+            "name": "phone",
+            "in": "formData",
+            "description": "手机号",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "code",
+            "in": "formData",
+            "description": "验证码",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "tags": ["Login"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    }
+
+
+  }
+}

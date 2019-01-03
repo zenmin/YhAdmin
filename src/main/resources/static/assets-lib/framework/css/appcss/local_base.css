@@ -1,0 +1,31 @@
+/* reset begin*/
+ div, span,  ul, li {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+.serviceStars {
+	display:inline-block;
+	width:80px;
+	height:30px;
+	overflow: hidden;
+	vertical-align:top;
+	line-height: 30px;
+}
+.serviceStars span {
+	display:inline-block;
+	background:url(../../images/new/stars.png) no-repeat;
+	width:11px;
+	height: 13px;
+}
+.serviceStars .serverStarsSel {
+	background-position: 0 0;
+	/*cursor: pointer;*/
+}
+.serviceStars .serverStarsNoSel {
+	background-position: 0 -13px;
+	cursor: pointer;
+}
