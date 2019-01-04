@@ -19,12 +19,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
-/**
- * HTTP请求客户端，提供GET和POST两种方式发送请求。
- *
- * @author Administrator
- *
- */
 @Slf4j
 public class HttpClientUtil {
 

@@ -12,13 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-/**
- * 基于Java8的日期工具类。
- *
- * @author Tim.Yao，sunfuchang03@126.com
- * @version 1.1 添加注释，添加日期加上日期数计算方法
- * @since 1.0
- */
 public class DateUtil {
     /**
      * 获取某一段日期的开始时间和结束时间。
