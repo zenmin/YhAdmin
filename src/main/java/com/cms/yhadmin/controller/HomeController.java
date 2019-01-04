@@ -1,7 +1,10 @@
 package com.cms.yhadmin.controller;
 
+import com.cms.yhadmin.foundation.CommonException;
+import com.cms.yhadmin.foundation.DefinedCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @Describle This Class Is
@@ -22,5 +25,10 @@ public class HomeController {
         return "api/web_api";
     }
 
+    @RequestMapping("/teste")
+    @ResponseBody
+    public String testException(){
+        throw new CommonException(DefinedCode.ERROR,"出错了");
+    }
 
 }

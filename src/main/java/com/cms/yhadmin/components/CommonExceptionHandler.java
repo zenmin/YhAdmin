@@ -2,6 +2,7 @@ package com.cms.yhadmin.components;
 
 import com.cms.yhadmin.foundation.CommonException;
 import com.cms.yhadmin.foundation.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @Company Matt
  */
 @RestControllerAdvice
-public class ExceptionHandler extends RuntimeException {
+public class CommonExceptionHandler extends RuntimeException {
 
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity handler(RuntimeException e) {
         if (e instanceof CommonException) {
             return ResponseEntity.error(((CommonException) e).getCode(),e.getMessage());

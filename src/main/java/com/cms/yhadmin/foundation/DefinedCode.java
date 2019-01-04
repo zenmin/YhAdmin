@@ -11,5 +11,5 @@ public class DefinedCode {
     public static final int SUCCESS = 100;  //成功
     public static final int ERROR = 999;    //失败
     public static final int NOTFOUND = 101;    //资源未找到
-
+    public static final int PARAMSERROR = 102;    //参数异常
 }

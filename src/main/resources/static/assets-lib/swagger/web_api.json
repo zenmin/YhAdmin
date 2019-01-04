@@ -5,33 +5,47 @@
     "description": "在线api接口测试文档",
     "version": "1.0.0"
   },
-  "basePath": "/api",
+  "basePath": "/",
   "produces": [
     "application/json"
   ],
   "paths": {
-    "/phone/un_login/send_sms": {
+    "/api/test/crud": {
       "post": {
-        "summary": "发送验证码",
+        "summary": "测试接口",
         "description": "",
         "parameters": [
           {
-            "name": "phone",
+            "name": "token",
+            "in": "header",
+            "description": "token后续加入",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
             "in": "formData",
-            "description": "手机号",
+            "description": "类型 1查全部 2根据名称查询 3批量插入数据",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "名称查询",
+            "required": false,
             "type": "string"
           }
         ],
-        "tags": ["Login"],
+        "tags": ["Test"],
         "responses": {
           "100": {"description": "成功"}
         }
       }
     },
-    "/phone/un_login/login": {
+    "/xxxxx": {
       "post": {
-        "summary": "登录",
+        "summary": "xxxxx",
         "description": "",
         "parameters": [
           {
