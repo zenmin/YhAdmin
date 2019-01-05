@@ -4,6 +4,7 @@ import com.cms.yhadmin.domain.CommonLog;
 import com.cms.yhadmin.service.CommonLogService;
 import com.cms.yhadmin.util.HttpClientUtil;
 import com.cms.yhadmin.util.IpHelper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,13 @@ public class AuthInterceptor implements HandlerInterceptor {
     CommonLogService commonLogService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws JsonProcessingException {
         String token = request.getParameter("token");
         Map<String, String[]> parameterMap = request.getParameterMap();
-//        objectMapper.writeValueAsString(request.getParameterMap());
+        String params = objectMapper.writeValueAsString(parameterMap);
         //此处连接redis执行鉴权
-        log.info("客户端ip:[{}]请求URL:[{}] ,请求params:[{}]",IpHelper.getRequestIpAddr(request), request.getRequestURL(), parameterMap);
-        commonLogService.saveLog(new CommonLog(IpHelper.getRequestIpAddr(request), request.getRequestURL().toString(),request.getParameterMap().toString()));
+        log.info("客户端ip:[{}]请求URL:[{}] ,请求params:[{}]",IpHelper.getRequestIpAddr(request), request.getRequestURL(), params);
+        commonLogService.saveLog(new CommonLog(IpHelper.getRequestIpAddr(request), request.getRequestURL().toString(),params));
         return true;
     }
 
