@@ -25,10 +25,9 @@ public class HomeController {
         return "api/web_api";
     }
 
-    @RequestMapping("/teste")
-    @ResponseBody
+    @RequestMapping("/qd")
     public String testException(){
-        throw new CommonException(DefinedCode.ERROR,"出错了");
+        return "qd";
     }
 
 }
