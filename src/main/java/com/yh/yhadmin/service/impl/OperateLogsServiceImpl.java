@@ -12,7 +12,6 @@ import javax.transaction.Transactional;
  * @Describle This Class Is 日志保存
  * @Author ZengMin
  * @Date 2019/1/13 16:58
- * @Company Matt
  */
 @Service
 public class OperateLogsServiceImpl implements OperateLogsService {

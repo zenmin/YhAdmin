@@ -10,10 +10,9 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * @Describle This Class Is
+ * @Describle This Class Is 全局api请求日志
  * @Author ZengMin
  * @Date 2019/1/4 20:41
- * @Company Matt
  */
 @Data
 @Entity

@@ -9,10 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * @Describle This Class Is
+ * @Describle This Class Is 全局操作日志
  * @Author ZengMin
  * @Date 2019/1/13 16:52
- * @Company Matt
  */
 @Data
 @Entity

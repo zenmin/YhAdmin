@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Describle This Class Is
  * @Author ZengMin
  * @Date 2019/1/3 20:26
- * @Company Matt
  */
 @Controller
 public class HomeController {

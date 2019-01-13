@@ -26,7 +26,6 @@ import java.util.Objects;
  * @Describle This Class Is 全局操作切面类
  * @Author ZengMin
  * @Date 2019/1/13 16:40
- * @Company Matt
  */
 @Component
 @Aspect

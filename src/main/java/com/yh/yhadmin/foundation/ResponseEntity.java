@@ -6,7 +6,6 @@ import lombok.Data;
  * @Describle This Class Is 全局返回类
  * @Author ZengMin
  * @Date 2019/1/3 19:45
- * @Company Matt
  */
 @Data
 public class ResponseEntity {

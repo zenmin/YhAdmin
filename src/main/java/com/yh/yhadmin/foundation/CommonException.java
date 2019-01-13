@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
  * @Describle This Class Is 全局异常类
  * @Author ZengMin
  * @Date 2019/1/3 19:56
- * @Company Matt
  */
 @Data
 public class CommonException extends RuntimeException {

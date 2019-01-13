@@ -13,7 +13,6 @@ import java.util.List;
  * @Describle This Class Is
  * @Author ZengMin
  * @Date 2019/1/3 21:11
- * @Company Matt
  */
 public interface TestRepository extends JpaRepository<Test, String> {
 

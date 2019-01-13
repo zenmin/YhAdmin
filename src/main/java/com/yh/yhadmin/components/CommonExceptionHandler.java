@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @Describle This Class Is 全局异常处理器
  * @Author ZengMin
  * @Date 2019/1/3 19:43
- * @Company Matt
  */
 @RestControllerAdvice
 public class CommonExceptionHandler extends RuntimeException {

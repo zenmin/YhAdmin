@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
  * @Describle This Class Is
  * @Author ZengMin
  * @Date 2019/1/4 20:44
- * @Company Matt
  */
 @Service
 public class CommonLogServiceImpl implements CommonLogService {

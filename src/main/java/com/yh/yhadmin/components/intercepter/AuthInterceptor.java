@@ -17,7 +17,6 @@ import java.util.Map;
  * @Describle This Class Is 验证所有请求权限
  * @Author ZengMin
  * @Date 2019/1/3 19:18
- * @Company Matt
  */
 @Slf4j
 public class AuthInterceptor implements HandlerInterceptor {

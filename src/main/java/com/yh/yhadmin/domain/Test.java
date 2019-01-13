@@ -10,10 +10,9 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * @Describle This Class Is
+ * @Describle This Class Is 测试类
  * @Author ZengMin
  * @Date 2019/1/3 21:06
- * @Company Matt
  */
 @Entity
 @Table(name = "test")

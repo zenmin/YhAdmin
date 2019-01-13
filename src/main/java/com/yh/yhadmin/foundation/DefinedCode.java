@@ -4,7 +4,6 @@ package com.yh.yhadmin.foundation;
  * @Describle This Class Is
  * @Author ZengMin
  * @Date 2019/1/3 19:49
- * @Company Matt
  */
 public class DefinedCode {
 
