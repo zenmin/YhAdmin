@@ -43,27 +43,133 @@
         }
       }
     },
-    "/xxxxx": {
+    "/api/category/getAll": {
       "post": {
-        "summary": "xxxxx",
-        "description": "",
+        "summary": "获取全部分类",
+        "description": "商品分类管理",
         "parameters": [
           {
-            "name": "phone",
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Category"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/category/getByCondition": {
+      "post": {
+        "summary": "获取全部分类",
+        "description": "商品分类管理",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
             "in": "formData",
-            "description": "手机号",
+            "description": "分类名称",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "是否启用",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "tags": ["Category"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/category/save": {
+      "post": {
+        "summary": "保存或更新",
+        "description": "商品分类管理",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "分类id 更新传入",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "分类名称",
             "required": true,
             "type": "string"
           },
           {
-            "name": "code",
+            "name": "categoryDesc",
             "in": "formData",
-            "description": "验证码",
-            "required": true,
-            "type": "integer"
+            "description": "分类描述",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "1启用 2 禁用",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "formData",
+            "description": "排序",
+            "required": false,
+            "type": "string"
           }
         ],
-        "tags": ["Login"],
+        "tags": ["Category"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/category/delete": {
+      "post": {
+        "summary": "获取全部分类",
+        "description": "商品分类管理",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "分类id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Category"],
         "responses": {
           "100": {"description": "成功"}
         }

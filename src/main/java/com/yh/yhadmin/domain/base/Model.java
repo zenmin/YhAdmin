@@ -1,7 +1,9 @@
-package com.yh.yhadmin.domain.domain;
+package com.yh.yhadmin.domain.base;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,7 @@ public abstract class Model implements Serializable{
     @Column(length = 32)
     private String id;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(columnDefinition = "datetime default now() COMMENT '创建时间' ")
     private Date createDate = new Date();
 

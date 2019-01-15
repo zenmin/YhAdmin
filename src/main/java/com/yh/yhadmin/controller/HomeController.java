@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * @Describle This Class Is
+ * @Describle This Class Is 全局跳转Controller
  * @Author ZengMin
  * @Date 2019/1/3 20:26
  */

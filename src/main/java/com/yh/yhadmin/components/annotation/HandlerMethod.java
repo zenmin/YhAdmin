@@ -16,6 +16,4 @@ public @interface HandlerMethod {
 
     String optDesc() default  "";
 
-    String methodName() default  "";
-
 }

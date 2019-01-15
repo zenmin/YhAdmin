@@ -1,6 +1,6 @@
 package com.yh.yhadmin.domain;
 
-import com.yh.yhadmin.domain.domain.Model;
+import com.yh.yhadmin.domain.base.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
