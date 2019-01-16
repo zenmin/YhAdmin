@@ -44,12 +44,16 @@ public class LogAspect {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
         HttpServletRequest request = servletRequestAttributes.getRequest();
-        this.saveLogs(joinPoint, request, servletRequestAttributes);
+        try {
+            this.saveLogs(joinPoint, request, servletRequestAttributes);
+        }catch (Exception e){
+            e.printStackTrace();
+            return joinPoint.proceed();
+        }
         return joinPoint.proceed();
     }
 
     private void saveLogs(ProceedingJoinPoint joinPoint, HttpServletRequest request, ServletRequestAttributes servletRequestAttributes) {
-        log.debug("监听到全局操作 正在写入日志...");
         OperateLogs operateLogs = new OperateLogs();
         //取操作名称和描述
         Object[] args = joinPoint.getArgs();
@@ -63,6 +67,7 @@ public class LogAspect {
         operateLogs.setOptParams(params);
         //取请求ip
         String ip = IpHelper.getRequestIpAddr(request);
+        log.info("监听到管理员全局操作 正在写入日志-->客户端IP:{}",ip);
         operateLogs.setOptIp(ip);
         //取操作人
         String optUserName = "";

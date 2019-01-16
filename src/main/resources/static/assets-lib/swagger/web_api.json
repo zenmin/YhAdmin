@@ -43,6 +43,8 @@
         }
       }
     },
+
+
     "/api/category/getAll": {
       "post": {
         "summary": "获取全部分类",
@@ -174,7 +176,183 @@
           "100": {"description": "成功"}
         }
       }
+    },
+
+    "/api/goods/getAll": {
+      "post": {
+        "summary": "获取全部商品",
+        "description": "商品管理",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "formData",
+            "description": "页码 默认0",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "formData",
+            "description": "分页大小  默认10",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Goods"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/goods/getByCondition": {
+      "post": {
+        "summary": "按条件查询商品",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "分类名称",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "1上架 0下架",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "cid",
+            "in": "formData",
+            "description": "分类id",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "tags": ["Goods"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/goods/save": {
+      "post": {
+        "summary": "保存或更新",
+        "description": "商品分类管理",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "商品id 更新传入",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "名称",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "goodsDesc",
+            "in": "formData",
+            "description": "描述",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "1上架 0下架",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "description": "单价",
+            "required": false,
+            "type": "double"
+          },
+          {
+            "name": "img",
+            "in": "formData",
+            "description": "商品图片",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "needPwd",
+            "in": "formData",
+            "description": "是否需要提取密码0 1",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pullPwd",
+            "in": "formData",
+            "description": "提取密码",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Goods"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/goods/delete": {
+      "post": {
+        "summary": "删除商品",
+        "description": "商品分类管理",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "商品id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Goods"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
     }
+
 
 
   }

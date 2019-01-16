@@ -19,7 +19,6 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-
     @RequestMapping("/getAll")
     public ResponseEntity findAll(){
         return ResponseEntity.success(categoryService.findAll());
