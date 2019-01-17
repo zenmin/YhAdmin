@@ -1,7 +1,12 @@
 package com.yh.yhadmin;
 
+import com.yh.yhadmin.domain.CardPassword;
 import com.yh.yhadmin.domain.Goods;
+import com.yh.yhadmin.domain.query.Pager;
+import com.yh.yhadmin.repository.CardPasswordRepository;
 import com.yh.yhadmin.repository.GoodsRepository;
+import com.yh.yhadmin.service.CardPasswordService;
+import com.yh.yhadmin.util.StaticUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +21,14 @@ public class RunTests {
 
     @Autowired
     GoodsRepository goodsRepository;
+
+    @Autowired
+    CardPasswordRepository cardPasswordRepository;
+
+
+    @Autowired
+    CardPasswordService cardPasswordService;
+
 
     static NumberFormat numberFormat = NumberFormat.getNumberInstance();
     static {
@@ -39,5 +52,17 @@ public class RunTests {
 
     }
 
+    @Test
+    public void card() {
+        for (int i = 0;i<=100;i++){
+            cardPasswordRepository.save(new CardPassword(StaticUtil.UUID(),"402899816856f523016856f52f7a0000","zm","123123",false,null,null));
+        }
+
+    }
+
+    @Test
+    public void test2() {
+        System.out.println(cardPasswordService.findAll(new Pager()));
+    }
 }
 

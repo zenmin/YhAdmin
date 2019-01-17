@@ -35,4 +35,5 @@ public class CommonException extends RuntimeException {
         super(message, cause);
         this.code = code;
     }
+
 }

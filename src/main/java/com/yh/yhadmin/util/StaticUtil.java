@@ -3,6 +3,7 @@ package com.yh.yhadmin.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.text.NumberFormat;
+import java.util.UUID;
 
 /**
  * @Describle This Class Is
@@ -19,5 +20,10 @@ public class StaticUtil {
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMinimumFractionDigits(2);
     }
+
+    public static String UUID(){
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
 
 }

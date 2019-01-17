@@ -351,6 +351,173 @@
           "100": {"description": "成功"}
         }
       }
+    },
+
+
+    "/api/card/getAll": {
+      "post": {
+        "summary": "获取全部卡密",
+        "description": "卡密管理",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "formData",
+            "description": "页码 默认0",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "formData",
+            "description": "分页大小  默认10",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["CardPassword"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/card/getByCondition": {
+      "post": {
+        "summary": "按条件查询卡密",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "cardNo",
+            "in": "formData",
+            "description": "卡密",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "1已使用 0未使用",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "goodsId",
+            "in": "formData",
+            "description": "商品id",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["CardPassword"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/card/save": {
+      "post": {
+        "summary": "保存或更新",
+        "description": "卡密管理",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "卡密id 更新传入",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "cardNo",
+            "in": "formData",
+            "description": "卡密",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "1已使用 0未使用",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "tags": ["CardPassword"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/card/delete": {
+      "post": {
+        "summary": "删除卡密",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "卡密id 多个用，隔开",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["CardPassword"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/card/deleteBatch": {
+      "post": {
+        "summary": "批量删除卡密",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "0 删除全部 1已使用 2未使用",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["CardPassword"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
     }
 
 
