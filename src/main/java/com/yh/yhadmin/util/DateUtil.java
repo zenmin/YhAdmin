@@ -516,6 +516,13 @@ public class DateUtil {
         return true;
     }
 
+    public static Date DateStringToDate(String dateTime){
+
+
+        return null;
+    }
+
+
     public static void main(String[] args) throws Exception {
         Date today = new Date();
 //        LocalDate date = LocalDateTime.ofInstant(Instant.ofEpochMilli(today.getTime()), ZoneId.systemDefault()).toLocalDate();

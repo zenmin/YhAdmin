@@ -518,9 +518,162 @@
           "100": {"description": "成功"}
         }
       }
+    },
+
+
+    "/api/coupon/getAll": {
+      "post": {
+        "summary": "获取全部优惠券",
+        "description": "优惠券管理",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "formData",
+            "description": "页码 默认0",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "formData",
+            "description": "分页大小  默认10",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Coupon"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/coupon/getByCondition": {
+      "post": {
+        "summary": "按条件查询优惠券",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "couponNo",
+            "in": "formData",
+            "description": "优惠码",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "1启用  0禁用",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "tags": ["Coupon"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/coupon/save": {
+      "post": {
+        "summary": "生成优惠券",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "商品id 更新传入",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "validLong",
+            "in": "formData",
+            "description": "长期有效 1是 0否默认",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "disDateField",
+            "in": "formData",
+            "description": "失效时间 yyyy-mm-dd HH:mm:ss",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "1启用默认 0禁用",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "saleRate",
+            "in": "formData",
+            "description": "折扣 百分之多少 80表示折扣80%",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "couponDesc",
+            "in": "formData",
+            "description": "优惠券描述",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Coupon"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/coupon/delete": {
+      "post": {
+        "summary": "删除优惠券",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "商品id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Coupon"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
     }
-
-
 
   }
 }
