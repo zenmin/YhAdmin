@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -44,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
         ExampleMatcher exampleMatcher = ExampleMatcher.matching()
                 .withMatcher("name",ExampleMatcher.GenericPropertyMatchers.contains()); //包含
         Example example = Example.of(category,exampleMatcher);
-        List<Category> all = categoryRepository.findAll(example);
+        List<Category> all = categoryRepository.findAll(example,Sort.by(new Sort.Order("sort")));
         return all;
     }
 
