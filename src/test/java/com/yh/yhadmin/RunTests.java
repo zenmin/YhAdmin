@@ -60,7 +60,7 @@ public class RunTests {
     @Test
     public void card() {
         for (int i = 0;i<=100;i++){
-            cardPasswordRepository.save(new CardPassword(StaticUtil.UUID(),"402899816856f523016856f52f7a0000","zm","123123",false,null,null));
+            cardPasswordRepository.save(new CardPassword(StaticUtil.UUID(),"123ew123123123","zm","123123",false,null,null));
         }
 
     }

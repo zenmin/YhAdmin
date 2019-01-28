@@ -2,6 +2,7 @@ package com.yh.yhadmin.service;
 
 import com.yh.yhadmin.domain.Goods;
 import com.yh.yhadmin.domain.query.Pager;
+import com.yh.yhadmin.domain.vo.GoodsVo;
 import org.springframework.data.domain.Page;
 
 /**
@@ -11,12 +12,12 @@ import org.springframework.data.domain.Page;
  */
 public interface GoodsService {
 
-    Page<Goods> findAll(Pager pager);
+    Page<GoodsVo> findAll(Pager pager);
 
     Goods save(Goods goods);
 
     boolean delete(String id);
 
-    Page<Goods> findByCondition(Goods goods,Pager pager);
+    Page<GoodsVo> findByCondition(Goods goods,Pager pager);
 
 }

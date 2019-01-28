@@ -1,5 +1,6 @@
 package com.yh.yhadmin.service.impl;
 
+import com.yh.yhadmin.components.annotation.HandlerMethod;
 import com.yh.yhadmin.domain.Coupon;
 import com.yh.yhadmin.domain.query.Pager;
 import com.yh.yhadmin.foundation.CommonException;
@@ -32,6 +33,7 @@ public class CouponServiceImpl implements CouponService {
         return couponRepository.findAll(new PageRequest(pager.getStart(),pager.getSize(),Sort.Direction.DESC,"createDate"));
     }
 
+    @HandlerMethod(optName = "优惠券管理",optDesc = "增加/修改优惠券")
     @Override
     public Coupon save(Coupon coupon) {
         String id = coupon.getId();
@@ -51,6 +53,7 @@ public class CouponServiceImpl implements CouponService {
         return couponRepository.saveAndFlush(coupon);
     }
 
+    @HandlerMethod(optName = "优惠券管理",optDesc = "删除优惠券")
     @Override
     public boolean delete(String id) {
         couponRepository.deleteById(id);
