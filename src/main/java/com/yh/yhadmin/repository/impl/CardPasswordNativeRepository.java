@@ -28,7 +28,7 @@ public class CardPasswordNativeRepository {
     CardPasswordRepository cardPasswordRepository;
 
     public Page<CardPassword> findAllAndGoods(Pager pager){
-        String sql = String.format("select c.*,g.name as goodsName from cardpassword c left join goods g on  c.goodsId = g.id order by c.goodsId asc limit %s,%s",pager.getStart(),pager.getSize());
+        String sql = String.format("select c.*,g.name as goodsName from cardpassword c left join goods g on  c.goodsId = g.id order by c.goodsId asc limit %s,%s",pager.getStart()*pager.getSize(),pager.getSize());
         List<CardPassword> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(CardPassword.class));
         return new PageImpl<>(list,new PageRequest(pager.getStart(),pager.getSize()),cardPasswordRepository.count());
     }
