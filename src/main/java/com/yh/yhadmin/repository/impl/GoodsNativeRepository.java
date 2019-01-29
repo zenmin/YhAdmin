@@ -30,14 +30,16 @@ public class GoodsNativeRepository {
         return goodsVos;
     }
 
-    public List<GoodsVo> findByCondition(String name, String cid, Integer status, Pager pager) {
+    public List<GoodsVo> findByCondition(Goods goods, Pager pager) {
         StringBuffer sql = new StringBuffer("SELECT g.*,c.name as cname,(SELECT count(1) FROM cardpassword c where c.goodsId = g.id  and c.status = 0) as kmCount from goods g LEFT JOIN category c on g.cid = c.id where 1=1 ");
-        if (StringUtils.isNotBlank(name))
-            sql.append(" and g.name like '%" + name + "%'");
-        if (StringUtils.isNotBlank(cid))
-            sql.append(" and g.cid = '" + cid + "'");
-        if (status != null)
-            sql.append(" and g.status = " + status);
+        if (StringUtils.isNotBlank(goods.getName()))
+            sql.append(" and g.name like '%" + goods.getName() + "%'");
+        if (StringUtils.isNotBlank(goods.getCid()))
+            sql.append(" and g.cid = '" + goods.getCid() + "'");
+        if (goods.getStatus() != null)
+            sql.append(" and g.status = " + goods.getStatus());
+        if (goods.getId() != null)
+            sql.append(" and g.id = '" + goods.getId() + "'");
         sql.append(" ORDER BY g.createDate desc LIMIT ?,?");
         List<GoodsVo> goodsVos = jdbcTemplate.query(sql.toString(), new Object[]{pager.getStart() * pager.getSize(), pager.getSize()}, new BeanPropertyRowMapper<>(GoodsVo.class));
         log.info(sql.toString());

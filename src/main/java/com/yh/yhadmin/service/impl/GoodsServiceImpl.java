@@ -67,12 +67,12 @@ public class GoodsServiceImpl implements GoodsService {
     public Page<GoodsVo> findByCondition(Goods goods, Pager pager) {
         goods.setCreateDate(null);
         ExampleMatcher exampleMatcher = ExampleMatcher.matching();
-        exampleMatcher.withIgnoreCase("id","createDate");
+        exampleMatcher.withIgnoreCase("createDate");
         if(Objects.nonNull(goods.getName()))
             exampleMatcher.withMatcher("name",ExampleMatcher.GenericPropertyMatchers.contains());
         Example<Goods> goodsExample = Example.of(goods,exampleMatcher);
         long count = goodsRepository.count(goodsExample);
-        List<GoodsVo> list = goodsNativeRepository.findByCondition(goods.getName(),goods.getCid(),goods.getStatus(),pager);
+        List<GoodsVo> list = goodsNativeRepository.findByCondition(goods,pager);
         return new PageImpl<>(list,new PageRequest(pager.getStart(),pager.getSize()),count);
     }
 }
