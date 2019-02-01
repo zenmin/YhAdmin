@@ -454,9 +454,9 @@
             "type": "string"
           },
           {
-            "name": "status",
+            "name": "goodsId",
             "in": "formData",
-            "description": "1已使用 0未使用",
+            "description": "商品id",
             "required": true,
             "type": "integer"
           }

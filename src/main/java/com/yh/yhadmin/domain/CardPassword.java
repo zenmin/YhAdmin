@@ -3,11 +3,10 @@ package com.yh.yhadmin.domain;
 import com.yh.yhadmin.domain.base.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.annotation.Transient;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -58,4 +57,11 @@ public class CardPassword extends Model {
     public CardPassword() {
     }
 
+    public CardPassword(String cardNo, String goodsId, String createUser, String createUserId, Boolean status) {
+        this.cardNo = cardNo;
+        this.goodsId = goodsId;
+        this.createUser = createUser;
+        this.createUserId = createUserId;
+        this.status = status;
+    }
 }

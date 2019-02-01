@@ -3,7 +3,6 @@ package com.yh.yhadmin.service;
 import com.yh.yhadmin.domain.CardPassword;
 import com.yh.yhadmin.domain.query.Pager;
 import org.springframework.data.domain.Page;
-
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ public interface CardPasswordService {
 
     Page<CardPassword> findAll(Pager pager);
 
-    CardPassword save(CardPassword cardPassword);
+    Object save(CardPassword cardPassword);
 
     boolean delete(List<CardPassword> id);
 
