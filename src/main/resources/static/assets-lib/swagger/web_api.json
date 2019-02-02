@@ -673,7 +673,224 @@
           "100": {"description": "成功"}
         }
       }
-    }
+    },
+    "/api/orders/getAll": {
+      "post": {
+        "summary": "获取全部订单",
+        "description": "订单管理",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "formData",
+            "description": "页码 默认0",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "formData",
+            "description": "分页大小  默认10",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["Orders"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/orders/getByCondition": {
+      "post": {
+        "summary": "按条件查询订单",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "订单状态",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "description": "价格",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "allPrice",
+            "in": "formData",
+            "description": "总价",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "payWay",
+            "in": "formData",
+            "description": "支付方式",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "payPrice",
+            "in": "formData",
+            "description": "实付金额",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "payPrice",
+            "in": "formData",
+            "description": "实付金额",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "phone",
+            "in": "formData",
+            "description": "电话",
+            "required": false,
+            "type": "integer"
+          }
 
+
+        ],
+        "tags": ["Orders"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/orders/save": {
+      "post": {
+        "summary": "生成订单",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "订单id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "1已完成 2代付款 3未完成",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "description": "价格",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "allPrice",
+            "in": "formData",
+            "description": "总价",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "num",
+            "in": "formData",
+            "description": "数量",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "payWay",
+            "in": "formData",
+            "description": "支付方式",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "payStatus",
+            "in": "formData",
+            "description": "支付状态 1已付款 0未付款 默认",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "coupon",
+            "in": "formData",
+            "description": "优惠券",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userContact",
+            "in": "formData",
+            "description": "联系方式",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "formData",
+            "description": "电话",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "tags": ["Orders"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/orders/delete": {
+      "post": {
+        "summary": "取消订单",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "订单id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": ["Orders"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    }
   }
 }
