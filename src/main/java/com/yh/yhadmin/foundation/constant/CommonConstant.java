@@ -1,6 +1,8 @@
 package com.yh.yhadmin.foundation.constant;
 
 
+import com.yh.yhadmin.util.StaticUtil;
+
 /**
  * @Describle This Class Is
  * @Author ZengMin
@@ -12,6 +14,8 @@ public class CommonConstant {
     public static int DELETE_TYPE_TRUE = 1; //删除已使用的卡密
 
     public static int DELETE_TYPE_FALSE = 2;    //删除未使用的卡密
+
+    public static String CONFIG_ID ="0D16C6345DC045BFBA489D4C9C50F0D0"; //首页配置ID
 
     public enum InterfaceConfig{
 
@@ -55,6 +59,7 @@ public class CommonConstant {
     public static void main(String args[]){
         System.out.println(CommonConstant.InterfaceConfig.getCode("MAIL_TYPE"));
         System.out.println(CommonConstant.InterfaceConfig.getValue(2));
+        System.out.println(StaticUtil.UUID().toUpperCase());
     }
 
 
