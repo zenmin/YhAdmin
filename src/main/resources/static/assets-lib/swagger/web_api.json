@@ -673,6 +673,39 @@
           "100": {"description": "成功"}
         }
       }
+    },
+    "/api/log/get_del_cardpwd": {
+      "post": {
+        "summary": "批量删除卡密日志",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "formData",
+            "description": "页码 默认0",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "formData",
+            "description": "分页大小  默认10",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": ["OptionLogs"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
     }
 
   }

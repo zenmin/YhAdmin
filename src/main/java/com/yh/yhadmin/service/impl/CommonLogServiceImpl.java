@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Describle This Class Is
  * @Author ZengMin
@@ -23,4 +25,5 @@ public class CommonLogServiceImpl implements CommonLogService {
     public void saveLog(CommonLog commonLog) {
         commonLogRepository.save(commonLog);
     }
+
 }

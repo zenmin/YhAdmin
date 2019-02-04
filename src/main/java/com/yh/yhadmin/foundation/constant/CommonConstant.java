@@ -17,6 +17,8 @@ public class CommonConstant {
 
     public static String CONFIG_ID ="0D16C6345DC045BFBA489D4C9C50F0D0"; //首页配置ID
 
+    public static String DELTET_BATCH_CARDPWD = "批量删除卡密";
+
     public enum InterfaceConfig{
 
         PHONE_TYPE(1,"PHONE_TYPE"),     //短信接口
