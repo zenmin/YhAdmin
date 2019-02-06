@@ -14,4 +14,7 @@ public class DefinedCode {
 
     public static final int NOTFOUND = 101;    //资源未找到
     public static final int PARAMSERROR = 102;    //参数异常
+
+    public static final int NOTWRITEABLE = 103;    //没有写权限
+
 }

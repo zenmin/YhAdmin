@@ -706,6 +706,58 @@
           "100": {"description": "成功"}
         }
       }
+    },
+    "/api/upload/file": {
+      "post": {
+        "summary": "通用上传",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "multipartFile",
+            "in": "formData",
+            "description": "文件",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "tags": ["Upload"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
+    },
+    "/api/upload/image": {
+      "post": {
+        "summary": "图片上传",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "multipartFile",
+            "in": "formData",
+            "description": "文件",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "tags": ["Upload"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
     }
 
   }

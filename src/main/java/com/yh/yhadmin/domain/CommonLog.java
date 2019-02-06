@@ -1,5 +1,6 @@
 package com.yh.yhadmin.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yh.yhadmin.domain.base.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,6 +21,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class CommonLog extends Model {
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @Column
     private Date date = new Date();
 

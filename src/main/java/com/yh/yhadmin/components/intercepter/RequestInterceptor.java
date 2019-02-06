@@ -19,7 +19,7 @@ import java.util.Map;
  * @Date 2019/1/3 19:18
  */
 @Slf4j
-public class AuthInterceptor implements HandlerInterceptor {
+public class RequestInterceptor implements HandlerInterceptor {
 
     public static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -31,7 +31,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String token = request.getParameter("token");
         Map<String, String[]> parameterMap = request.getParameterMap();
         String params = objectMapper.writeValueAsString(parameterMap);
-        //此处连接redis执行鉴权
+        //此处连接redis执行鉴权 或者Session
         log.info("客户端ip:[{}]请求URL:[{}] ,请求params:[{}]",IpHelper.getRequestIpAddr(request), request.getRequestURL(), params);
         commonLogService.saveLog(new CommonLog(IpHelper.getRequestIpAddr(request), request.getRequestURL().toString(),params));
         return true;

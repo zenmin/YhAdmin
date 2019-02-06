@@ -1,8 +1,13 @@
 package com.yh.yhadmin.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yh.yhadmin.foundation.CommonException;
+import com.yh.yhadmin.foundation.DefinedCode;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -41,14 +46,36 @@ public class StaticUtil {
         }
         return temp;
     }
-    public static void main(String a[]){
-        Set<String> set = new HashSet<>();
-        for (int i = 0; i <= 1000000;i++){
-            String s = uniqueKey();
-            set.add(s);
-            System.out.println(s);
+
+    public static String uniqueKeyByTime(Date date){
+        String dateTime = DateUtil.millisToDateTime(date.getTime(), "yyyyMMddHHmmssSS");
+        dateTime =  dateTime + "" + StaticUtil.uniqueKey();
+        return dateTime;
+    }
+
+
+    public static String uploadFile(byte[] file, String filePath, String fileName) {
+        try {
+            File targetFile = new File(filePath);
+            boolean b = targetFile.canWrite();
+            if(!b)
+                throw new CommonException(DefinedCode.NOTWRITEABLE,"文件夹：" + targetFile.getAbsolutePath() + " 没有写入权限，请给予权限！");
+            if (!targetFile.exists()) {
+                targetFile.mkdirs();
+            }
+            FileOutputStream out = new FileOutputStream(filePath + fileName);
+            out.write(file);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println(set.size());
+        return filePath + fileName;
+    }
+
+
+    public static void main(String a[]){
+        System.out.println(StaticUtil.uniqueKeyByTime(new Date()));
     }
 
 
