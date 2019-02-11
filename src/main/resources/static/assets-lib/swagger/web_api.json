@@ -674,10 +674,17 @@
         }
       }
     },
+<<<<<<< HEAD
     "/api/orders/getAll": {
       "post": {
         "summary": "获取全部订单",
         "description": "订单管理",
+=======
+    "/api/log/get_del_cardpwd": {
+      "post": {
+        "summary": "批量删除卡密日志",
+        "description": "",
+>>>>>>> b248baf4e85ca735eb5809aaab79c8de55b878e5
         "parameters": [
           {
             "name": "token",
@@ -701,11 +708,16 @@
             "type": "string"
           }
         ],
+<<<<<<< HEAD
         "tags": ["Orders"],
+=======
+        "tags": ["OptionLogs"],
+>>>>>>> b248baf4e85ca735eb5809aaab79c8de55b878e5
         "responses": {
           "100": {"description": "成功"}
         }
       }
+<<<<<<< HEAD
     },
     "/api/orders/getByCondition": {
       "post": {
@@ -769,6 +781,9 @@
             "type": "integer"
           }
 
+=======
+    }
+>>>>>>> b248baf4e85ca735eb5809aaab79c8de55b878e5
 
         ],
         "tags": ["Orders"],

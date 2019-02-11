@@ -2,6 +2,8 @@ package com.yh.yhadmin.service;
 
 import com.yh.yhadmin.domain.CommonLog;
 
+import java.util.List;
+
 /**
  * @Describle This Class Is
  * @Author ZengMin
@@ -10,5 +12,4 @@ import com.yh.yhadmin.domain.CommonLog;
 public interface CommonLogService {
 
     void saveLog(CommonLog commonLog);
-
 }

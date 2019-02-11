@@ -516,12 +516,15 @@ public class DateUtil {
         return true;
     }
 
-    public static Date DateStringToDate(String dateTime){
-
-
-        return null;
+    public static String getNowDate(){
+        String date = DateUtil.millisToDateTime(new Date().getTime(), "yyyy-MM-dd");
+        return date;
     }
 
+    public static String getNowTime(){
+        String date = DateUtil.millisToDateTime(new Date().getTime(), "yyyy-MM-dd HH:mm:ss");
+        return date;
+    }
 
     public static void main(String[] args) throws Exception {
         Date today = new Date();

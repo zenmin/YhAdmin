@@ -2,6 +2,9 @@ package com.yh.yhadmin.repository;
 
 import com.yh.yhadmin.domain.CommonLog;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
 /**
  * @Describle This Class Is
  * @Author ZengMin
