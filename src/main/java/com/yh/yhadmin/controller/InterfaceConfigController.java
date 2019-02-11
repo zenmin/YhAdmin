@@ -26,8 +26,8 @@ public class InterfaceConfigController {
     }
 
     @RequestMapping("save")
-    public  ResponseEntity save(InterfaceConfig InterfaceConfig){
-        return ResponseEntity.success(interfaceConfigService.save(InterfaceConfig));
+    public  ResponseEntity save(InterfaceConfig interfaceConfig){
+        return ResponseEntity.success(interfaceConfigService.save(interfaceConfig));
     }
 
     @RequestMapping("delete")
