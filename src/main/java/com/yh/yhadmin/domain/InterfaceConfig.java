@@ -1,5 +1,6 @@
 package com.yh.yhadmin.domain;
 
+import com.yh.yhadmin.domain.base.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Table
 @Entity
 @EqualsAndHashCode
-public class InterfaceConfig {
+public class InterfaceConfig extends Model {
 
     @Column
     private String interface_type;
