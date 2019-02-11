@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class Orders extends Model {
 
     @Column
@@ -56,7 +56,7 @@ public class Orders extends Model {
     @Column
     private Integer phone;
 
-    @Column
+    @Column(length = 2000)
     private String cardPwds;
 
     public Orders() {

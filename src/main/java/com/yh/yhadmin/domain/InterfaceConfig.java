@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Data
 @Table
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class InterfaceConfig extends Model {
 
     @Column

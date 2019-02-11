@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Data
 @Table
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class WebConfig extends Model {
 
     @Column
@@ -46,4 +46,19 @@ public class WebConfig extends Model {
 
     @Column
     private String footer;
+
+    public WebConfig() {
+    }
+
+    public WebConfig(String mainTitle, String subTitle, String titleDesc, String keyWords, String images, String qq, String wx, String phone, String footer) {
+        this.mainTitle = mainTitle;
+        this.subTitle = subTitle;
+        this.titleDesc = titleDesc;
+        this.keyWords = keyWords;
+        this.images = images;
+        this.qq = qq;
+        this.wx = wx;
+        this.phone = phone;
+        this.footer = footer;
+    }
 }
