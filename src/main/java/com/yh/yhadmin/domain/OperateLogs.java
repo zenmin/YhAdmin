@@ -34,7 +34,7 @@ public class OperateLogs extends Model {
     @Column(columnDefinition = "varchar(50) COMMENT '操作描述'")
     private String optDesc;
 
-    @Column(columnDefinition = "varchar(255) COMMENT '请求参数'")
+    @Column(columnDefinition = "TEXT COMMENT '请求参数'")
     private String optParams;
 
 }
