@@ -33,32 +33,39 @@ public class WebConfig extends Model {
     private String keyWords;
 
     @Column
-    private String images;
+    private String mainNotice;
 
     @Column
-    private String qq;
+    private String subNotice;
 
     @Column
-    private String wx;
+    private String copyRight;
 
     @Column
-    private String phone;
+    private String showStock;
 
     @Column
-    private String footer;
+    private String wbeStyle;
+
+    @Column
+    private String logo;
+    @Column
+    private String bgImg;
 
     public WebConfig() {
     }
 
-    public WebConfig(String mainTitle, String subTitle, String titleDesc, String keyWords, String images, String qq, String wx, String phone, String footer) {
+    public WebConfig(String mainTitle, String subTitle, String titleDesc, String keyWords, String mainNotice, String subNotice, String copyRight, String showStock, String wbeStyle, String logo, String bgImg) {
         this.mainTitle = mainTitle;
         this.subTitle = subTitle;
         this.titleDesc = titleDesc;
         this.keyWords = keyWords;
-        this.images = images;
-        this.qq = qq;
-        this.wx = wx;
-        this.phone = phone;
-        this.footer = footer;
+        this.mainNotice = mainNotice;
+        this.subNotice = subNotice;
+        this.copyRight = copyRight;
+        this.showStock = showStock;
+        this.wbeStyle = wbeStyle;
+        this.logo = logo;
+        this.bgImg = bgImg;
     }
 }
