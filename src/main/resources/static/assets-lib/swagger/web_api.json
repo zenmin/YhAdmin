@@ -1049,37 +1049,51 @@
             "type": "string"
           },
           {
-            "name": "images",
+            "name": "mainNotice",
             "in": "formData",
-            "description": "轮播图  多个，隔开",
+            "description": "主页公告",
             "required": false,
             "type": "string"
           },
           {
-            "name": "qq",
+            "name": "subNotice",
             "in": "formData",
-            "description": "qq",
+            "description": "查订单页面公告",
             "required": false,
             "type": "string"
           },
           {
-            "name": "wx",
+            "name": "copyRight",
             "in": "formData",
-            "description": "wx",
+            "description": "底部版权",
             "required": false,
             "type": "string"
           },
           {
-            "name": "phone",
+            "name": "showStock",
             "in": "formData",
-            "description": "wx",
+            "description": "是否显示库存 1是 0否 默认是",
             "required": false,
             "type": "string"
           },
           {
-            "name": "footer",
+            "name": "wbeStyle",
             "in": "formData",
-            "description": "底部 text类型",
+            "description": "首页风格(模板名称)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "logo",
+            "in": "formData",
+            "description": "网站logo",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "bgImg",
+            "in": "formData",
+            "description": "背景图",
             "required": false,
             "type": "string"
           }
