@@ -986,20 +986,6 @@
             "description": "token",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "start",
-            "in": "formData",
-            "description": "页码 默认0",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "size",
-            "in": "formData",
-            "description": "分页大小  默认10",
-            "required": false,
-            "type": "string"
           }
         ],
         "tags": ["WebConfig"],
@@ -1095,32 +1081,6 @@
             "in": "formData",
             "description": "背景图",
             "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": ["WebConfig"],
-        "responses": {
-          "100": {"description": "成功"}
-        }
-      }
-    },
-    "/api/webConfig/delete": {
-      "post": {
-        "summary": "删除webConfig",
-        "description": "",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "description": "token",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "id",
-            "in": "formData",
-            "description": "订单webConfig",
-            "required": true,
             "type": "string"
           }
         ],

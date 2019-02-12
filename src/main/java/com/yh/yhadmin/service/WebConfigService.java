@@ -12,9 +12,8 @@ import java.util.List;
  */
 public interface WebConfigService {
 
-    List<WebConfig> findAll();
+    WebConfig findAll();
 
     WebConfig save(WebConfig webConfig);
 
-    boolean delete(String id);
 }

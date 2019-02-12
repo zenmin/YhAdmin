@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table
+@Table(name = "orders")
 @EqualsAndHashCode(callSuper = true)
 public class Orders extends Model {
 

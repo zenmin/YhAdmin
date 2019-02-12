@@ -15,8 +15,8 @@ import javax.persistence.Table;
  * @Company
  */
 @Data
-@Table
 @Entity
+@Table(name = "interfaceconfig")
 @EqualsAndHashCode(callSuper = true)
 public class InterfaceConfig extends Model {
 

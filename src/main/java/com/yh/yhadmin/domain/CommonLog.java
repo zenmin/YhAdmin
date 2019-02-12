@@ -31,7 +31,7 @@ public class CommonLog extends Model {
     @Column
     private String requestURL;
 
-    @Column
+    @Column(columnDefinition = "text")
     private String reqParams;
 
     public CommonLog(String reqIp, String requestURL, String reqParams) {

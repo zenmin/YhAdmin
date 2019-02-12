@@ -15,57 +15,47 @@ import javax.persistence.Table;
  * @Company
  */
 @Data
-@Table
+@Table(name = "webconfig")
 @Entity
 @EqualsAndHashCode(callSuper = true)
 public class WebConfig extends Model {
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '主标题'")
     private String mainTitle;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '副标题'")
     private String subTitle;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '标题描述'")
     private String titleDesc;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '网站关键词'")
     private String keyWords;
 
-    @Column
+    @Column(columnDefinition = "text COMMENT '主页公告'")
     private String mainNotice;
 
-    @Column
+    @Column(columnDefinition = "text COMMENT '订单页面公告'")
     private String subNotice;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '版权'")
     private String copyRight;
 
-    @Column
-    private String showStock;
+    @Column(columnDefinition = "int(1) default 1 COMMENT '是否显示库存'")
+    private Integer showStock;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '模板路径'")
     private String wbeStyle;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '网站logo'")
     private String logo;
-    @Column
+
+    @Column(columnDefinition = "varchar(255) COMMENT '网站背景图'")
     private String bgImg;
 
-    public WebConfig() {
+    public WebConfig(String id) {
+        super.setId(id);
     }
-
-    public WebConfig(String mainTitle, String subTitle, String titleDesc, String keyWords, String mainNotice, String subNotice, String copyRight, String showStock, String wbeStyle, String logo, String bgImg) {
-        this.mainTitle = mainTitle;
-        this.subTitle = subTitle;
-        this.titleDesc = titleDesc;
-        this.keyWords = keyWords;
-        this.mainNotice = mainNotice;
-        this.subNotice = subNotice;
-        this.copyRight = copyRight;
-        this.showStock = showStock;
-        this.wbeStyle = wbeStyle;
-        this.logo = logo;
-        this.bgImg = bgImg;
+    public WebConfig() {
     }
 }

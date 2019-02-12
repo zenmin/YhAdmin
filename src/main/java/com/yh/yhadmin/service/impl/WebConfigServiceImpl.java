@@ -2,13 +2,16 @@ package com.yh.yhadmin.service.impl;
 
 import com.yh.yhadmin.components.annotation.HandlerMethod;
 import com.yh.yhadmin.domain.WebConfig;
+import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.repository.WebConfigRepository;
 import com.yh.yhadmin.service.WebConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Describle
@@ -18,21 +21,23 @@ import java.util.List;
  */
 @Service
 public class WebConfigServiceImpl implements WebConfigService {
+
     @Autowired
     WebConfigRepository webConfigRepository;
 
-    public List<WebConfig> findAll(){
-        return webConfigRepository.findAll();
+    public WebConfig findAll(){
+        WebConfig config = webConfigRepository.findAllById(CommonConstant.CONFIG_ID);
+        if(null == config){
+            config = new WebConfig(CommonConstant.CONFIG_ID);
+            webConfigRepository.insert(CommonConstant.CONFIG_ID);
+        }
+        return config;
     }
 
-    @HandlerMethod(optName = "webConfig 官网配置",optDesc = "新增配置")
+    @HandlerMethod(optName = "平台基本信息配置",optDesc = "更新配置")
     @Transactional
-    public WebConfig save(WebConfig webConfig){return webConfigRepository.save(webConfig);}
-
-    @HandlerMethod(optName = "webConfig 官网配置",optDesc = "删除配置")
-    @Transactional
-    public boolean delete(String id){
-        webConfigRepository.deleteById(id);
-        return true;
+    public WebConfig save(WebConfig webConfig){
+        webConfig.setId(CommonConstant.CONFIG_ID);
+        return webConfigRepository.saveAndFlush(webConfig);
     }
 }

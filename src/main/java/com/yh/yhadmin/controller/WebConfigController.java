@@ -28,7 +28,4 @@ public class WebConfigController {
     public  ResponseEntity save(WebConfig webConfig){
         return ResponseEntity.success(webConfigService.save(webConfig));
     }
-
-    @RequestMapping("delete")
-    public ResponseEntity delete(String id){return ResponseEntity.success(webConfigService.delete(id));}
 }
