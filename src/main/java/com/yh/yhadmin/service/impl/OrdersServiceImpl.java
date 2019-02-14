@@ -2,8 +2,10 @@ package com.yh.yhadmin.service.impl;
 
 import com.yh.yhadmin.components.annotation.HandlerMethod;
 import com.yh.yhadmin.domain.Orders;
+import com.yh.yhadmin.domain.OrdersCencus;
 import com.yh.yhadmin.domain.query.Pager;
 import com.yh.yhadmin.repository.OrdersRepository;
+import com.yh.yhadmin.repository.impl.OrdersNativeRepository;
 import com.yh.yhadmin.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Describle
@@ -23,6 +26,9 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Autowired
     OrdersRepository ordersRepository;
+
+    @Autowired
+    OrdersNativeRepository ordersNativeRepository;
 
     public Page<Orders> findAll(Pager pager){
         List<Orders> list = ordersRepository.findAll();
@@ -56,5 +62,10 @@ public class OrdersServiceImpl implements OrdersService {
         List<Orders> list = ordersRepository.findAll(ex);
         long count = ordersRepository.count(ex);
         return new PageImpl<>(list,new PageRequest(pager.getStart(),pager.getSize()),count);
+    }
+
+    public List<OrdersCencus> getCencus(){
+        List<OrdersCencus> list = ordersNativeRepository.getCencusByJDBC();
+        return list;
     }
 }
