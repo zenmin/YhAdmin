@@ -31,9 +31,6 @@ public class OrdersController {
         return ResponseEntity.success(ordersService.save(orders));
     }
 
-    @RequestMapping("/delete")
-    public ResponseEntity delete(String id){return ResponseEntity.success(ordersService.delete(id));}
-
     @RequestMapping("/getByCondition")
     public ResponseEntity getByCondition(Orders orders,Pager pager){return ResponseEntity.success(ordersService.getByCondition(orders,pager));}
 

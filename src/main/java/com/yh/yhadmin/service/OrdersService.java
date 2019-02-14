@@ -20,8 +20,6 @@ public interface OrdersService {
 
      Orders save(Orders orders);
 
-     boolean delete(String id);
-
      Page<Orders> getByCondition(Orders orders,Pager pager);
 
      List<OrdersCencus> getCencus();

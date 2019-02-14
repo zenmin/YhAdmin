@@ -3,6 +3,8 @@ import com.yh.yhadmin.components.annotation.HandlerMethod;
 import com.yh.yhadmin.domain.Goods;
 import com.yh.yhadmin.domain.query.Pager;
 import com.yh.yhadmin.domain.vo.GoodsVo;
+import com.yh.yhadmin.foundation.CommonException;
+import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.repository.GoodsRepository;
 import com.yh.yhadmin.repository.impl.GoodsNativeRepository;
 import com.yh.yhadmin.service.GoodsService;
@@ -74,5 +76,17 @@ public class GoodsServiceImpl implements GoodsService {
         long count = goodsRepository.count(goodsExample);
         List<GoodsVo> list = goodsNativeRepository.findByCondition(goods,pager);
         return new PageImpl<>(list,new PageRequest(pager.getStart(),pager.getSize()),count);
+    }
+
+    @Override
+    public boolean updateImg(String id, String imgs) {
+        try {
+            Goods one = goodsRepository.getOne(id);
+            one.setImg(imgs);
+            goodsRepository.saveAndFlush(one);
+        }catch (Exception e){
+            throw new CommonException(DefinedCode.NOTFOUND,"商品已经不存在，请刷新页面");
+        }
+        return true;
     }
 }

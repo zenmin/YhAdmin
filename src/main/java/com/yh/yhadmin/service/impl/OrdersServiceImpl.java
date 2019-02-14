@@ -36,29 +36,13 @@ public class OrdersServiceImpl implements OrdersService {
         return new PageImpl<>(list,new PageRequest(pager.getStart(),pager.getSize()),count);
     }
 
-
-    @HandlerMethod(optName = "定单管理",optDesc = "生成订单")
+    @HandlerMethod(optName = "订单管理",optDesc = "生成订单")
     @Transactional
     public Orders save(Orders orders){return ordersRepository.save(orders);}
 
-    @HandlerMethod(optName = "定单管理",optDesc = "取消订单")
-    @Transactional
-    public boolean delete(String id){
-        ordersRepository.deleteById(id);
-        return true;
-    }
     public Page<Orders> getByCondition(Orders orders,Pager pager){
         orders.setCreateDate(null);
-        ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-                .withMatcher("status",ExampleMatcher.GenericPropertyMatchers.contains())//状态
-                .withMatcher("price",ExampleMatcher.GenericPropertyMatchers.contains())//价格
-                .withMatcher("allPrice",ExampleMatcher.GenericPropertyMatchers.contains())//总价
-                .withMatcher("payWay",ExampleMatcher.GenericPropertyMatchers.contains())//付款方式
-                .withMatcher("payStatus",ExampleMatcher.GenericPropertyMatchers.contains())//付款状态
-                .withMatcher("payPrice",ExampleMatcher.GenericPropertyMatchers.contains())//实付金额
-                .withMatcher("phone",ExampleMatcher.GenericPropertyMatchers.contains())//联系方式
-                .withIgnoreCase("id","createDate");
-        Example<Orders> ex = Example.of(orders,exampleMatcher);
+        Example<Orders> ex = Example.of(orders);
         List<Orders> list = ordersRepository.findAll(ex);
         long count = ordersRepository.count(ex);
         return new PageImpl<>(list,new PageRequest(pager.getStart(),pager.getSize()),count);

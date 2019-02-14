@@ -1,6 +1,7 @@
 package com.yh.yhadmin.domain.base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +15,7 @@ import java.util.Date;
 
 @MappedSuperclass
 @Data
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 public abstract class Model implements Serializable{
 
     @Id

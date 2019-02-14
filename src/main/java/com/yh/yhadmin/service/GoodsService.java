@@ -20,4 +20,6 @@ public interface GoodsService {
 
     Page<GoodsVo> findByCondition(Goods goods,Pager pager);
 
+    boolean updateImg(String id, String imgs);
+
 }

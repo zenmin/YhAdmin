@@ -41,7 +41,10 @@ public class GoodsController {
         return ResponseEntity.success(goodsService.delete(id));
     }
 
-
+    @RequestMapping("/updateImg")
+    public ResponseEntity updateImg(String id,String imgs){
+        return ResponseEntity.success(goodsService.updateImg(id,imgs));
+    }
 
 
 }
