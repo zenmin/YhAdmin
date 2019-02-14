@@ -19,12 +19,12 @@ public class WebConfigController {
     @Autowired
     WebConfigService webConfigService;
 
-    @RequestMapping("getAll")
+    @RequestMapping("/getAll")
     public ResponseEntity findAll(){
         return ResponseEntity.success(webConfigService.findAll());
     }
 
-    @RequestMapping("save")
+    @RequestMapping("/save")
     public  ResponseEntity save(WebConfig webConfig){
         return ResponseEntity.success(webConfigService.save(webConfig));
     }
