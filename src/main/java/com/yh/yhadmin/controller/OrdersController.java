@@ -21,19 +21,22 @@ public class OrdersController {
     @Autowired
     OrdersService ordersService;
 
-    @RequestMapping("getAll")
+    @RequestMapping("/getAll")
     public ResponseEntity findAll(Pager pager){
         return ResponseEntity.success(ordersService.findAll(pager));
     }
 
-    @RequestMapping("save")
+    @RequestMapping("/save")
     public  ResponseEntity save(Orders orders){
         return ResponseEntity.success(ordersService.save(orders));
     }
 
-    @RequestMapping("delete")
+    @RequestMapping("/delete")
     public ResponseEntity delete(String id){return ResponseEntity.success(ordersService.delete(id));}
 
-    @RequestMapping("getByCondition")
+    @RequestMapping("/getByCondition")
     public ResponseEntity getByCondition(Orders orders,Pager pager){return ResponseEntity.success(ordersService.getByCondition(orders,pager));}
+
+    @RequestMapping("/getcCensus")
+    public ResponseEntity getcCensus(){return ResponseEntity.success(ordersService.getCencus()); }
 }
