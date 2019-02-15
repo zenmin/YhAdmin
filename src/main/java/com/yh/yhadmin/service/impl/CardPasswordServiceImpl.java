@@ -41,7 +41,7 @@ public class CardPasswordServiceImpl implements CardPasswordService {
 
     @Override
     public Page<CardPassword> findAll(Pager pager) {
-        return cardPasswordNativeRepository.findAllAndGoods(pager);
+        return cardPasswordNativeRepository.findAllAndGoods(pager,null);
     }
 
     @HandlerMethod(optName = "卡密管理",optDesc = "批量加卡")
@@ -70,11 +70,8 @@ public class CardPasswordServiceImpl implements CardPasswordService {
 
     @Override
     public Page<CardPassword> findByCondition(CardPassword cardPassword, Pager pager) {
-        cardPassword.setCreateDate(null);
-        Example<CardPassword> of = Example.of(cardPassword);
-        Pageable pageable = new PageRequest(pager.getStart(), pager.getSize(), Sort.Direction.DESC, "goodsId");
-        Page<CardPassword> all = cardPasswordRepository.findAll(of, pageable);
-        return all;
+        Page<CardPassword> allAndGoods = cardPasswordNativeRepository.findAllAndGoods(pager, cardPassword);
+        return allAndGoods;
     }
 
     @HandlerMethod(optName = "卡密管理",optDesc = "批量删除卡密")

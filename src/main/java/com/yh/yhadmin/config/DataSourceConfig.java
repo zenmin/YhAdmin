@@ -3,6 +3,7 @@ package com.yh.yhadmin.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -13,6 +14,7 @@ import javax.sql.DataSource;
  * @Date 2019/1/17 21:48
  */
 @Configuration
+@PropertySource("classpath:db.properties")
 public class DataSourceConfig {
 
     @Autowired
