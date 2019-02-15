@@ -17,7 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
- * @Describle This Class Is
+ * @Describle This Class Is 优惠券管理
  * @Author ZengMin
  * @Date 2019/1/19 17:49
  */
@@ -40,6 +40,14 @@ public class CouponServiceImpl implements CouponService {
         if (StringUtils.isBlank(id)) {
             //新增  生成key
             coupon.setCouponNo(StaticUtil.uniqueKey());
+            try {
+                coupon = couponRepository.save(coupon);
+            }catch (Exception e){
+                // 万一优惠券编码重复 在执行一次
+                coupon.setCouponNo(StaticUtil.uniqueKey());
+                coupon = couponRepository.save(coupon);
+                return coupon;
+            }
         } else {
             Coupon one = couponRepository.getOne(id);
             if (null == one)
@@ -49,8 +57,9 @@ public class CouponServiceImpl implements CouponService {
             coupon.setCreateUser(one.getCreateUser());
             coupon.setUseDate(one.getUseDate());
             coupon.setId(id);
+            coupon = couponRepository.saveAndFlush(coupon);
         }
-        return couponRepository.saveAndFlush(coupon);
+        return coupon;
     }
 
     @HandlerMethod(optName = "优惠券管理",optDesc = "删除优惠券")

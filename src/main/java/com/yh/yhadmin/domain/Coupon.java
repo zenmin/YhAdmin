@@ -22,7 +22,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class Coupon extends Model {
 
-    @Column(columnDefinition = "varchar(10) COMMENT '优惠券码'")
+    @Column(columnDefinition = "varchar(10) COMMENT '优惠券码'",unique = true)
     private String couponNo;
 
     @Column(columnDefinition = "int(11) default 0 COMMENT '是否长期有效 默认否'")

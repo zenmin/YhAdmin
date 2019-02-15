@@ -35,4 +35,9 @@ public class InterfaceConfigServiceImpl implements InterfaceConfigService {
         interfaceConfigRepository.deleteById(id);
         return true;
     }
+
+    @Override
+    public InterfaceConfig findByType(String typeCode) {
+        return interfaceConfigRepository.findByInterfaceType(typeCode);
+    }
 }

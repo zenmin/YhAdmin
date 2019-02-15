@@ -17,4 +17,6 @@ public interface InterfaceConfigService {
 
     boolean delete(String id);
 
+    InterfaceConfig findByType(String typeCode);
+
 }

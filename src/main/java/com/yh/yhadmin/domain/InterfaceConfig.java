@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class InterfaceConfig extends Model {
 
     @Column
-    private String interface_type;
+    private String interfaceType;
 
     @Column(columnDefinition = "int(10) default 0 COMMENT '1启用 0禁用 默认'")
     private String status;
@@ -66,7 +66,7 @@ public class InterfaceConfig extends Model {
     }
 
     public InterfaceConfig(String interface_type, String status, String APP_ID, String APP_KEY, String payWay, String mailSMTP, String mailPort, String mailAccount, String mailPwd, String mailContent, String switch_alipay, String switch_qq, String switch_wx, String index_style) {
-        this.interface_type = interface_type;
+        this.interfaceType = interface_type;
         this.status = status;
         this.APP_ID = APP_ID;
         this.APP_KEY = APP_KEY;

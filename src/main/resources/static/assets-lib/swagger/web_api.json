@@ -1258,6 +1258,32 @@
           "100": {"description": "成功"}
         }
       }
+    },
+    "/api/interfaceConfig/getByCondition": {
+      "post": {
+        "summary": "根据类型查询",
+        "description": "",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "1短信接口2邮件配置3支付接口4支付接口开关5首页风格",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "tags": ["InterfaceConfig"],
+        "responses": {
+          "100": {"description": "成功"}
+        }
+      }
     }
   }
 }
