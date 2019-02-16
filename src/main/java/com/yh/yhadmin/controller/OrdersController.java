@@ -22,18 +22,22 @@ public class OrdersController {
     OrdersService ordersService;
 
     @RequestMapping("/getAll")
-    public ResponseEntity findAll(Pager pager){
+    public ResponseEntity findAll(Pager pager) {
         return ResponseEntity.success(ordersService.findAll(pager));
     }
 
     @RequestMapping("/save")
-    public  ResponseEntity save(Orders orders){
+    public ResponseEntity save(Orders orders) {
         return ResponseEntity.success(ordersService.save(orders));
     }
 
     @RequestMapping("/getByCondition")
-    public ResponseEntity getByCondition(Orders orders,Pager pager){return ResponseEntity.success(ordersService.getByCondition(orders,pager));}
+    public ResponseEntity getByCondition(Orders orders, Pager pager) {
+        return ResponseEntity.success(ordersService.getByCondition(orders, pager));
+    }
 
     @RequestMapping("/getcCensus")
-    public ResponseEntity getcCensus(){return ResponseEntity.success(ordersService.getCencus()); }
+    public ResponseEntity getcCensus() {
+        return ResponseEntity.success(ordersService.getCencus());
+    }
 }

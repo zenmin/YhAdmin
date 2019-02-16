@@ -31,4 +31,12 @@ public class Pager {
     public void setSize(int size) {
         this.size = size;
     }
+
+    public Pager(int start, int size) {
+        this.start = start;
+        this.size = size;
+    }
+
+    public Pager() {
+    }
 }

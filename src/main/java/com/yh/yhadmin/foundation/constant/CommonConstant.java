@@ -19,6 +19,10 @@ public class CommonConstant {
 
     public static String DELTET_BATCH_CARDPWD = "批量删除卡密";
 
+    public static String PAY_WAAY_ALIPAY = "alipay";    //支付宝
+    public static String PAY_WAAY_QQPAY = "qqpay";         //wx
+    public static String PAY_WAAY_WXPAY = "wxpay";       //qq
+
     public enum InterfaceConfig{
 
         PHONE_TYPE(1,"PHONE_TYPE"),     //短信接口

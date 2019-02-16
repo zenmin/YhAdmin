@@ -527,13 +527,11 @@ public class DateUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        Date today = new Date();
-//        LocalDate date = LocalDateTime.ofInstant(Instant.ofEpochMilli(today.getTime()), ZoneId.systemDefault()).toLocalDate();
-//        System.out.println(DateUtil.betweenMonths("2000-2-29", "2000-1-31"));
-//        Date time = DateUtil.parseToDate("2018-08-06 00:05:00");
-//        time = DateUtil.plusHoursToDate(time, -1);
-//        System.out.println(DateUtil.millisToDateTime(time.getTime(), "yyyy-MM-dd HH:mm:ss"));
-        System.out.println(DateUtil.betweenMonths(DateUtil.parseToDate("2018-10-23"), DateUtil.parseToDate("2016-05-17")));
+        String endDate = DateUtil.getNowDate();
+        String benginDate = "";
+        long l = DateUtil.plusDays(DateUtil.parseToDate(endDate).getTime(), -7);
+        benginDate = DateUtil.millisToDateTime(l,"yyyy-MM-dd");
+        System.out.println(benginDate);
     }
 
 }

@@ -25,9 +25,6 @@ public class CardPasswordNativeRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    CardPasswordRepository cardPasswordRepository;
-
     public Page<CardPassword> findAllAndGoods(Pager pager,CardPassword cardPassword){
         StringBuffer params = new StringBuffer("");
         if(cardPassword != null){
@@ -46,7 +43,9 @@ public class CardPasswordNativeRepository {
         }
         String sql = String.format("select c.*,g.name as goodsName from cardpassword c left join goods g on c.goodsId = g.id where 1=1 %s order by c.goodsId asc limit %s,%s",params.toString(),pager.getStart()*pager.getSize(),pager.getSize());
         List<CardPassword> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(CardPassword.class));
-        return new PageImpl<>(list,new PageRequest(pager.getStart(),pager.getSize()),cardPasswordRepository.count());
+        String countSql = String.format("select count(1) from cardpassword c left join goods g on c.goodsId = g.id where 1=1 %s order by c.goodsId asc ",params.toString());
+        Long count = jdbcTemplate.queryForObject(countSql, Long.class);
+        return new PageImpl<>(list,new PageRequest(pager.getStart(),pager.getSize()),count);
     }
 
 

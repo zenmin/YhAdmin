@@ -1,4 +1,4 @@
-package com.yh.yhadmin.domain;
+package com.yh.yhadmin.domain.vo;
 
 import lombok.Data;
 

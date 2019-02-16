@@ -1,12 +1,11 @@
 package com.yh.yhadmin.service;
 
 import com.yh.yhadmin.domain.Orders;
-import com.yh.yhadmin.domain.OrdersCencus;
+import com.yh.yhadmin.domain.vo.OrdersCencus;
 import com.yh.yhadmin.domain.query.Pager;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Describle

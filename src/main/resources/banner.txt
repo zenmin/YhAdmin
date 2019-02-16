@@ -6,5 +6,8 @@
 #                                      | |    | |  | |  / ____ \  | |__| | | |  | |  _| |_  | |\  |                                     #
 #                                      |_|    |_|  |_| /_/    \_\ |_____/  |_|  |_| |_____| |_| \_|                                     #
 #                                                                                                                                       #
-#                                             Version:1.0       Author:ZM LL                                                            #                              #
+#                                             Version:${application.version}       Author:${yhadmin.author}                                                          #
+#                                                                                                                                       #
+#                                                         ${AnsiColor.BRIGHT_GREEN}系统启动中...${AnsiColor.BRIGHT_WHITE}                                                                  #
+#                                                                                                                                       #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
