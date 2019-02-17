@@ -17,4 +17,5 @@ public class DefinedCode {
 
     public static final int NOTWRITEABLE = 103;    //没有写权限
 
+    public static final int NOTAUTH = 997;
 }

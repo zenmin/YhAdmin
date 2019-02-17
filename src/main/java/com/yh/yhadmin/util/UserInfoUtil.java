@@ -34,6 +34,15 @@ public class UserInfoUtil {
 
     /**
      * @param token
+     * @return 移除用户登录信息
+     */
+    public void removeSession(String token){
+        Cache userinfo = cacheManager.getCache(token);
+        userinfo.put(token,null);
+    }
+
+    /**
+     * @param token
      * @return 从缓存中获取用户信息
      */
     public Object getUserInfo(String token){

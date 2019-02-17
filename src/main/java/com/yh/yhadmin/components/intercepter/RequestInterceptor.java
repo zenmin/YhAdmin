@@ -1,11 +1,14 @@
 package com.yh.yhadmin.components.intercepter;
 
 import com.yh.yhadmin.domain.CommonLog;
+import com.yh.yhadmin.foundation.CommonException;
+import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.service.CommonLogService;
 import com.yh.yhadmin.util.IpHelper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -29,6 +32,9 @@ public class RequestInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws JsonProcessingException {
         String token = request.getParameter("token");
+        if(StringUtils.isBlank(token)){
+            throw new CommonException(DefinedCode.NOTAUTH,"登陆超时，请重新登录！");
+        }
         Map<String, String[]> parameterMap = request.getParameterMap();
         String params = objectMapper.writeValueAsString(parameterMap);
         //此处连接redis执行鉴权 或者Session

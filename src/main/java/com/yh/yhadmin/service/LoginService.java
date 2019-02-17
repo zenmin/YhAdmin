@@ -11,4 +11,5 @@ public interface LoginService {
 
     Object info(String token);
 
+    boolean loginOut(String token);
 }

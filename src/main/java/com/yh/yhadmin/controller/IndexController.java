@@ -7,6 +7,7 @@ import com.yh.yhadmin.service.LoginService;
 import com.yh.yhadmin.util.DateUtil;
 import com.yh.yhadmin.util.IpHelper;
 import com.yh.yhadmin.util.StaticUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -47,13 +48,22 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/login")
-    public Object login(String u,String p){
-        return loginService.login(u,p);
+    public Object login(String u,String p,String token){
+        if(StringUtils.isNotBlank(token)){
+            return loginService.info(token);
+        }else{
+            return loginService.login(u,p);
+        }
     }
 
     @RequestMapping("/info")
     public Object getUserInfo(String token){
         return loginService.info(token);
+    }
+
+    @RequestMapping("/loginOut")
+    public ResponseEntity loginOut(String token) {
+        return ResponseEntity.success(loginService.loginOut(token));
     }
 
     /**

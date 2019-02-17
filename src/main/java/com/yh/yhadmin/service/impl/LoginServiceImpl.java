@@ -55,4 +55,10 @@ public class LoginServiceImpl implements LoginService {
         Object userInfo = userInfoUtil.getUserInfo(token);
         return userInfo;
     }
+
+    @Override
+    public boolean loginOut(String token) {
+        userInfoUtil.removeSession(token);
+        return true;
+    }
 }
