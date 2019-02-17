@@ -28,7 +28,7 @@ public class WebInterceptor extends WebMvcConfigurerAdapter {
     public FilterRegistrationBean jsonpFilter(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new JsonPFilter());   //设置拦截器
-        filterRegistrationBean.setUrlPatterns(Arrays.asList("/api/**")); //拦截路径
+        filterRegistrationBean.setUrlPatterns(Arrays.asList("/*")); //拦截路径
         return filterRegistrationBean;
     }
 
