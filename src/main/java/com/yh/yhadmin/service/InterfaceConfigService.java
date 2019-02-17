@@ -15,8 +15,6 @@ public interface InterfaceConfigService {
 
     InterfaceConfig save(InterfaceConfig interfaceConfig);
 
-    boolean delete(String id);
-
-    InterfaceConfig findByType(String typeCode);
+    Object findByType(String typeCode);
 
 }

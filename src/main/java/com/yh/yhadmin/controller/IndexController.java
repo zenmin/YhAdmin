@@ -3,8 +3,10 @@ package com.yh.yhadmin.controller;
 import com.yh.yhadmin.foundation.ResponseEntity;
 import com.yh.yhadmin.foundation.constant.DevConstant;
 import com.yh.yhadmin.service.IndexService;
+import com.yh.yhadmin.service.LoginService;
 import com.yh.yhadmin.util.DateUtil;
 import com.yh.yhadmin.util.IpHelper;
+import com.yh.yhadmin.util.StaticUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -34,6 +37,24 @@ public class IndexController {
 
     @Autowired
     IndexService indexService;
+
+    @Autowired
+    LoginService loginService;
+
+    /**
+     * @param u
+     * @param p
+     * @return
+     */
+    @RequestMapping("/login")
+    public Object login(String u,String p){
+        return loginService.login(u,p);
+    }
+
+    @RequestMapping("/info")
+    public Object getUserInfo(String token){
+        return loginService.info(token);
+    }
 
     /**
      * @return

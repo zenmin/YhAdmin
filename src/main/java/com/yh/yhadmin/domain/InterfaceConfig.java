@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @Describle
@@ -20,65 +21,60 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 public class InterfaceConfig extends Model {
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '接口类型'")
     private String interfaceType;
 
     @Column(columnDefinition = "int(10) default 0 COMMENT '1启用 0禁用 默认'")
-    private String status;
+    private Integer status;
 
     @Column
-    private String APP_ID;
+    private String app_id;
 
     @Column
-    private String APP_KEY;
+    private String app_key;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '支付方式'")
     private String payWay;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '邮箱SMTP服务器'")
     private String mailSMTP;
 
-    @Column
-    private String mailPort;
+    @Column(columnDefinition = "varchar(255) COMMENT '支付接口类型'")
+    private String payType;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '邮箱账号'")
     private String mailAccount;
 
-    @Column
+    @Column(columnDefinition = "varchar(255) COMMENT '邮箱密码'")
     private String mailPwd;
 
-    @Column
+    @Column(columnDefinition = "varchar(10000) COMMENT '邮件标题'")
+    private String mailTitle;
+
+    @Column(columnDefinition = "varchar(10000) COMMENT '邮件内容'")
     private String mailContent;
 
-    @Column
-    private String switch_alipay;
+    @Column(columnDefinition = "int(11) COMMENT '支付宝支付开关'")
+    private Integer switch_alipay;
 
-    @Column
-    private String switch_qq;
+    @Column(columnDefinition = "int(11) default 1 COMMENT 'QQ支付开关'")
+    private Integer switch_qq;
 
-    @Column
-    private String switch_wx;
+    @Column(columnDefinition = "int(11) default 1 COMMENT '微信支付开关'")
+    private Integer switch_wx;
 
-    @Column
+    @Column(columnDefinition = "varchar(100) COMMENT '首页模板路径'")
     private String index_style;
 
-    public InterfaceConfig() {
-    }
+    @Column(columnDefinition = "varchar(50) COMMENT '短信模板code '")
+    private String smsTemplateCode;
 
-    public InterfaceConfig(String interface_type, String status, String APP_ID, String APP_KEY, String payWay, String mailSMTP, String mailPort, String mailAccount, String mailPwd, String mailContent, String switch_alipay, String switch_qq, String switch_wx, String index_style) {
-        this.interfaceType = interface_type;
-        this.status = status;
-        this.APP_ID = APP_ID;
-        this.APP_KEY = APP_KEY;
-        this.payWay = payWay;
-        this.mailSMTP = mailSMTP;
-        this.mailPort = mailPort;
-        this.mailAccount = mailAccount;
-        this.mailPwd = mailPwd;
-        this.mailContent = mailContent;
-        this.switch_alipay = switch_alipay;
-        this.switch_qq = switch_qq;
-        this.switch_wx = switch_wx;
-        this.index_style = index_style;
-    }
+    @Column(columnDefinition = "varchar(500) COMMENT '短信模板'")
+    private String smsTemplate;
+
+    @Column(columnDefinition = "varchar(50) COMMENT '短信签名'")
+    private String smsSignName;
+
+    @Transient
+    private Integer type;
 }

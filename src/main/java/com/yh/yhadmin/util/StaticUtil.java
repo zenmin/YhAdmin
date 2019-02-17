@@ -1,11 +1,14 @@
 package com.yh.yhadmin.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yh.yhadmin.domain.InterfaceConfig;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -53,6 +56,9 @@ public class StaticUtil {
         return dateTime;
     }
 
+    public static String getToken(){
+        return  new Date().getTime()+""+StaticUtil.uniqueKey();
+    }
 
     public static String uploadFile(byte[] file, String filePath, String fileName) {
         try {
@@ -72,6 +78,13 @@ public class StaticUtil {
         }
         return filePath + fileName;
     }
+
+    public static String convertMailContent(String conent,String km,String orderNo) {
+        conent = conent.replace("${km}", " " + km + " ");
+        conent = conent.replace("${orderNo}", " " + orderNo + " ");
+        return conent;
+    }
+
 
 
     public static void main(String a[]){
