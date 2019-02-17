@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication
 @EnableCaching
 @EnableAsync
-@ServletComponentScan
 public class RunApplication {
 
     public static void main(String[] args) {

@@ -1,7 +1,6 @@
 package com.yh.yhadmin.components.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -10,7 +9,6 @@ import java.io.IOException;
  * @Author ZengMin
  * @Date 2019/2/17 22:28
  */
-@WebFilter
 public class JsonPFilter implements Filter {
 
     @Override

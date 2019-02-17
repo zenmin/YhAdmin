@@ -1,5 +1,7 @@
 package com.yh.yhadmin.util;
 
+import com.yh.yhadmin.foundation.CommonException;
+import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -48,6 +50,8 @@ public class UserInfoUtil {
     public Object getUserInfo(String token){
         Cache userinfo = cacheManager.getCache(CommonConstant.CAHE_NAME);
         Cache.ValueWrapper valueWrapper = userinfo.get(token);
+        if(valueWrapper == null)
+            throw new CommonException(DefinedCode.NOTAUTH,"登录超时，请重新登录！");
         Object o = valueWrapper.get();
         try {
             HashMap map = MapConvertUtil.objectMapper.readValue(o.toString(), HashMap.class);

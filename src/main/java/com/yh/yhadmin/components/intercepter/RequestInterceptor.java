@@ -31,13 +31,13 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws JsonProcessingException {
-        String token = request.getParameter("token");
+        String token = request.getHeader("token");
         if(StringUtils.isBlank(token)){
             throw new CommonException(DefinedCode.NOTAUTH,"登陆超时，请重新登录！");
         }
         Map<String, String[]> parameterMap = request.getParameterMap();
         String params = objectMapper.writeValueAsString(parameterMap);
-        //此处连接redis执行鉴权 或者Session
+        //此处连接redis执行鉴权 或者CacheManager
         log.info("客户端ip:[{}]请求URL:[{}] ,请求params:[{}]",IpHelper.getRequestIpAddr(request), request.getRequestURL(), params);
         commonLogService.saveLog(new CommonLog(IpHelper.getRequestIpAddr(request), request.getRequestURL().toString(),params));
         return true;
