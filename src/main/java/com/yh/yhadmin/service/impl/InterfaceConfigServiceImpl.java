@@ -36,7 +36,7 @@ public class InterfaceConfigServiceImpl implements InterfaceConfigService {
         return interfaceConfigRepository.findAll();
     }
 
-    @HandlerMethod(optName = "interfaceConfig 接口配置", optDesc = "更新配置")
+    @HandlerMethod(optName = "系统全局接口配置", optDesc = "更新配置")
     @Transactional
     @CacheEvict(allEntries = true)
     public InterfaceConfig save(InterfaceConfig interfaceConfig) {
