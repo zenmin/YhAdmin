@@ -33,7 +33,7 @@ public class IndexController {
     @Value("${application.version}")
     private String version;
 
-    @Value("${yhadmin.env}")
+    @Value("${spring.profiles.active}")
     private String env;
 
     @Autowired

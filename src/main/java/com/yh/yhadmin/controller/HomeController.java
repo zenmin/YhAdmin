@@ -13,15 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-    @Value("${yhadmin.env}")
+    @Value("${spring.profiles.active}")
     private String env;
 
     @RequestMapping("/")
     public String toHome(){
-        if(env.equals("dev"))
-            return "webtemps/default/index";
-        else
-            return "qd";
+        return "index";
     }
 
     @RequestMapping("/api")
@@ -29,9 +26,5 @@ public class HomeController {
         return "api/web_api";
     }
 
-    @RequestMapping("/qd")
-    public String testException(){
-        return "qd";
-    }
 
 }

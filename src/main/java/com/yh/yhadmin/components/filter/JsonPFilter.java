@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @Describle This Class Is
+ * @Describle This Class Is 处理JSONP
  * @Author ZengMin
  * @Date 2019/2/17 22:28
  */
@@ -23,7 +23,6 @@ public class JsonPFilter implements Filter {
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.addHeader("Access-Control-Allow-Headers", "Authentication,Origin, X-Requested-With, Content-Type, Accept,token");
-        response.setStatus(200);
         chain.doFilter(req, res);
 
     }

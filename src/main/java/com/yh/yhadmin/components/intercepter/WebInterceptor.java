@@ -23,8 +23,8 @@ public class WebInterceptor extends WebMvcConfigurerAdapter {
                 .addPathPatterns("/api/**").excludePathPatterns("/api/index/login");
     }
 
-    //注册Filter
-    @Bean
+    //注册JsonpFilter
+    // @Bean  前后端未分离情况下关闭
     public FilterRegistrationBean jsonpFilter(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new JsonPFilter());   //设置拦截器
