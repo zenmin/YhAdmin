@@ -1,21 +1,16 @@
 package com.yh.yhadmin.service.impl;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
+import com.yh.yhadmin.domain.AdminUser;
+import com.yh.yhadmin.domain.vo.AdminUserVo;
+import com.yh.yhadmin.foundation.CommonException;
+import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
+import com.yh.yhadmin.service.AdminUserService;
 import com.yh.yhadmin.service.LoginService;
-import com.yh.yhadmin.util.MapConvertUtil;
 import com.yh.yhadmin.util.StaticUtil;
 import com.yh.yhadmin.util.UserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Describle This Class Is
@@ -29,6 +24,9 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     UserInfoUtil userInfoUtil;
 
+    @Autowired
+    AdminUserService adminUserService;
+
     /**
      * @param u
      * @param p
@@ -36,14 +34,16 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public Object login(String u, String p) {
+        // 验证用户名密码
+        AdminUser adminUser = adminUserService.findByUP(u, p);
+        if(adminUser == null)
+            throw new CommonException(DefinedCode.AUTHERROR,"用户名或密码错误！");
+        Integer status = adminUser.getStatus();
+        if(status == CommonConstant.STATUS_ERROR)
+            throw new CommonException(DefinedCode.AUTHERROR_DISABLED,"用户已被禁用！");
         String token = StaticUtil.getToken();
-        Map<String,Object> map = new HashMap<>();
-        map.put("avatar","/src/icons/f778738c-e4f8-4870-b634-56703b4acafe.gif");
-        map.put("introduction","超级管理员");
-        map.put("name","Super Admin");
-        map.put("roles",Lists.newArrayList("admin"));
-        map.put("token",token);
-        return userInfoUtil.addSession(token,map);
+        AdminUserVo adminUserVo = new AdminUserVo(adminUser.getRealName(), token, adminUser.getPhone(), adminUser.getQq(), adminUser.getStatus());
+        return userInfoUtil.addSession(token,adminUserVo);
     }
 
     /**

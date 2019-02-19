@@ -20,7 +20,7 @@ public class WebInterceptor extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(requestInterceptor())
-                .addPathPatterns("/api/**").excludePathPatterns("/api/index/login");
+                .addPathPatterns("/api/**").excludePathPatterns("/api/index/login","/api/index/logOut");
     }
 
     //注册JsonpFilter

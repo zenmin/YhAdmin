@@ -53,13 +53,6 @@ public class UserInfoUtil {
         if(valueWrapper == null)
             throw new CommonException(DefinedCode.NOTAUTH,"登录超时，请重新登录！");
         Object o = valueWrapper.get();
-        try {
-            HashMap map = MapConvertUtil.objectMapper.readValue(o.toString(), HashMap.class);
-            System.out.println(map);
-            return map;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return o;
     }
 

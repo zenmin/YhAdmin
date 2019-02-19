@@ -14,9 +14,13 @@ import java.util.List;
  */
 public class CommonConstant {
 
-    public static final String PRO_PROFIX = "YHADMIN_";
+    public static final String INIT_PASSWORD = "123456";
 
     public static final String CAHE_NAME = "YHADMIN_USERINFO";
+
+    public static final Integer STATUS_OK = 1; //启用
+
+    public static final Integer STATUS_ERROR = 0; //禁用
 
     public static int DELETE_TYPE_ALL = 0;  //删除全部
 

@@ -1,18 +1,14 @@
 package com.yh.yhadmin.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yh.yhadmin.domain.InterfaceConfig;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -85,11 +81,16 @@ public class StaticUtil {
         return conent;
     }
 
-
-
-    public static void main(String a[]){
-        System.out.println(StaticUtil.uniqueKeyByTime(new Date()));
+    public static String md5Hex(String code){
+        return DigestUtils.md5Hex(code);
     }
 
+    public static String sha1512Hex(String code){
+        return DigestUtils.sha512Hex(code);
+    }
+
+    public static void main(String args[]){
+        System.out.println(StaticUtil.md5Hex("123456"));
+    }
 
 }

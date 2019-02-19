@@ -18,4 +18,10 @@ public class DefinedCode {
     public static final int NOTWRITEABLE = 103;    //没有写权限
 
     public static final int NOTAUTH = 997;
+
+    public static final int AUTHERROR = 996;
+
+    public static final int AUTHERROR_DISABLED = 994;
+
+    public static final int USER_EXISTS = 995;
 }
