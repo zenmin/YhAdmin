@@ -6,12 +6,11 @@ import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.repository.WebConfigRepository;
 import com.yh.yhadmin.service.WebConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @Describle
@@ -20,11 +19,13 @@ import java.util.Optional;
  * @Company
  */
 @Service
+@CacheConfig(cacheNames = "WebConfig")
 public class WebConfigServiceImpl implements WebConfigService {
 
     @Autowired
     WebConfigRepository webConfigRepository;
 
+    @Cacheable
     public WebConfig findAll(){
         WebConfig config = webConfigRepository.findAllById(CommonConstant.CONFIG_ID);
         if(null == config){
@@ -34,6 +35,7 @@ public class WebConfigServiceImpl implements WebConfigService {
         return config;
     }
 
+    @CacheEvict(allEntries = true)
     @HandlerMethod(optName = "平台基本信息配置",optDesc = "更新配置")
     @Transactional
     public WebConfig save(WebConfig webConfig){

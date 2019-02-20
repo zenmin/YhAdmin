@@ -54,6 +54,10 @@ public class Goods extends Model {
         this.pullPwd = pullPwd;
     }
 
+    public Goods(String cid) {
+       this.cid = cid;
+    }
+
     public Goods() {
     }
 }

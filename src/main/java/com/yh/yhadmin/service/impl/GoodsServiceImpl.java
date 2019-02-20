@@ -3,6 +3,7 @@ import com.yh.yhadmin.components.annotation.HandlerMethod;
 import com.yh.yhadmin.domain.Goods;
 import com.yh.yhadmin.domain.query.Pager;
 import com.yh.yhadmin.domain.vo.GoodsVo;
+import com.yh.yhadmin.domain.vo.GoodsVoHome;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.repository.GoodsRepository;
@@ -10,6 +11,9 @@ import com.yh.yhadmin.repository.impl.GoodsNativeRepository;
 import com.yh.yhadmin.service.GoodsService;
 import com.yh.yhadmin.util.StaticUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -88,5 +92,12 @@ public class GoodsServiceImpl implements GoodsService {
             throw new CommonException(DefinedCode.NOTFOUND,"商品已经不存在，请刷新页面");
         }
         return true;
+    }
+
+    @Override
+    public List<GoodsVoHome> findByConditionHome(Goods goods) {
+        goods.setStatus(1);     // 上架
+        List<GoodsVoHome> list = goodsNativeRepository.findByConditionHome(goods);
+        return list;
     }
 }

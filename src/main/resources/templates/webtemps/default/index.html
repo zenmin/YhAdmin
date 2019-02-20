@@ -1,10 +1,381 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<meta charset="UTF-8">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"  name="viewport" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title th:text="${config.mainTitle + ' - ' + config.subTitle}"></title>
+	<meta name="keywords" th:content="${config.keyWords}">
+	<meta name="description" th:content="${config.titleDesc}">
+
+	<link rel="stylesheet" th:href="${tempPath + '/static/css/weui.min.css'}">
+	<link rel="stylesheet" th:href="${tempPath + '/static/css/jquery-weui.css'}">
+	<link rel="stylesheet" th:href="${tempPath + '/static/css/demos.css'}">
+	<script type="text/javascript" th:src="${tempPath + '/static/js/jquery-2.1.4.js'}"></script>
+	<script type="text/javascript" th:src="${tempPath+'/static/js/jquery-weui.js'}"></script>
+	<script th:src="${tempDefaultPath + '/assets/jquery.cookie.js'}"></script>
+	<script th:src="${tempDefaultPath + '/assets/layer.js'}"></script>
+	<script th:src="${tempDefaultPath + '/assets/jquery.min.js'}"></script>
 </head>
-<body>
-    默认模板
+
+<body ontouchstart th:style="${'backgroud-image:url(' + tempPath + '/static/imgs/bg1.jpg);'}">
+<header class='demos-header' style="padding: 30px 0;padding-bottom: 0px;">
+	<h1 class="demos-title">
+		<p th:utext="${config.mainNotice}"><br>
+	</h1>
+</header>
+<form id="frm" role="form" method="post" action="/order/submit">
+	<div class="weui-cells weui-cells_form">
+		<div class="weui-cell weui-cell_select">
+			<div class="weui-cell__hd" style="padding-left:15px">
+				<label class="weui-label">商品分类</label>
+			</div>
+			<div class="weui-cell__bd">
+				<select class="weui-select" id="goodstype" onchange="getgoodslist(this.value)" style="padding-left:0px">
+					<option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+				</select>
+			</div>
+		</div>
+		<div class="weui-cell weui-cell_select">
+			<div class="weui-cell__hd" style="padding-left:15px">
+				<label class="weui-label">商品名称</label>
+			</div>
+			<div class="weui-cell__bd">
+				<select class="weui-select" id="goodsshow" onchange="getgoodsmsg()" style="padding-left:0px">
+				</select>
+			</div>
+		</div>
+		<div class="weui-cell">
+			<div class="weui-cell__hd">
+				<label class="weui-label">产品描述</label>
+			</div>
+			<div class="weui-cell__bd">
+				<div class="weui-cells__tips" style="padding-left: 0px;color:green;" id="goodsinfo"></div>
+			</div>
+		</div>
+		<div class="weui-cell">
+			<div class="weui-cell__hd">
+				<label class="weui-label">购买数量</label>
+			</div>
+			<div class="weui-cell__bd">
+				<input class="weui-input" onBlur="checknumber()"  name="number" id="number" value="1" type="number" placeholder="数量">
+			</div>
+
+			<div class="weui-cell__hd"  style="">
+				<label class="weui-label">库存</label>
+			</div>
+			<div class="weui-cell__bd" id="goodskc" ></div>
+
+		</div>
+		<div class="weui-cell">
+			<div class="weui-cell__hd"><label class="weui-label">单价</label></div>
+			<div class="weui-cell__bd">
+				<span style="font-weight:bold;" id="goodsprice">￥0</span>
+			</div>
+			<div class="weui-cell__hd"><label class="weui-label">总金额</label></div>
+			<div class="weui-cell__bd">
+				<span style="color:red; font-weight:bold;" id="allmoney">0</span>
+			</div>
+		</div>
+		<div class="weui-cell" style="">
+			<div class="weui-cell__hd"><label class="weui-label">手机号</label></div>
+			<div class="weui-cell__bd"><input class="weui-input" id="paypass" type="text" placeholder="将作为卡密提取码"></div>
+		</div>
+
+		<div class="weui-cell" >
+			<div class="weui-cell__hd"><label class="weui-label">优惠券</label></div>
+			<div class="weui-cell__bd"><input class="weui-input" id="coupon" type="text" placeholder="有券则填,无券不填"></div>
+		</div>
+
+		<div class="weui-cell" id="pullDiv" style="display: none">
+			<div class="weui-cell__hd"><label class="weui-label">提取密码</label></div>
+			<div class="weui-cell__bd"><input class="weui-input" id="pullPwd" type="text" placeholder="本商品需要您请输入提取密码"></div>
+		</div>
+
+		<div class="weui-cell" id="sengMsgDiv" >
+			<div class="weui-cell__hd"><label class="weui-label">发送短信</label></div>
+			<div class="weui-cell__bd">
+				<select class="weui-input" name="sendMsg" type="text" placeholder="">
+					<option value="0">否</option>
+					<option value="1">是</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="weui-cell" id="sengEmailDiv" >
+			<div class="weui-cell__hd"><label class="weui-label">发送邮件</label></div>
+			<div class="weui-cell__bd">
+				<select class="weui-input" name="sendEmail" type="text" placeholder="">
+					<option value="0">否</option>
+					<option value="1">是</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="weui-cell" id="pullDiv" style="display: none">
+			<div class="weui-cell__hd"><label class="weui-label">提取密码</label></div>
+			<div class="weui-cell__bd"><input class="weui-input" id="pullPwd" type="text" placeholder="本商品需要您请输入提取密码"></div>
+		</div>
+
+	</div>
+
+	<div class="weui-cell weui-cells_radio">
+		<div class="weui-cell__hd">
+			<div class="weui-label" style="padding: 10px 0px;">
+						<span class="weui-agree__text">
+							<a class="weui-btn weui-btn_mini weui-btn_primary" th:href="${tempPath  + '/query'}">查询订单</a>
+						</span>
+			</div>
+			<label class="weui-label" style="padding: 10px 0px;"> </label>
+			<div class="weui-label" style="padding: 10px 0px;">
+						<span class="weui-agree__text">
+							<a class="weui-btn weui-btn_mini weui-btn_primary" href="http://wpa.qq.com/msgrd?v=3&uin=1234&site=qq&menu=yes" target="_blank">联系客服</a>
+						</span>
+			</div>
+		</div>
+		<div class="weui-cell__bd" style="">
+			<input id="type" type="hidden" value="wxpay">
+			<input id="typefs" type="hidden" value="微信">
+			<label class="weui-cell weui-check__label" for="x11" style="padding-left:0px" onclick="paytype(this,'wxpay','微信')">
+				<div class="weui-cell__bd">
+					<img th:src="${tempPath + '/static/imgs/newwx.png'}" style="width: 70px">
+				</div>
+				<div class="weui-cell__ft">
+					<input type="radio" class="weui-check" name="access" value="3" checked="checked" id="x11">
+					<span class="weui-icon-checked"></span>
+				</div>
+			</label>
+			<label class="weui-cell weui-check__label" for="x12" style="padding-left:0px" onclick="paytype(this,'alipay','支付宝')">
+				<div class="weui-cell__bd">
+					<img th:src="${tempPath + '/static/imgs/newali.png'}" style="width: 70px">
+				</div>
+				<div class="weui-cell__ft">
+					<input type="radio" class="weui-check" name="access" value="1" id="x12">
+					<span class="weui-icon-checked"></span>
+				</div>
+			</label>
+			<label class="weui-cell weui-check__label" for="x13" style="padding-left:0px" onclick="paytype(this,'qqpay','QQ钱包')">
+				<div class="weui-cell__bd">
+					<img th:src="${tempPath + '/static/imgs/newqqpay.png'}" style="width: 70px">
+				</div>
+				<div class="weui-cell__ft">
+					<input type="radio" class="weui-check" name="access" value="2" id="x13">
+					<span class="weui-icon-checked"></span>
+				</div>
+			</label>
+		</div>
+		<div class="weui-cell__bd">
+			<input type="hidden" id="maxnum" value="">
+			<a class="weui-btn weui-btn_primary" onclick="submit_pay()" id="submit_btn"
+			   style="margin-right: 0px;height: 125px;width: 80px;font-size: 27px;padding: 10px;line-height: 50px;">确定支付</a>
+		</div>
+	</div>
+	</div>
+</form>
+<div style="text-align:center;margin-top: 30px;margin-bottom: 30px;">
+	<span th:text="${config.copyRight}"></span>
+</div>
 </body>
+
 </html>
+<script>
+    var list = null;
+    var kcnumber = 0;
+    var tid = $("#goodstype option:selected").val();
+    getgoodslist(tid);
+    function jisuanprice(){
+        var number = parseInt($("#number").val());
+        var price = $("#goodsprice").text();
+        var allprice = (price*number).toFixed(2);
+        $("#allmoney").text(allprice);
+    }
+    function paytype(e,type,typefs){
+        $("#type").val(type);
+        $("#typefs").val(typefs);
+        jisuanprice();
+    }
+    function checknumber(){
+        var num = $("#number").val();
+        if(parseInt(num) > kcnumber){
+            $("#number").val(kcnumber);
+        }
+        if(parseInt(num) <1){
+            $("#number").val(1);
+        }
+        jisuanprice();
+    }
+    //获取商品
+    function getgoodslist(cid){
+        var ii =  layer.open({type: 2,content: '加载中' });
+        $.ajax({
+            type : "POST",
+            url : "/goods/getByCondition",
+            data : {"cid":cid},
+            dataType : 'json',
+            async: false,
+            success : function(data) {
+                debugger
+                layer.close(ii);
+                if(data.code == 100){
+                    if(data.data.length > 0){
+                        list = data.data;
+                        var option = "";
+                        for(var i=0;i<list.length;i++){
+                            var goods = list[i];
+                            option = option + "<option value='"+goods.id+"' "+(option==""?"selected":"")+">"+goods.name+"</option>";
+                        }
+                        $("#goodsshow").html(option);
+                        getgoodsmsg();
+                    }else{
+                        $("#goodsshow").html("<option value='-1'>无商品</option>");
+                        $("#goodsinfo ").html("");
+                        $("#goodsprice").text("0");
+                        $("#goodskc").text(0);
+                        kcnumber=0;
+
+                        layer.open({
+                            content: '当前分类下面暂时没有商品'
+                            ,skin: 'msg'
+                            ,time: 2
+                        });
+                    }
+                }else{
+                    list = null;
+                    layer.msg(data.msg);
+                    return false;
+                }
+            },
+            error:function(data){
+                layer.close(ii);
+                list = null;
+                layer.open({
+                    content: '系统错误'
+                    ,skin: 'msg'
+                    ,time: 2
+                });
+                return false;
+            }
+        })
+    }
+    //获取商品详细参数
+    function getgoodsmsg(){
+        kcnumber=0;
+        var gid = $("#goodsshow option:selected").val();
+        for(var i=0;i<list.length;i++){
+            var goods = list[i];
+            if(goods.id != gid)    continue;
+            if(goods.id == gid){
+                $("#goodsimg").attr("src",goods.img);
+                $("#goodsinfo ").html(goods.goodsDesc);
+                $("#goodsprice").text(goods.price);
+                $("#goodskc").text(goods.kmCount);
+                kcnumber = goods.kmCount;
+                $("#number").val(1);
+                if(goods.needPwd)
+                    $("#pullDiv").show();
+				else
+                    $("#pullDiv").hide();
+                jisuanprice();
+            }
+        }
+    }
+    function submit_pay(){
+        var timestamp =Date.parse(new Date());
+        var rand = Math.floor(Math.random()*(99999-99+1)+99);
+        var tradeno =  timestamp+""+rand;
+        var gid = $("#goodsshow option:selected").val();
+        var gname = $("#goodsshow option:selected").text();
+        var price = $("#goodsprice").text();
+        var goodskc = parseInt($("#goodskc").text());
+        var number = parseInt($("#number").val());
+        var qq = $("#qq").val();
+        var type = $("#type").val();//付款方式
+        var typefs = $("#typefs").val();//付款方式2
+        var paypass = $("#paypass").val();
+        var coupon = $("#coupon").val();
+        var phone = $("#phone").val();
+        var allprice = (price*number).toFixed(2);
+        if(qq=="" || isNaN(qq) || qq.length <5){
+            layer.open({
+                content: '联系QQ不能为空',
+                btn: '我知道了'
+            });
+            return;
+        }
+        if(gid <= 0){
+            layer.open({
+                content: '该商品无法下单',
+                btn: '我知道了'
+            });
+            return;
+        }
+        if(goodskc < 1 || number > goodskc || kcnumber!=goodskc){
+            layer.open({
+                content: '商品库存不足,无法购买',
+                btn: '我知道了'
+            });
+            return;
+        }
+        if(typefs==""||type==""||typefs == undefined || type == undefined || typefs=="undefined" || type == "undefined"){
+            layer.open({
+                content: '请选择您的支付方式',
+                btn: '我知道了'
+            }); return;
+        }
+        var ii =  layer.open({type: 2,content: '加载中' });
+        $.ajax({
+            type : "POST",
+            url : "ajax.php?act=createorder&r="+Date.parse(new Date()),
+            data : {"tradeno":tradeno,"gid":gid,"allprice":allprice,"price":price,"qq":qq,"type":type,"number":number,"paypass":paypass,"coupon":coupon,"phone":phone},
+            dataType : 'json',
+            success : function(data) {
+                layer.close(ii);
+                if(data.code == 1){
+                    if(data.psm!=""){
+                        allprice = data.allprice+"￥<font style='color:Red'>("+data.psm+")</font>";
+                    }else{
+                        allprice = data.allprice+"￥";
+                    }
+                    var html = "<span style='color:#000;display: inline-block;text-align: left'>"
+                        +"订单编号："+tradeno
+                        +"<br>商品名称："+gname
+                        +"<br>商品单价："+price+"￥"
+                        +"<br>购买数量："+number
+                        +"<br>联系QQ："+qq
+                        +"<br>支付方式："+typefs
+                        +"<br>应付款：<font style='font-size:18px' color=red>"+allprice+"</font>"
+                        +"</span>";
+
+                    document.cookie="tradeno="+data.tradeno;
+                    document.cookie="paypass="+paypass;
+                    layer.open({
+                        title:"请核对订单信息",
+                        content: html
+                        ,btn: ['立即付款', '暂不付款']
+                        ,yes: function(index){
+                            window.location.href='./other/submit.php?paynumber='+data.md5_tradeno;
+                        }
+                    });
+
+                }else{
+
+                    layer.open({
+                        content: data.msg
+                        ,skin: 'msg'
+                        ,time: 2
+                    });
+                    return false;
+                }
+            },
+            error:function(data){
+                layer.close(ii);
+                layer.open({
+                    content: '系统错误'
+                    ,skin: 'msg'
+                    ,time: 2
+                });
+                return false;
+            }
+        })
+    }
+</script>

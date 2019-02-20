@@ -32,6 +32,10 @@ public class CommonConstant {
 
     public static String DELTET_BATCH_CARDPWD = "批量删除卡密";
 
+    public static final String DEFAULT_TEMPLETE = "/webtemps/default/index";
+
+    public static final String DEFAULT_TEMP_STATIC_PATH = "/webtemps/default";
+
     public static String PAY_WAAY_ALIPAY = "alipay";    //支付宝
     public static String PAY_WAAY_QQPAY = "qqpay";         //wx
     public static String PAY_WAAY_WXPAY = "wxpay";       //qq

@@ -1,0 +1,125 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title id="bttt" th:text="${'订单提取 - ' + config.mainTitle + ' - ' + config.subTitle}"></title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="stylesheet" th:href="${tempPath + '/static/css/weui.min.css'}">
+	<link rel="stylesheet" th:href="${tempPath + '/static/css/jquery-weui.css'}">
+	<link rel="stylesheet" th:href="${tempPath + '/static/css/demos.css'}">
+	<script th:src="${tempDefaultPath + '/assets/jquery.min.js'}"></script>
+	<script type="text/javascript" th:src="${tempPath + '/static/js/jquery-2.1.4.js'}"></script>
+	<script type="text/javascript" th:src="${tempPath + '/static/js/jquery-weui.js'}"></script>
+	<script th:src="${tempDefaultPath + '/assets/jquery.cookie.js'}"></script>
+</head>
+
+<body ontouchstart>
+	<header class='demos-header' style="padding: 30px 0;padding-bottom: 0px;">
+		<span th:utext="${config.subNotice}"></span>
+	</header>
+	<div class="weui-cells weui-cells_form">
+		<div class="weui-cell weui-cell_vcode">
+			<div class="weui-cell__bd">
+				<input class="weui-input" type="text" placeholder="请输入订单号或联系方式查询" id="nos">
+			</div>
+			<div class="weui-cell__ft" style="padding: 10px;">
+				<button class="weui-btn weui-btn_mini weui-btn_primary" onclick="querysub()">订单查询</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="weui-form-preview">
+		<div class="weui-form-preview__hd">
+			<label class="weui-form-preview__label" style="font-size: 16px;bold;color: #000;">订单编号</label>
+			<p class="weui-form-preview__value" style="font-size: 16px;"><?=$row['trade_no']?></p>
+		</div>
+		<div class="weui-form-preview__bd">
+			<div class="weui-form-preview__item">
+				<label class="weui-form-preview__label">商品名称</label>
+				<span class="weui-form-preview__value">
+				<?php   $grow = getgoods($row['gid']);  echo $grow['gName'];?></span>
+			</div>
+
+			<div class="weui-form-preview__item">
+				<label class="weui-form-preview__label">金额</label>
+				<span class="weui-form-preview__value"><?=$row['money']?>￥</span>
+			</div>
+
+			<div class="weui-form-preview__item">
+				<label class="weui-form-preview__label">卡密</label>
+				<span class="weui-form-preview__value">
+
+                </span>
+			</div>
+
+			<div class="weui-form-preview__item">
+				<label class="weui-form-preview__label">付款时间</label>
+				<span class="weui-form-preview__value"><?=$row['endTime']?></span>
+			</div>
+		</div>
+	</div>
+
+    <div class="weui-loadmore weui-loadmore_line">
+		<span class="weui-loadmore__tips">暂无数据</span>
+	</div>
+	
+	<div style="display: none;">
+        <form action="" method="POST" id='queryfrm'>
+            <input type="hidden" name="no" id='no' value="">
+            <input type="hidden" name="paypass" id='paypass' value="">
+        </form>
+    </div>
+	<div class="weui-btn-area">
+		<a class="weui-btn weui-btn_primary" href="index.php" id="mysubmit">返回下单</a>
+	</div>
+</br></br></br></br></br>
+<div style="text-align:center;">
+	<span ><?= $conf['foot'] ?></span>
+</div>
+
+</div>
+</body>
+<script th:src="${tempDefaultPath + '/assets/layer.js'}"></script>
+<script>
+	$(function(){
+		var tradeno = $.cookie('tradeno');
+		if($("#nos").val() == ""){
+	       $("#nos").val(tradeno);
+	    }
+		var paypass = getCookie('paypass');
+		if($("#paypass").val() == ""){
+			$("#paypass").val(paypass);
+		}
+	})
+	var needpass = false;
+	function querysub(){
+		var no = $("#nos").val();
+		if(no == ""){
+			layer.open({
+				content: '请输入订单号或联系方式查询',
+				btn: '我知道了'
+			});
+			return;
+		}
+		if(needpass == 1){
+			layer.prompt({title: '请输入提取密码', formType: 2,value:""}, function(pass, index){
+				layer.close(index);
+				$("#no").val(no);
+				$("#paypass").val(pass);
+				$("#queryfrm").submit();
+			});
+		}else{
+			$("#no").val(no);
+			$("#queryfrm").submit();
+		}
+
+	}
+	function getCookie(name){
+		var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+		if(arr=document.cookie.match(reg))
+			return unescape(arr[2]);
+		else
+			return null;
+	}
+</script>
+</html>

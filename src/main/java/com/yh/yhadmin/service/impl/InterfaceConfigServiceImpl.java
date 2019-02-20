@@ -11,6 +11,7 @@ import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.repository.InterfaceConfigRepository;
 import com.yh.yhadmin.service.InterfaceConfigService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -73,7 +74,7 @@ public class InterfaceConfigServiceImpl implements InterfaceConfigService {
         }
         //5 首页风格
         if (typeCode.equals(CommonConstant.InterfaceConfig.INDEX_STYLE.getValue())) {
-            return i.getIndex_style();
+            return StringUtils.isNotBlank(i.getIndex_style()) ? i.getIndex_style() : CommonConstant.DEFAULT_TEMPLETE;
         }
         throw new CommonException(DefinedCode.PARAMS_ERROR, "该类型不存在");
     }
