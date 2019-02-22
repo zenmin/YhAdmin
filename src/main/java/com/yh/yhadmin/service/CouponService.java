@@ -18,4 +18,8 @@ public interface CouponService {
     boolean delete(String id);
 
     Page<Coupon> findByCondition(Coupon goods,Pager pager);
+
+    Coupon findByCouponNO(String coupon);
+
+    void checkCoupon(Coupon coupon);
 }

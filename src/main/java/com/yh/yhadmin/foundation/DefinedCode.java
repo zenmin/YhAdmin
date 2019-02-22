@@ -13,9 +13,18 @@ public class DefinedCode {
     public static final int PARAMS_ERROR = 998;    //失败
 
     public static final int NOTFOUND = 101;    //资源未找到
+
     public static final int PARAMSERROR = 102;    //参数异常
 
     public static final int NOTWRITEABLE = 103;    //没有写权限
+
+    public static final int NOSTOCK = 800;      // 库存不足
+
+    public static final int DATEDIS = 801;      // 优惠券过期
+
+    public static final int PASSWORDERROR = 802;      // 提取密码错误
+
+    public static final int NOTCANUSE = 802;      // 优惠券过期
 
     public static final int NOTAUTH = 997;
 

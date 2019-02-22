@@ -7,6 +7,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -89,8 +91,34 @@ public class StaticUtil {
         return DigestUtils.sha512Hex(code);
     }
 
+    public static Double divide(Double dividend, Double divisor) {
+        return dividend == 0.0D && divisor == 0.0D ? 0.0D : divisor == 0.0D ? 1.0D : BigDecimal.valueOf(dividend).divide(BigDecimal.valueOf(divisor), 2, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    public static Double multiply(Double multiplicand, Double multiplier) {
+        return multiplicand == 0.0D && multiplier == 0.0D ? 0.0D : multiplier == 0.0D ? 1.0D : BigDecimal.valueOf(multiplicand).multiply(BigDecimal.valueOf(multiplier)).doubleValue();
+    }
+
+    /**
+     * @param price 单价
+     * @param num   数量
+     * @param saleRate 折扣 100
+     * @return 计算价格
+     */
+    public static double computePrice(double price, int num, int saleRate) {
+        if(saleRate <= 0)
+            saleRate = 100;
+        if(num <= 0)
+            num = 1;
+        double sale = 0.0;
+        sale = StaticUtil.divide(Double.valueOf(saleRate),Double.valueOf(100));
+        Double multiply = StaticUtil.multiply(price, Double.valueOf(num));
+        Double allPrice = StaticUtil.multiply(multiply, sale);
+        double v = BigDecimal.valueOf(allPrice).setScale(2,RoundingMode.UP).doubleValue();
+        return v;
+    }
+
     public static void main(String args[]){
-        System.out.println(StaticUtil.md5Hex("123456"));
     }
 
 }

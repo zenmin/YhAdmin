@@ -9,21 +9,18 @@ import com.yh.yhadmin.domain.vo.TemplateVo;
 import com.yh.yhadmin.foundation.ResponseEntity;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.service.InterfaceConfigService;
-import com.yh.yhadmin.util.MailUtil;
+import com.yh.yhadmin.util.EmailUtil;
 import com.yh.yhadmin.util.MapConvertUtil;
 import com.yh.yhadmin.util.SmsUtil;
 import com.yh.yhadmin.util.StaticUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @Describle
@@ -42,7 +39,7 @@ public class InterfaceConfigController {
     SmsUtil smsUtil;
 
     @Autowired
-    MailUtil mailUtil;
+    EmailUtil mailUtil;
 
     @Autowired
     ApplicationContext applicationContext;
@@ -99,7 +96,7 @@ public class InterfaceConfigController {
             MailVo mailVo = (MailVo) byType;
             String mailContent = mailVo.getMailContent();
             String content = StaticUtil.convertMailContent(mailContent, km, orderNo);
-            mailUtil.sendMail("15228766049@163.com", content);
+            mailUtil.sendMail(null,"15228766049@163.com", content);
         }
 
         return ResponseEntity.success(true);

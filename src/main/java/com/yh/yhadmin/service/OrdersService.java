@@ -1,6 +1,7 @@
 package com.yh.yhadmin.service;
 
 import com.yh.yhadmin.domain.Orders;
+import com.yh.yhadmin.domain.vo.OrderVo;
 import com.yh.yhadmin.domain.vo.OrdersCencus;
 import com.yh.yhadmin.domain.query.Pager;
 import org.springframework.data.domain.Page;
@@ -22,4 +23,8 @@ public interface OrdersService {
      Page<Orders> getByCondition(Orders orders,Pager pager);
 
      List<OrdersCencus> getCencus();
+
+    OrderVo createOrder(OrderVo orderVo);
+
+    Orders findByOrderNo(String orderNo);
 }

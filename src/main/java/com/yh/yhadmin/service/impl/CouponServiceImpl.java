@@ -5,6 +5,7 @@ import com.yh.yhadmin.domain.Coupon;
 import com.yh.yhadmin.domain.query.Pager;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
+import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.repository.CouponRepository;
 import com.yh.yhadmin.service.CouponService;
 import com.yh.yhadmin.util.StaticUtil;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -75,5 +77,26 @@ public class CouponServiceImpl implements CouponService {
         Example<Coupon> of = Example.of(coupon);
         Page<Coupon> all = couponRepository.findAll(of, new PageRequest(pager.getStart(), pager.getSize()));
         return all;
+    }
+
+    @Override
+    public Coupon findByCouponNO(String CouponNO) {
+        return couponRepository.findByCouponNo(CouponNO);
+    }
+
+    /**
+     * @param coupon
+     * 设置一次性优惠券为无效
+     */
+    @Override
+    @Async
+    public void checkCoupon(Coupon coupon) {
+        if(coupon != null){
+            Integer validLong = coupon.getValidLong();
+            if(validLong == CommonConstant.STATUS_ERROR){
+                coupon.setStatus(CommonConstant.STATUS_ERROR);
+                couponRepository.saveAndFlush(coupon);
+            }
+        }
     }
 }

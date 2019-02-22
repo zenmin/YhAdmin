@@ -1,6 +1,7 @@
 package com.yh.yhadmin.util;
 
 
+import com.aliyuncs.auth.AcsURLEncoder;
 import com.yh.yhadmin.foundation.constant.RequestConstant;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -139,8 +140,9 @@ public class HttpClientUtil {
         return getString(soapResponseData);
     }
 
-    public static String sendGet(String url) throws IOException {
-
+    public static String sendGet(String url,Map<String,Object> params) throws IOException {
+//        if(params != null)
+//            url = AcsURLEncoder.encode(params)
         GetMethod getMethod = new GetMethod(url);
         getMethod.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 
@@ -148,26 +150,9 @@ public class HttpClientUtil {
         httpClient.getParams().setParameter(HttpMethodParams.USER_AGENT, "Apache-HttpClient/4.1.1 (java 1.5)");
         httpClient.executeMethod(getMethod);
         // 链接超时
-        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(120000);
+        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(1000 * 5);
         // 读取超时
-        httpClient.getHttpConnectionManager().getParams().setSoTimeout(120000);
-        String soapResponseData = getMethod.getResponseBodyAsString();
-        soapResponseData  = new String(soapResponseData.trim().getBytes("ISO-8859-1"), "utf-8");
-        return soapResponseData;
-    }
-
-    public static String sendGet(String url, String token) throws IOException {
-
-        GetMethod getMethod = new GetMethod(url);
-        getMethod.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-        getMethod.setRequestHeader(RequestConstant.TOKEN, token);
-        HttpClient httpClient = new HttpClient();
-        httpClient.getParams().setParameter(HttpMethodParams.USER_AGENT, "Apache-HttpClient/4.1.1 (java 1.5)");
-        httpClient.executeMethod(getMethod);
-        // 链接超时
-        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(120000);
-        // 读取超时
-        httpClient.getHttpConnectionManager().getParams().setSoTimeout(120000);
+        httpClient.getHttpConnectionManager().getParams().setSoTimeout(1000 * 5);
         String soapResponseData = getMethod.getResponseBodyAsString();
         soapResponseData  = new String(soapResponseData.trim().getBytes("ISO-8859-1"), "utf-8");
         return soapResponseData;

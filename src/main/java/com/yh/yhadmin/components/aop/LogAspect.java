@@ -3,23 +3,30 @@ package com.yh.yhadmin.components.aop;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yh.yhadmin.components.annotation.HandlerMethod;
 import com.yh.yhadmin.domain.OperateLogs;
+import com.yh.yhadmin.domain.vo.AdminUserVo;
 import com.yh.yhadmin.foundation.constant.RequestConstant;
 import com.yh.yhadmin.service.OperateLogsService;
 import com.yh.yhadmin.util.IpHelper;
 import com.yh.yhadmin.util.MapConvertUtil;
+import com.yh.yhadmin.util.StaticUtil;
+import com.yh.yhadmin.util.UserInfoUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -34,6 +41,9 @@ public class LogAspect {
 
     @Autowired
     OperateLogsService operateLogsService;
+
+    @Autowired
+    UserInfoUtil userInfoUtil;
 
     @Pointcut("execution(* com.yh.yhadmin.service.*Service.*(..))")
     private void pointCut() {
@@ -71,22 +81,22 @@ public class LogAspect {
         operateLogs.setOptIp(ip);
         //取操作人
         String optUserName = "";
-        Object optUserNameTemp = null;
-        optUserNameTemp = request.getSession().getAttribute(RequestConstant.TOKEN);
-        if (Objects.isNull(optUserNameTemp)) {
-            //session里面取不到token  说明是普通用户  从请求参数里面取联系方式
-            optUserNameTemp = servletRequestAttributes.getAttribute("userContact", RequestAttributes.SCOPE_REQUEST);
-            if (Objects.isNull(optUserNameTemp)) {
-                //如果还是为空  说明可能是非管理员和用户下单操作
-                log.debug("没有取到当前用户信息！");
+        String token = request.getHeader(RequestConstant.TOKEN);
+        if (StringUtils.isBlank(token)) {
+            // cache里面取不到token  说明是普通用户  从请求参数里面取联系方式
+            Object userContact = request.getParameter("userContact");
+            if (userContact == null) {
+                log.warn("没有取到当前用户信息，可能是非法操作！IP:" + ip );
                 optUserName = "NoUser";
             } else {
-                optUserName = optUserNameTemp.toString();
+                optUserName = userContact.toString();
             }
         } else {
-            //取到了的话  转为用户信息实体
-            optUserName = optUserNameTemp.toString();
-            operateLogs.setOptUserId("");
+            //取到了的话
+            Object userInfo = userInfoUtil.getUserInfo(request.getHeader(RequestConstant.TOKEN));
+            AdminUserVo adminUserVo = (AdminUserVo) userInfo;
+            optUserName = adminUserVo.getName();
+            operateLogs.setOptUserId(adminUserVo.getId());
         }
         operateLogs.setOptUser(optUserName);
         Object aThis = joinPoint.getSignature();

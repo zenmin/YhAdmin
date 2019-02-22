@@ -4,6 +4,7 @@ import com.yh.yhadmin.domain.vo.MailVo;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.service.InterfaceConfigService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -19,13 +20,13 @@ import java.util.Properties;
  */
 @Component
 @Slf4j
-public class MailUtil {
+public class EmailUtil {
 
     @Autowired
     InterfaceConfigService interfaceConfigService;
 
     @Async
-    public void sendMail(String receiveUser, String content) {
+    public void sendMail(String userTitle,String receiveUser, String content) {
         try {
             String username = "";
             String password = "";
@@ -37,8 +38,11 @@ public class MailUtil {
             username = mailVo.getMailAccount();
             password = mailVo.getMailPwd();
             host = mailVo.getMailSMTP();
-            title = mailVo.getMailTitle();
-
+            if (StringUtils.isBlank(userTitle)) {
+                title = mailVo.getMailTitle();
+            } else {
+                title = userTitle;
+            }
             //设置发件属性
             JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
             javaMailSender.setUsername(username);

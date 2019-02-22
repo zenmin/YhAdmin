@@ -85,12 +85,30 @@ public class CommonConstant {
 
     }
 
-    public static void main(String args[]){
-        System.out.println(CommonConstant.InterfaceConfig.getCode("MAIL_TYPE"));
-        System.out.println(CommonConstant.InterfaceConfig.getValue(2));
-        System.out.println(StaticUtil.UUID().toUpperCase());
+    public enum PayWay{
+        ALIPAY(1,"alipay"),
+        QQAPY(2,"qqpay"),
+        WXPAY(3,"wxpay");
+
+        @Getter
+        private int code;
+
+        @Getter
+        private String value;
+
+        PayWay(int code,String value){
+            this.code = code;
+            this.value = value;
+        }
+
+        public static Integer getCode(String value){
+            PayWay[] values = PayWay.values();
+            for (PayWay v : values){
+                if(v.value.equals(value)){
+                    return v.code;
+                }
+            }
+            return 0;
+        }
     }
-
-
-
 }

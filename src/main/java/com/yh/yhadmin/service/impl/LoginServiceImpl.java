@@ -42,7 +42,7 @@ public class LoginServiceImpl implements LoginService {
         if(status == CommonConstant.STATUS_ERROR)
             throw new CommonException(DefinedCode.AUTHERROR_DISABLED,"用户已被禁用！");
         String token = StaticUtil.getToken();
-        AdminUserVo adminUserVo = new AdminUserVo(adminUser.getRealName(), token, adminUser.getPhone(), adminUser.getQq(), adminUser.getStatus());
+        AdminUserVo adminUserVo = new AdminUserVo(adminUser.getId(),adminUser.getRealName(), token, adminUser.getPhone(), adminUser.getQq(), adminUser.getStatus());
         return userInfoUtil.addSession(token,adminUserVo);
     }
 

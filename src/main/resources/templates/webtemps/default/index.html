@@ -18,7 +18,7 @@
 	<script th:src="${tempDefaultPath + '/assets/jquery.min.js'}"></script>
 </head>
 
-<body ontouchstart th:style="${'backgroud-image:url(' + tempPath + '/static/imgs/bg1.jpg);'}">
+<body ontouchstart th:style="${'background:url(' + config.bgImg + ') no-repeat;background-size: 100% 100% ' } ">
 <header class='demos-header' style="padding: 30px 0;padding-bottom: 0px;">
 	<h1 class="demos-title">
 		<p th:utext="${config.mainNotice}"><br>
@@ -61,10 +61,10 @@
 				<input class="weui-input" onBlur="checknumber()"  name="number" id="number" value="1" type="number" placeholder="数量">
 			</div>
 
-			<div class="weui-cell__hd"  style="">
+			<div class="weui-cell__hd"  th:if="${config.showStock == 1}">
 				<label class="weui-label">库存</label>
 			</div>
-			<div class="weui-cell__bd" id="goodskc" ></div>
+			<div th:if="${config.showStock == 1}" class="weui-cell__bd" id="goodskc" ></div>
 
 		</div>
 		<div class="weui-cell">
@@ -78,8 +78,8 @@
 			</div>
 		</div>
 		<div class="weui-cell" style="">
-			<div class="weui-cell__hd"><label class="weui-label">手机号</label></div>
-			<div class="weui-cell__bd"><input class="weui-input" id="paypass" type="text" placeholder="将作为卡密提取码"></div>
+			<div class="weui-cell__hd"><label class="weui-label">联系方式</label></div>
+			<div class="weui-cell__bd"><input class="weui-input" id="paypass" type="text" placeholder="QQ或手机号/将作为卡密提取码"></div>
 		</div>
 
 		<div class="weui-cell" >
@@ -95,26 +95,33 @@
 		<div class="weui-cell" id="sengMsgDiv" >
 			<div class="weui-cell__hd"><label class="weui-label">发送短信</label></div>
 			<div class="weui-cell__bd">
-				<select class="weui-input" name="sendMsg" type="text" placeholder="">
+				<select class="weui-input" name="sendMsg" id="sendMsg" type="text" placeholder="" onchange="changePhone()">
 					<option value="0">否</option>
 					<option value="1">是</option>
 				</select>
 			</div>
 		</div>
 
-		<div class="weui-cell" id="sengEmailDiv" >
+		<div class="weui-cell" id="">
 			<div class="weui-cell__hd"><label class="weui-label">发送邮件</label></div>
 			<div class="weui-cell__bd">
-				<select class="weui-input" name="sendEmail" type="text" placeholder="">
+				<select class="weui-input" name="sendEmail" type="text" id="sendEmail" placeholder="" onchange="changeEmail()">
 					<option value="0">否</option>
 					<option value="1">是</option>
 				</select>
+			</div>
+		</div>
+
+		<div class="weui-cell" id="sendEmailDiv"  style="display: none;">
+			<div class="weui-cell__hd"><label class="weui-label">接收邮箱</label></div>
+			<div class="weui-cell__bd">
+				<input type="text" class="weui-input" placeholder="下单后卡密发送至此邮箱" name="email" id="email" />
 			</div>
 		</div>
 
 		<div class="weui-cell" id="pullDiv" style="display: none">
 			<div class="weui-cell__hd"><label class="weui-label">提取密码</label></div>
-			<div class="weui-cell__bd"><input class="weui-input" id="pullPwd" type="text" placeholder="本商品需要您请输入提取密码"></div>
+			<div class="weui-cell__bd"><input class="weui-input" id="pullPwd" show="0" type="text" placeholder="本商品需要您请输入提取密码"></div>
 		</div>
 
 	</div>
@@ -179,200 +186,270 @@
 
 </html>
 <script>
+    $(function () {
+        $(".weui-cells").css("background-color", "rgba(102, 102, 102, 0)")
+    });
     var list = null;
     var kcnumber = 0;
     var tid = $("#goodstype option:selected").val();
     getgoodslist(tid);
-    function jisuanprice(){
+
+    function jisuanprice() {
         var number = parseInt($("#number").val());
         var price = $("#goodsprice").text();
-        var allprice = (price*number).toFixed(2);
+        var allprice = (price * number).toFixed(2);
         $("#allmoney").text(allprice);
     }
-    function paytype(e,type,typefs){
+
+    function paytype(e, type, typefs) {
         $("#type").val(type);
         $("#typefs").val(typefs);
         jisuanprice();
     }
-    function checknumber(){
+
+    function checknumber() {
         var num = $("#number").val();
-        if(parseInt(num) > kcnumber){
+        if (parseInt(num) > kcnumber) {
             $("#number").val(kcnumber);
         }
-        if(parseInt(num) <1){
+        if (parseInt(num) < 1) {
             $("#number").val(1);
         }
         jisuanprice();
     }
+
+    function changeEmail() {
+        if ($("#sendEmail").val() == '1') {
+            $("#sendEmailDiv").show();
+        } else {
+            $("#sendEmailDiv").hide();
+        }
+    }
+
+    function changePhone() {
+        if ($("#sendMsg").val() == '1') {
+            layer.open({
+                content: '请保证联系方式为手机号！'
+                , skin: 'msg'
+                , time: 3
+            });
+        }
+    }
+
     //获取商品
-    function getgoodslist(cid){
-        var ii =  layer.open({type: 2,content: '加载中' });
+    function getgoodslist(cid) {
+        var ii = layer.open({type: 2, content: '加载中'});
         $.ajax({
-            type : "POST",
-            url : "/goods/getByCondition",
-            data : {"cid":cid},
-            dataType : 'json',
+            type: "POST",
+            url: "/goods/getByCondition",
+            data: {"cid": cid},
+            dataType: 'json',
             async: false,
-            success : function(data) {
-                debugger
+            success: function (data) {
                 layer.close(ii);
-                if(data.code == 100){
-                    if(data.data.length > 0){
+                if (data.code == 100) {
+                    if (data.data.length > 0) {
                         list = data.data;
                         var option = "";
-                        for(var i=0;i<list.length;i++){
+                        for (var i = 0; i < list.length; i++) {
                             var goods = list[i];
-                            option = option + "<option value='"+goods.id+"' "+(option==""?"selected":"")+">"+goods.name+"</option>";
+                            option = option + "<option value='" + goods.id + "' " + (option == "" ? "selected" : "") + ">" + goods.name + "</option>";
                         }
                         $("#goodsshow").html(option);
                         getgoodsmsg();
-                    }else{
+                    } else {
                         $("#goodsshow").html("<option value='-1'>无商品</option>");
                         $("#goodsinfo ").html("");
                         $("#goodsprice").text("0");
                         $("#goodskc").text(0);
-                        kcnumber=0;
+                        kcnumber = 0;
 
                         layer.open({
                             content: '当前分类下面暂时没有商品'
-                            ,skin: 'msg'
-                            ,time: 2
+                            , skin: 'msg'
+                            , time: 2
                         });
                     }
-                }else{
+                } else {
                     list = null;
                     layer.msg(data.msg);
                     return false;
                 }
             },
-            error:function(data){
+            error: function (data) {
                 layer.close(ii);
                 list = null;
                 layer.open({
                     content: '系统错误'
-                    ,skin: 'msg'
-                    ,time: 2
+                    , skin: 'msg'
+                    , time: 2
                 });
                 return false;
             }
         })
     }
+
     //获取商品详细参数
-    function getgoodsmsg(){
-        kcnumber=0;
+    function getgoodsmsg() {
+        kcnumber = 0;
         var gid = $("#goodsshow option:selected").val();
-        for(var i=0;i<list.length;i++){
+        for (var i = 0; i < list.length; i++) {
             var goods = list[i];
-            if(goods.id != gid)    continue;
-            if(goods.id == gid){
-                $("#goodsimg").attr("src",goods.img);
+            if (goods.id != gid) continue;
+            if (goods.id == gid) {
+                $("#goodsimg").attr("src", goods.img);
                 $("#goodsinfo ").html(goods.goodsDesc);
                 $("#goodsprice").text(goods.price);
                 $("#goodskc").text(goods.kmCount);
+                $("#pullPwd").attr("show", goods.needPwd == true ? '1' : '0')
                 kcnumber = goods.kmCount;
                 $("#number").val(1);
-                if(goods.needPwd)
+                if (goods.needPwd)
                     $("#pullDiv").show();
-				else
+                else
                     $("#pullDiv").hide();
                 jisuanprice();
             }
         }
     }
-    function submit_pay(){
-        var timestamp =Date.parse(new Date());
-        var rand = Math.floor(Math.random()*(99999-99+1)+99);
-        var tradeno =  timestamp+""+rand;
+
+    function submit_pay() {
+        var timestamp = Date.parse(new Date());
+        var rand = Math.floor(Math.random() * (99999 - 99 + 1) + 99);
+        var tradeno = timestamp + "" + rand;
         var gid = $("#goodsshow option:selected").val();
         var gname = $("#goodsshow option:selected").text();
         var price = $("#goodsprice").text();
         var goodskc = parseInt($("#goodskc").text());
         var number = parseInt($("#number").val());
-        var qq = $("#qq").val();
-        var type = $("#type").val();//付款方式
-        var typefs = $("#typefs").val();//付款方式2
+        var qq = $("#paypass").val();
+        var type = $("#type").val();
+        var typefs = $("#typefs").val();
         var paypass = $("#paypass").val();
         var coupon = $("#coupon").val();
         var phone = $("#phone").val();
-        var allprice = (price*number).toFixed(2);
-        if(qq=="" || isNaN(qq) || qq.length <5){
+        var issendmsg = $("#sendMsg").val();
+        var issendemail = $("#sendEmail").val();
+        var email = $("#email").val();
+        var allprice = (price * number).toFixed(2);
+        var pullPwd = $("#pullPwd");
+        if (qq == "") {
             layer.open({
-                content: '联系QQ不能为空',
+                content: '联系方式不能为空',
                 btn: '我知道了'
             });
             return;
         }
-        if(gid <= 0){
+        if (qq.length < 5) {
+            layer.open({
+                content: '联系方式至少大于5位',
+                btn: '我知道了'
+            });
+            return;
+        }
+        if (isNaN(qq)) {
+            layer.open({
+                content: '联系方式必须为数字',
+                btn: '我知道了'
+            });
+            return;
+        }
+        if (pullPwd.attr("show") == '1' && pullPwd.val() == '') {
+            layer.open({
+                content: '提取密码不可为空',
+                btn: '我知道了'
+            });
+            return;
+        }
+        if (gid <= 0) {
             layer.open({
                 content: '该商品无法下单',
                 btn: '我知道了'
             });
             return;
         }
-        if(goodskc < 1 || number > goodskc || kcnumber!=goodskc){
+        if (goodskc < 1 || number > goodskc || kcnumber != goodskc) {
             layer.open({
                 content: '商品库存不足,无法购买',
                 btn: '我知道了'
             });
             return;
         }
-        if(typefs==""||type==""||typefs == undefined || type == undefined || typefs=="undefined" || type == "undefined"){
+        if (typefs == "" || type == "" || typefs == undefined || type == undefined || typefs == "undefined" || type == "undefined") {
             layer.open({
                 content: '请选择您的支付方式',
                 btn: '我知道了'
-            }); return;
+            });
+            return;
         }
-        var ii =  layer.open({type: 2,content: '加载中' });
+        var ii = layer.open({type: 2, content: '加载中'});
         $.ajax({
-            type : "POST",
-            url : "ajax.php?act=createorder&r="+Date.parse(new Date()),
-            data : {"tradeno":tradeno,"gid":gid,"allprice":allprice,"price":price,"qq":qq,"type":type,"number":number,"paypass":paypass,"coupon":coupon,"phone":phone},
-            dataType : 'json',
-            success : function(data) {
+            type: "POST",
+            url: "/order/createOrder",
+            data: {
+                "tradeno": tradeno,
+                "gid": gid,
+                "price": price,
+                "qq": qq,
+                "payType": type,
+                "number": number,
+                "userContact": paypass,
+                "coupon": coupon,
+                "phone": phone,
+				"isSendMsg": issendmsg,
+				"isSendEmail": issendemail,
+				"email": email,
+				"pullPwd": pullPwd.val()
+            },
+            dataType: 'json',
+            success: function (data) {
                 layer.close(ii);
-                if(data.code == 1){
-                    if(data.psm!=""){
-                        allprice = data.allprice+"￥<font style='color:Red'>("+data.psm+")</font>";
-                    }else{
-                        allprice = data.allprice+"￥";
-                    }
+                if (data.code == 100) {
+                    data = data.data
+                    var payType = data.payType;
+                    if(payType == 'wxpay')
+                        payType = '微信支付'
+                    if(payType == 'alipay')
+                        payType = '支付宝支付'
+                    if(payType == 'qqpay')
+                        payType = 'QQ支付'
+					var coupon = '';
+                    if(data.coupon != ''){
+                        coupon = "'<br>优惠券折扣：' + data.coupon + '%'";
+					}
                     var html = "<span style='color:#000;display: inline-block;text-align: left'>"
-                        +"订单编号："+tradeno
-                        +"<br>商品名称："+gname
-                        +"<br>商品单价："+price+"￥"
-                        +"<br>购买数量："+number
-                        +"<br>联系QQ："+qq
-                        +"<br>支付方式："+typefs
-                        +"<br>应付款：<font style='font-size:18px' color=red>"+allprice+"</font>"
-                        +"</span>";
-
-                    document.cookie="tradeno="+data.tradeno;
-                    document.cookie="paypass="+paypass;
+                        + "订单编号：" + data.id
+                        + "<br>商品名称：" + data.goodsName
+                        + "<br>商品单价：" + data.price + "￥"
+                        +  coupon
+                        + "<br>购买数量：" + data.number
+                        + "<br>联系方式：" + data.userContact
+                        + "<br>支付方式：" + payType
+                        + "<br>应付款：<font style='font-size:18px' color=red>" + data.allPrice + "</font>￥"
+                        + "</span>";
                     layer.open({
-                        title:"请核对订单信息",
+                        title: "请核对订单信息",
                         content: html
-                        ,btn: ['立即付款', '暂不付款']
-                        ,yes: function(index){
-                            window.location.href='./other/submit.php?paynumber='+data.md5_tradeno;
+                        , btn: ['立即付款', '暂不付款']
+                        , yes: function (index) {
+                            window.location.href = '/order/pay/'+data.id;
                         }
                     });
-
-                }else{
-
+                } else {
                     layer.open({
                         content: data.msg
-                        ,skin: 'msg'
-                        ,time: 2
+                        , skin: 'msg'
+                        , time: 2
                     });
                     return false;
                 }
             },
-            error:function(data){
+            error: function (data) {
                 layer.close(ii);
                 layer.open({
                     content: '系统错误'
-                    ,skin: 'msg'
-                    ,time: 2
+                    , skin: 'msg'
+                    , time: 2
                 });
                 return false;
             }

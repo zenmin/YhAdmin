@@ -58,9 +58,6 @@ public class OrdersNativeRepository {
             String userContact = orders.getUserContact();
             if (StringUtils.isNotBlank(userContact))
                 params.append(" and o.userContact like '%" + userContact + "%'");
-            Integer phone = orders.getPhone();
-            if (phone != null)
-                params.append(" and o.phone = '" + phone + "'");
             String cardPwds = orders.getCardPwds();
             if (StringUtils.isNotBlank(cardPwds))
                 params.append(" and o.cardPwds like '%" + cardPwds + "%'");
@@ -89,9 +86,9 @@ public class OrdersNativeRepository {
      * 5、七日成功订单和总价
      */
     public IndexInfoVo getIndexInfo(){
-        String indexSql = "SELECT count( DISTINCT ( ip ) ) AS orderUsers, ( SELECT count( 1 ) FROM cardpassword WHERE STATUS = 0 ) AS cardPwds, ( SELECT IFNULL( ROUND( sum( allPrice ), 2 ), 0 ) from orders WHERE date( createDate ) = CURRENT_DATE ) AS nowPrice, ( SELECT count(1) from orders WHERE date( createDate ) = CURRENT_DATE ) AS orderNum FROM orders";
+        String indexSql = "SELECT count( DISTINCT ( ip ) ) AS orderUsers, ( SELECT count( 1 ) FROM cardpassword WHERE STATUS = 0 ) AS cardPwds, ( SELECT IFNULL( ROUND( sum( allPrice ), 2 ), 0 ) FROM orders WHERE date( createDate ) = CURRENT_DATE and `status` = 1) AS nowPrice, ( SELECT count( 1 ) FROM orders WHERE date( createDate ) = CURRENT_DATE ) AS orderNum FROM orders";
         IndexInfoVo indexInfoVo = jdbcTemplate.queryForObject(indexSql, new BeanPropertyRowMapper<>(IndexInfoVo.class));
-        String sevenOrdersSql = String.format("SELECT count(1) as num,IFNULL( ROUND( sum( allPrice ), 2 ), 0 ) as price,date(createDate) as date from orders GROUP BY date order by date asc limit 7");
+        String sevenOrdersSql = String.format("SELECT count( 1 ) AS num, ( SELECT IFNULL( ROUND( sum( allPrice ), 2 ), 0 ) from orders WHERE `status` = 1 ) AS price, date( createDate ) AS date FROM orders GROUP BY date ORDER BY date ASC LIMIT 7");
         List<Map<String, Object>> hashMaps = jdbcTemplate.queryForList(sevenOrdersSql);
         indexInfoVo.setSevenOrders(hashMaps);
         return indexInfoVo;

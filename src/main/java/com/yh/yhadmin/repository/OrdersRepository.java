@@ -10,4 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Company
  */
 public interface OrdersRepository extends JpaRepository<Orders,String>{
+
+    Orders findByOrderNo(String orderNo);
+
 }

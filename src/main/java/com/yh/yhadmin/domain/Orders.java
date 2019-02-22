@@ -26,14 +26,14 @@ public class Orders extends Model {
     @Column
     private String orderNo;
 
-    @Column(columnDefinition = "int(10) default 0 COMMENT '1已完成 0未完成'")
+    @Column(columnDefinition = "int(11) default 0 COMMENT '1已完成 0未完成'")
     private Integer status;
 
     @Column
     private String goodsId;
 
     @Column
-    private Integer price;
+    private Double price;
 
     @Column
     private Double allPrice;
@@ -44,11 +44,14 @@ public class Orders extends Model {
     @Column
     private String payWay;
 
-    @Column(columnDefinition = "int(10) default 0 COMMENT '1已付款 0待支付 2支付超时'")
+    @Column(columnDefinition = "int(11) default 0 COMMENT '1已付款 0待支付 2支付超时'")
     private Integer payStatus;
 
     @Column
     private Double payPrice;
+
+    @Column
+    private String payId;
 
     @Column
     private String couponNo;
@@ -59,8 +62,14 @@ public class Orders extends Model {
     @Column
     private String userContact;
 
+    @Column(columnDefinition = "int(11) default 0 COMMENT '是否发送短信1发送 0不发送'")
+    private Integer isSendMsg;
+
+    @Column(columnDefinition = "int(11) default 0 COMMENT '是否发送邮件1发送 0不发送'")
+    private Integer isSendEmail;
+
     @Column
-    private Integer phone;
+    private String email;
 
     @Column(length = 2000)
     private String cardPwds;
@@ -78,4 +87,24 @@ public class Orders extends Model {
     @Transient
     private String endTime;
 
+    public Orders(String orderNo, Integer status, String goodsId, Double price, Double allPrice, Integer num, String payWay, Integer payStatus, String couponNo, String ip, String userContact, Integer isSendMsg, Integer isSendEmail, String email, Date lastModifyDate) {
+        this.orderNo = orderNo;
+        this.status = status;
+        this.goodsId = goodsId;
+        this.price = price;
+        this.allPrice = allPrice;
+        this.num = num;
+        this.payWay = payWay;
+        this.payStatus = payStatus;
+        this.couponNo = couponNo;
+        this.ip = ip;
+        this.userContact = userContact;
+        this.isSendMsg = isSendMsg;
+        this.isSendEmail = isSendEmail;
+        this.email = email;
+        this.lastModifyDate = lastModifyDate;
+    }
+
+    public Orders() {
+    }
 }

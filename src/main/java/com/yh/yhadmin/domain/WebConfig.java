@@ -20,6 +20,12 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 public class WebConfig extends Model {
 
+    @Column(columnDefinition = "int(11) default 1 COMMENT '网站状态 默认开启'")
+    private Integer webStatus;
+
+    @Column(columnDefinition = "varchar(20) COMMENT '网站域名 支付用'")
+    private String webUrl;
+
     @Column(columnDefinition = "varchar(255) COMMENT '主标题'")
     private String mainTitle;
 

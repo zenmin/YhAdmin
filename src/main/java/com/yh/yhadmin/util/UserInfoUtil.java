@@ -1,5 +1,6 @@
 package com.yh.yhadmin.util;
 
+import com.yh.yhadmin.domain.vo.AdminUserVo;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
@@ -28,7 +29,7 @@ public class UserInfoUtil {
      * @param userInfo
      * @return 添加用户登录信息
      */
-    public Object addSession(String token,Object userInfo){
+    public Object addSession(String token,AdminUserVo userInfo){
         Cache userinfo = cacheManager.getCache(CommonConstant.CAHE_NAME);
         userinfo.put(token,userInfo);
         return userInfo;
@@ -47,13 +48,14 @@ public class UserInfoUtil {
      * @param token
      * @return 从缓存中获取用户信息
      */
-    public Object getUserInfo(String token){
+    public AdminUserVo getUserInfo(String token){
         Cache userinfo = cacheManager.getCache(CommonConstant.CAHE_NAME);
         Cache.ValueWrapper valueWrapper = userinfo.get(token);
         if(valueWrapper == null)
             throw new CommonException(DefinedCode.NOTAUTH,"登录超时，请重新登录！");
         Object o = valueWrapper.get();
-        return o;
+        AdminUserVo adminUserVo = (AdminUserVo) o;
+        return adminUserVo;
     }
 
 

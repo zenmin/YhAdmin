@@ -74,7 +74,7 @@ public class InterfaceConfigServiceImpl implements InterfaceConfigService {
         }
         //5 首页风格
         if (typeCode.equals(CommonConstant.InterfaceConfig.INDEX_STYLE.getValue())) {
-            return StringUtils.isNotBlank(i.getIndex_style()) ? i.getIndex_style() : CommonConstant.DEFAULT_TEMPLETE;
+            return StringUtils.isNotBlank(i.getIndex_style()) ? i.getIndex_style() : CommonConstant.DEFAULT_TEMP_STATIC_PATH;
         }
         throw new CommonException(DefinedCode.PARAMS_ERROR, "该类型不存在");
     }

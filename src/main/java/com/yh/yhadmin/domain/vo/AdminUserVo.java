@@ -13,6 +13,8 @@ import java.util.List;
 @Data
 public class AdminUserVo {
 
+    private String id;
+
     private String avatar = "/src/icons/f778738c-e4f8-4870-b634-56703b4acafe.gif";
 
     private List<String> roles = Lists.newArrayList("admin");
@@ -27,7 +29,8 @@ public class AdminUserVo {
 
     private Integer status;
 
-    public AdminUserVo(String name, String token, String phone, String qq, Integer status) {
+    public AdminUserVo(String id,String name, String token, String phone, String qq, Integer status) {
+        this.id = id;
         this.name = name;
         this.token = token;
         this.phone = phone;
