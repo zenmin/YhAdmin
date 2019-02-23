@@ -33,9 +33,13 @@ public class RequestInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws JsonProcessingException {
         String token = request.getHeader("token");
-
         if(StringUtils.isBlank(token)){
             throw new CommonException(DefinedCode.NOTAUTH,"登陆超时，请重新登录！");
+        }
+        // 程序验证
+        boolean b = userInfoUtil.checkAuth(null);
+        if(!b){
+            return false;
         }
         // cacheManager验证用户登录与否
         userInfoUtil.getUserInfo(token);

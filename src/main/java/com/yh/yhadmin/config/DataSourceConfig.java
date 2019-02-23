@@ -14,7 +14,6 @@ import javax.sql.DataSource;
  * @Date 2019/1/17 21:48
  */
 @Configuration
-@PropertySource("classpath:db.properties")
 public class DataSourceConfig {
 
     @Autowired

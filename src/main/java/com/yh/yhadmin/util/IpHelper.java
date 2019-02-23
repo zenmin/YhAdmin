@@ -59,20 +59,25 @@ public class IpHelper {
      * @return mac地址
      * @throws Exception
      */
-    public static String getLocalMacAddr() throws Exception {
-        InetAddress inetAddress = InetAddress.getLocalHost();
-        byte[] mac = NetworkInterface.getByInetAddress(inetAddress).getHardwareAddress();
-        //下面代码是把mac地址拼装成String
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < mac.length; i++) {
-            if (i != 0) {
-                sb.append("-");
+    public static String getLocalMacAddr() {
+        try {
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            byte[] mac = NetworkInterface.getByInetAddress(inetAddress).getHardwareAddress();
+            //下面代码是把mac地址拼装成String
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < mac.length; i++) {
+                if (i != 0) {
+                    sb.append("-");
+                }
+                //mac[i] & 0xFF 是为了把byte转化为正整数
+                String s = Integer.toHexString(mac[i] & 0xFF);
+                sb.append(s.length() == 1 ? 0 + s : s);
             }
-            //mac[i] & 0xFF 是为了把byte转化为正整数
-            String s = Integer.toHexString(mac[i] & 0xFF);
-            sb.append(s.length() == 1 ? 0 + s : s);
+            return sb.toString().trim().toUpperCase()+"|";
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
-        return sb.toString().trim().toUpperCase();
     }
 
     /**

@@ -2,36 +2,20 @@ package com.yh.yhadmin.controller.portal;
 
 import com.yh.yhadmin.domain.Category;
 import com.yh.yhadmin.domain.Goods;
-import com.yh.yhadmin.domain.Orders;
 import com.yh.yhadmin.domain.WebConfig;
 import com.yh.yhadmin.domain.vo.GoodsVoHome;
-import com.yh.yhadmin.domain.vo.OrderVo;
-import com.yh.yhadmin.domain.vo.PayConfigVo;
 import com.yh.yhadmin.foundation.ResponseEntity;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.service.*;
-import com.yh.yhadmin.util.HttpClientUtil;
-import com.yh.yhadmin.util.IpHelper;
 import com.yh.yhadmin.util.StaticUtil;
-import org.apache.commons.lang.StringUtils;
+import com.yh.yhadmin.util.UserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Describle This Class Is 全局Controller 发卡首页
@@ -62,14 +46,23 @@ public class HomeController {
     @Autowired
     RestTemplate restTemplate;
 
-    @RequestMapping("/zadmin")
-    public String toAdmin(){
-        return "admin";
-    }
+    @Value("${system.auth}")
+    String authCode;
+
+    @Autowired
+    UserInfoUtil userInfoUtil;
 
     @RequestMapping({"/", "index", "index.html", "index.php", "index.jsp"})
     public String toHome(Model model){
+        // 验证授权
+        if(!userInfoUtil.checkAuth(authCode)){
+            model.addAttribute("templates/error","你的程序尚未授权，请联系卖家授权！你的授权码为：" + StaticUtil.compCode());
+            return "errorPage";
+        }
         WebConfig webConfig = webConfigService.findAll();
+        // 检查网站状态
+        if(webConfig.getWebStatus() == CommonConstant.STATUS_ERROR)
+            return "redirect:http://baidu.com";
         // 全局配置
         model.addAttribute("config",webConfig);
         // 支付接口开关
@@ -117,6 +110,20 @@ public class HomeController {
     public ResponseEntity getByConditionGoods(Goods goods){
         List<GoodsVoHome> byCondition = goodsService.findByConditionHome(goods);
         return ResponseEntity.success(byCondition);
+    }
+
+    /**
+     * @return
+     * 后台管理首页
+     */
+    @RequestMapping("/zadmin")
+    public String toAdmin(Model model){
+        // 验证授权
+        if(!userInfoUtil.checkAuth(authCode)){
+            model.addAttribute("templates/error","你的程序尚未授权，请联系卖家授权！你的授权码为：" + StaticUtil.compCode());
+            return "errorPage";
+        }
+        return "admin";
     }
 
 }

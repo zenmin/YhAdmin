@@ -87,21 +87,21 @@ public class OrderController {
         // 验证订单编号
         boolean b = StaticUtil.checkNum(orderNo);
         if (!b) {
-            model.addAttribute("error", "参数异常，已记录IP，请勿触碰法律红线！");
-            return "index";
+            model.addAttribute("templates/error", "参数异常，已记录IP，请勿触碰法律红线！");
+            return "errorPage";
         }
         Orders orders = ordersService.findByOrderNo(orderNo);
         if (orders == null) {
-            model.addAttribute("error", "订单有误！");
-            return "index";
+            model.addAttribute("templates/error", "订单有误！");
+            return "errorPage";
         }
         if (orders.getStatus() == CommonConstant.STATUS_OK) {
-            model.addAttribute("error", "订单已完成！");
-            return "index";
+            model.addAttribute("templates/error", "订单已完成！");
+            return "errorPage";
         }
         if (orders.getPayStatus() == 2) {
-            model.addAttribute("error", "支付超时，请重新下单！");
-            return "index";
+            model.addAttribute("templates/error", "支付超时，请重新下单！");
+            return "errorPage";
         }
 
         /**
@@ -121,7 +121,7 @@ public class OrderController {
 
         String notify_url = "http://" + webConfig.getWebUrl() + "/order/callback";//通知地址
 
-        String return_url = "http://" + webConfig.getWebUrl() + "/order/query/" + orders.getOrderNo();//支付后同步跳转地址
+        String return_url = "http://" + webConfig.getWebUrl() + "/order/query/callback/" + orders.getOrderNo();//支付后同步跳转地址
 
         if (StringUtils.isBlank(price)) {
             price = "1";
@@ -146,7 +146,7 @@ public class OrderController {
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("error", "支付接口异常，请稍后再试！");
+            model.addAttribute("templates/error", "支付接口异常，请稍后再试！");
             return "index";
         }
         return null;
@@ -231,8 +231,8 @@ public class OrderController {
         if (StringUtils.isNotBlank(orderNo)) {
             boolean b = StaticUtil.checkNum(orderNo);
             if (!b) {
-                model.addAttribute("error", "你提交的参数异常，已记录IP，请勿触碰法律红线！");
-                return "index";
+                model.addAttribute("templates/error", "你提交的参数异常，已记录IP，请勿触碰法律红线！");
+                return "errorPage";
             }
         }
         WebConfig webConfig = webConfigService.findAll();
@@ -250,6 +250,15 @@ public class OrderController {
             model.addAttribute("order", null);
         }
         return byType + "query";
+    }
+
+    /**
+     * @param orderNo
+     * @return 回调跳转
+     */
+    @GetMapping("/order/query/callback/{orderNo}")
+    public String orderQueryCallBack(@PathVariable String orderNo) {
+        return "redirect:/order/query/"+orderNo;
     }
 
     @Async

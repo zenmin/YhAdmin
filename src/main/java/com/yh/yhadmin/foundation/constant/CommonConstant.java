@@ -20,6 +20,10 @@ public class CommonConstant {
 
     public static final String CAHE_NAME_ID = "YHADMIN_USERINFO_ID";
 
+    public static final String AUTH_KEY = "ZM666";
+
+    public static final String AUTH_KEY_CACHE = "YHADMIN_AUTH";
+
     public static final Integer STATUS_OK = 1; //启用
 
     public static final Integer STATUS_ERROR = 0; //禁用

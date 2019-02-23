@@ -6,11 +6,13 @@ import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableCaching
 @EnableAsync
+@PropertySource(value = {"classpath:config.properties", "file:config.properties"}, ignoreResourceNotFound = true)
 public class RunApplication {
 
     public static void main(String[] args) {

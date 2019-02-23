@@ -1,12 +1,11 @@
 package com.yh.yhadmin.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
+import com.yh.yhadmin.foundation.constant.CommonConstant;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
@@ -100,6 +99,11 @@ public class StaticUtil {
         return multiplicand == 0.0D && multiplier == 0.0D ? 0.0D : multiplier == 0.0D ? 1.0D : BigDecimal.valueOf(multiplicand).multiply(BigDecimal.valueOf(multiplier)).doubleValue();
     }
 
+    public static String compCode(){
+        String localMacAddr = IpHelper.getLocalMacAddr()+ CommonConstant.AUTH_KEY;
+        return String.valueOf(Math.abs(localMacAddr.hashCode()));
+
+    }
     /**
      * @param price 单价
      * @param num   数量
@@ -176,8 +180,18 @@ public class StaticUtil {
         return result;
     }
 
+    public static boolean checkAuth(String code) {
+        try {
+            String localMacAddr = IpHelper.getLocalMacAddr()+ CommonConstant.AUTH_KEY;
+            String s = StaticUtil.sha1512Hex(String.valueOf(Math.abs(localMacAddr.hashCode()))).toUpperCase();
+            return s.equals(code);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String args[]){
-        System.out.println(new Date().getTime());
     }
 
 }

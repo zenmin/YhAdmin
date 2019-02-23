@@ -5,6 +5,7 @@ import com.yh.yhadmin.domain.vo.AdminUserVo;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -73,6 +74,36 @@ public class UserInfoUtil {
             Object o = valueWrapper.get();
             AdminUserVo adminUser = (AdminUserVo) o;
             return adminUser;
+        }
+    }
+
+    // 检测授权
+    public boolean checkAuth(String code) {
+        Cache auth = cacheManager.getCache(CommonConstant.AUTH_KEY_CACHE);
+        Cache.ValueWrapper valueWrapper = auth.get(CommonConstant.AUTH_KEY_CACHE);
+        if (StringUtils.isBlank(code)) {
+            if (valueWrapper == null) {
+                return false;
+            } else {
+                Object o = valueWrapper.get();
+                Boolean b = (Boolean) o;
+                return b;
+            }
+        } else {
+            if (valueWrapper != null) {
+                Object o = valueWrapper.get();
+                Boolean b = (Boolean) o;
+                if (b) {
+                    return true;
+                }
+            }
+            boolean s = StaticUtil.checkAuth(code);
+            if (!s) {
+                return false;
+            } else {
+                auth.put(CommonConstant.AUTH_KEY_CACHE, true);
+                return true;
+            }
         }
     }
 
