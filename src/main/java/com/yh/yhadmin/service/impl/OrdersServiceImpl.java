@@ -19,7 +19,6 @@ import com.yh.yhadmin.service.CouponService;
 import com.yh.yhadmin.service.GoodsService;
 import com.yh.yhadmin.service.InterfaceConfigService;
 import com.yh.yhadmin.service.OrdersService;
-import com.yh.yhadmin.util.DateUtil;
 import com.yh.yhadmin.util.EmailUtil;
 import com.yh.yhadmin.util.StaticUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -145,7 +144,7 @@ public class OrdersServiceImpl implements OrdersService {
             double allPrice = StaticUtil.computePrice(goodsVoHome.getPrice(), number1, saleRate);
             // 生成订单
             String orderNo = StaticUtil.uniqueKeyByTime(new Date());
-            Orders orders = new Orders(orderNo, CommonConstant.STATUS_ERROR, goodsVoHome.getId(), goodsVoHome.getPrice(), allPrice, orderVo.getNumber(), orderVo.getPayType(), CommonConstant.STATUS_ERROR, orderVo.getCoupon(), orderVo.getIp(), orderVo.getUserContact(), orderVo.getIsSendMsg(), orderVo.getIsSendEmail(), orderVo.getEmail(), new Date());
+            Orders orders = new Orders(orderNo, CommonConstant.STATUS_ERROR, goodsVoHome.getId(), goodsVoHome.getPrice(), allPrice, orderVo.getNumber(), orderVo.getPayType(), CommonConstant.STATUS_ERROR, orderVo.getCoupon(), orderVo.getIp(), orderVo.getUserContact(), orderVo.getIsSendMsg(), orderVo.getIsSendEmail(), orderVo.getEmail(), new Date(),goodsVoHome.getName());
             Orders save = ordersRepository.save(orders);
             orderVo.setAllPrice(allPrice);
             orderVo.setId(orderNo);
@@ -155,21 +154,6 @@ public class OrdersServiceImpl implements OrdersService {
             couponService.checkCoupon(byCouponNO);
         } catch (Exception e) {
             e.printStackTrace();
-            // 订单生成失败  给超级管理员发送邮件
-            Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(CommonConstant.InterfaceConfig.MAIL_TYPE.getCode()));
-            MailVo mailVo = (MailVo) byType;
-            String contentMail = "订单生成失败 时间：" + DateUtil.getNowTime() + "，请分析参数，错误信息：" + e.getMessage() + " " + e.getStackTrace();
-            String params = " 参数：";
-            try {
-                params += StaticUtil.objectMapper.writeValueAsString(orderVo);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-            if (null == mailVo) {
-                log.error("未配置管理员邮箱，取消发送错误信息！");
-            } else {
-                emailUtil.sendMail("订单生成失败",mailVo.getMailAccount(), contentMail + params);
-            }
             throw new CommonException(DefinedCode.ERROR, "订单生成失败！");
         }
         return orderVo;
@@ -179,5 +163,20 @@ public class OrdersServiceImpl implements OrdersService {
     public Orders findByOrderNo(String orderNo) {
         Orders byOrderNo = ordersRepository.findByOrderNo(orderNo);
         return byOrderNo;
+    }
+
+    @Override
+    @Transactional
+    public Orders saveAll(Orders orders) {
+        return ordersRepository.save(orders);
+    }
+
+    /**
+     * @param orderNo
+     * @return 通过订单编号或联系方式查询
+     */
+    @Override
+    public Orders findByOrderNoOrUser(String orderNo,String ip) {
+        return ordersNativeRepository.findByOrderOrUser(orderNo,ip);
     }
 }

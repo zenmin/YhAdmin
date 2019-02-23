@@ -27,4 +27,8 @@ public interface OrdersService {
     OrderVo createOrder(OrderVo orderVo);
 
     Orders findByOrderNo(String orderNo);
+
+    Orders saveAll(Orders orders);
+
+    Orders findByOrderNoOrUser(String orderNo,String ip);
 }

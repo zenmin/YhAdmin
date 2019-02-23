@@ -16,4 +16,5 @@ public interface WebConfigService {
 
     WebConfig save(WebConfig webConfig);
 
+    void updateAdminEmail(String adminEmail);
 }

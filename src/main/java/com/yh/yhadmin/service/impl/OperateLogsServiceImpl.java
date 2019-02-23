@@ -26,9 +26,8 @@ public class OperateLogsServiceImpl implements OperateLogsService {
     @Async
     @Override
     @Transactional
-    public OperateLogs saveLogs(OperateLogs operateLogs) {
+    public void saveLogs(OperateLogs operateLogs) {
         OperateLogs save = operateLogsRepository.save(operateLogs);
-        return save;
     }
 
     @Override

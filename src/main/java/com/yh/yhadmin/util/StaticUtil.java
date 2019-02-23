@@ -1,17 +1,18 @@
 package com.yh.yhadmin.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @Describle This Class Is
@@ -118,7 +119,65 @@ public class StaticUtil {
         return v;
     }
 
+    /**
+     * 将url参数转换成map
+     *
+     * @param param aa=11&bb=22&cc=33
+     * @return
+     */
+    public static Map<String, Object> getUrlParams(String param) {
+        Map<String, Object> map = new HashMap<String, Object>(0);
+        if (StringUtils.isBlank(param)) {
+            return map;
+        }
+        String[] params = param.split("&");
+        for (int i = 0; i < params.length; i++) {
+            String[] p = params[i].split("=");
+            if (p.length == 2) {
+                map.put(p[0], p[1]);
+            }
+        }
+        return map;
+    }
+
+    /**
+     * 将map转换成url
+     *
+     * @param map
+     * @return
+     */
+    public static String getUrlParamsByMap(Map<String, Object> map) {
+        if (map == null) {
+            return "";
+        }
+        StringBuffer sb = new StringBuffer();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            sb.append(entry.getKey() + "=" + entry.getValue());
+            sb.append("&");
+        }
+        String s = sb.toString();
+        if (s.endsWith("&")) {
+            s = StringUtils.substringBeforeLast(s, "&");
+        }
+        return s;
+    }
+
+    public static boolean checkNum(String orderNo) {
+        return orderNo.matches("^[0-9]*$");
+    }
+
+    public static String joinQuota(List<String> list){
+        if(list.size() == 1){
+            return list.get(0);
+        }
+        final String[] temp = {""};
+        list.stream().forEach(s -> temp[0] += s + ",");
+        String result = temp[0].substring(0,temp[0].length()-1);
+        return result;
+    }
+
     public static void main(String args[]){
+        System.out.println(new Date().getTime());
     }
 
 }

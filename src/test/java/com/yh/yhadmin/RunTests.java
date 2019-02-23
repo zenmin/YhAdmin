@@ -1,22 +1,20 @@
 package com.yh.yhadmin;
 
 import com.yh.yhadmin.domain.CardPassword;
-import com.yh.yhadmin.domain.Coupon;
 import com.yh.yhadmin.domain.Goods;
 import com.yh.yhadmin.domain.query.Pager;
 import com.yh.yhadmin.repository.CardPasswordRepository;
 import com.yh.yhadmin.repository.CouponRepository;
 import com.yh.yhadmin.repository.GoodsRepository;
 import com.yh.yhadmin.service.CardPasswordService;
-import com.yh.yhadmin.util.DateUtil;
 import com.yh.yhadmin.util.StaticUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.text.NumberFormat;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RunTests {
@@ -72,9 +70,6 @@ public class RunTests {
 
     @Test
     public void test3() {
-       for (int i = 0;i<500;i++){
-           couponRepository.save(new Coupon(StaticUtil.uniqueKey(), 0, DateUtil.parseToDateMilis("2019-02-01 12:23:34"), null, null, "zm", 1, 80, "描述" + (char) i));
-       }
     }
 }
 

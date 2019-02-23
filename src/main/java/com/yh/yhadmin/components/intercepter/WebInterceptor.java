@@ -17,10 +17,17 @@ public class WebInterceptor extends WebMvcConfigurerAdapter {
         return new RequestInterceptor();
     }
 
+    @Bean
+    SqlInterceptor sqlInterceptor(){
+        return new SqlInterceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(requestInterceptor())
                 .addPathPatterns("/api/**").excludePathPatterns("/api/index/login","/api/index/logOut");
+
+        registry.addInterceptor(sqlInterceptor()).addPathPatterns("/order/**");
     }
 
     //注册JsonpFilter

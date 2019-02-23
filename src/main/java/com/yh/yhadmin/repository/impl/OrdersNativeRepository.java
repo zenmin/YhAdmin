@@ -111,4 +111,11 @@ public class OrdersNativeRepository {
         indexInfoVo.setFinishOrderAlias(maps1);
         return indexInfoVo;
     }
+
+    public Orders findByOrderOrUser(String orderNo,String ip) {
+        String sql = "select * from orders where ip = ? and ( orderNo = ? or userContact like ? ) order by lastModifyDate desc limit 1";
+        log.info(sql);
+        List<Orders> query = jdbcTemplate.query(sql,new Object[]{ip , orderNo, "%"+orderNo+"%"},new BeanPropertyRowMapper<>(Orders.class));
+        return query.size()>0 ? query.get(0) : null;
+    }
 }

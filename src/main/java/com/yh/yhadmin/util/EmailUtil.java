@@ -1,8 +1,10 @@
 package com.yh.yhadmin.util;
 
+import com.yh.yhadmin.domain.WebConfig;
 import com.yh.yhadmin.domain.vo.MailVo;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.service.InterfaceConfigService;
+import com.yh.yhadmin.service.WebConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class EmailUtil {
 
     @Autowired
     InterfaceConfigService interfaceConfigService;
+
+    @Autowired
+    WebConfigService webConfigService;
 
     @Async
     public void sendMail(String userTitle,String receiveUser, String content) {
@@ -71,5 +76,29 @@ public class EmailUtil {
 
     }
 
+    public void sendErrorToAdmin(String title, String params, String erorMessage) {
+        // 给超级管理员发送邮件
+        WebConfig all = webConfigService.findAll();
+        String adminEmail = all.getAdminEmail();
+        String contentMail = title + " 时间：" + DateUtil.getNowTime() + "，请分析参数，错误信息：" + erorMessage;
+        params = " 参数：" + params;
+        if (null == adminEmail) {
+            log.error("未配置管理员邮箱，取消发送错误信息！");
+        } else {
+            this.sendMail(title, adminEmail, contentMail + params + " \n <b>请将此信息发送给开发者协助解决！</b>");
+        }
+    }
+
+
+    public void sendMsgToAdmin(String title, String content) {
+        // 给超级管理员发送邮件
+        WebConfig all = webConfigService.findAll();
+        String adminEmail = all.getAdminEmail();
+        if (StringUtils.isBlank(adminEmail)) {
+            log.error("未配置管理员邮箱，取消发送信息！");
+        } else {
+            this.sendMail(title, adminEmail, content);
+        }
+    }
 
 }

@@ -18,6 +18,8 @@ public class CommonConstant {
 
     public static final String CAHE_NAME = "YHADMIN_USERINFO";
 
+    public static final String CAHE_NAME_ID = "YHADMIN_USERINFO_ID";
+
     public static final Integer STATUS_OK = 1; //启用
 
     public static final Integer STATUS_ERROR = 0; //禁用
@@ -40,7 +42,14 @@ public class CommonConstant {
     public static String PAY_WAAY_QQPAY = "qqpay";         //wx
     public static String PAY_WAAY_WXPAY = "wxpay";       //qq
 
+    public static int PAY_STATUS_OK = 1;       // 已支付
+    public static int PAY_STATUS_TIMEOUT = 2;       // 支付超时
+
+    // 接口类型
     public static List<String> ALL_INTERFACE_CONFIG = Lists.newArrayList("PHONE_TYPE","MAIL_TYPE","PAY_TYPE","PAY_SWITCH_TYPE","INDEX_STYLE");
+
+    // 短信发送的key
+    public static List<String> ALL_SENDSMS_CONFIG = Lists.newArrayList("code","orderNo");
 
     public static String PAY_TYPE_MAPAY = "MAPAY";  //支付方式  码支付
 

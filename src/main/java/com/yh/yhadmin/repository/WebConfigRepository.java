@@ -4,6 +4,7 @@ import com.yh.yhadmin.domain.WebConfig;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.scheduling.annotation.Async;
 
 import javax.transaction.Transactional;
 
@@ -14,7 +15,13 @@ import javax.transaction.Transactional;
  * @Company
  */
 public interface WebConfigRepository extends JpaRepository<WebConfig,String>{
+
     WebConfig findAllById(String id);
+
+    @Transactional
+    @Modifying
+    @Query("update WebConfig c set c.adminEmail = ?1 ")
+    int updateAdminEmail(String email);
 
     @Transactional
     @Modifying

@@ -2,6 +2,7 @@ package com.yh.yhadmin.repository;
 
 import com.yh.yhadmin.domain.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @Describle

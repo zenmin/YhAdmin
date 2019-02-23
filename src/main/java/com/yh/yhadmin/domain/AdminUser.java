@@ -48,6 +48,9 @@ public class AdminUser extends Model {
     @Column
     private String wx;
 
+    @Column
+    private String adminEmail;
+
     @Column(columnDefinition = "int(11) default 1 COMMENT '状态 1启用 2禁用'")
     private Integer status;
 

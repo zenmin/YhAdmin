@@ -12,12 +12,14 @@ public interface AdminUserService {
 
     Object findAll(Pager pager);
 
-    Object findByCondition(AdminUser coupon, Pager pager);
+    Object findByCondition(AdminUser adminUser, Pager pager);
 
-    Object save(AdminUser coupon);
+    Object save(AdminUser adminUser);
 
     boolean delete(String id);
 
     AdminUser findByUP(String u , String p);
+
+    void updateLoginTime(AdminUser adminUser);
 
 }

@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
  */
 public interface OperateLogsService {
 
-    OperateLogs saveLogs(OperateLogs operateLogs);
+    void saveLogs(OperateLogs operateLogs);
 
     Page findByOptDesc(String desc, Pager pager);
 

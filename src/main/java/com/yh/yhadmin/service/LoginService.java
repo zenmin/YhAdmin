@@ -1,5 +1,7 @@
 package com.yh.yhadmin.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Describle This Class Is
  * @Author ZengMin
@@ -7,9 +9,9 @@ package com.yh.yhadmin.service;
  */
 public interface LoginService {
 
-    Object login(String u,String p);
+    Object login(String u,String p,HttpServletRequest request);
 
     Object info(String token);
 
-    boolean loginOut(String token);
+    boolean loginOut(String token,HttpServletRequest request);
 }

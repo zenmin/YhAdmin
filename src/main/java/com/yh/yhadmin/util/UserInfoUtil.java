@@ -1,5 +1,6 @@
 package com.yh.yhadmin.util;
 
+import com.yh.yhadmin.domain.AdminUser;
 import com.yh.yhadmin.domain.vo.AdminUserVo;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
@@ -32,6 +33,8 @@ public class UserInfoUtil {
     public Object addSession(String token,AdminUserVo userInfo){
         Cache userinfo = cacheManager.getCache(CommonConstant.CAHE_NAME);
         userinfo.put(token,userInfo);
+        Cache userinfoId = cacheManager.getCache(CommonConstant.CAHE_NAME_ID);
+        userinfoId.put(userInfo.getId(),userInfo);
         return userInfo;
     }
 
@@ -39,9 +42,12 @@ public class UserInfoUtil {
      * @param token
      * @return 移除用户登录信息
      */
+    @Async
     public void removeSession(String token){
         Cache userinfo = cacheManager.getCache(token);
+        Cache userinfoId = cacheManager.getCache(CommonConstant.CAHE_NAME_ID);
         userinfo.put(token,null);
+        userinfoId.put(userinfo.get("id").get().toString(),null);
     }
 
     /**
@@ -58,5 +64,16 @@ public class UserInfoUtil {
         return adminUserVo;
     }
 
+    public Object getUserInfoByUserId(String id){
+        Cache userinfo = cacheManager.getCache(CommonConstant.CAHE_NAME_ID);
+        Cache.ValueWrapper valueWrapper = userinfo.get(id);
+        if(valueWrapper == null){
+            return null;
+        }else{
+            Object o = valueWrapper.get();
+            AdminUserVo adminUser = (AdminUserVo) o;
+            return adminUser;
+        }
+    }
 
 }

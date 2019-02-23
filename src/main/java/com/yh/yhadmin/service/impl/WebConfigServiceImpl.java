@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
@@ -41,5 +42,11 @@ public class WebConfigServiceImpl implements WebConfigService {
     public WebConfig save(WebConfig webConfig){
         webConfig.setId(CommonConstant.CONFIG_ID);
         return webConfigRepository.saveAndFlush(webConfig);
+    }
+
+    @Override
+    @Async
+    public void updateAdminEmail(String adminEmail) {
+        webConfigRepository.updateAdminEmail(adminEmail);
     }
 }

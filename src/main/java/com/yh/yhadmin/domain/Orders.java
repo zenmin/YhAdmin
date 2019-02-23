@@ -78,7 +78,7 @@ public class Orders extends Model {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastModifyDate;
 
-    @Transient
+    @Column
     private String goodsName;
 
     @Transient
@@ -87,7 +87,7 @@ public class Orders extends Model {
     @Transient
     private String endTime;
 
-    public Orders(String orderNo, Integer status, String goodsId, Double price, Double allPrice, Integer num, String payWay, Integer payStatus, String couponNo, String ip, String userContact, Integer isSendMsg, Integer isSendEmail, String email, Date lastModifyDate) {
+    public Orders(String orderNo, Integer status, String goodsId, Double price, Double allPrice, Integer num, String payWay, Integer payStatus, String couponNo, String ip, String userContact, Integer isSendMsg, Integer isSendEmail, String email, Date lastModifyDate,String goodsName) {
         this.orderNo = orderNo;
         this.status = status;
         this.goodsId = goodsId;
@@ -103,6 +103,7 @@ public class Orders extends Model {
         this.isSendEmail = isSendEmail;
         this.email = email;
         this.lastModifyDate = lastModifyDate;
+        this.goodsName = goodsName;
     }
 
     public Orders() {

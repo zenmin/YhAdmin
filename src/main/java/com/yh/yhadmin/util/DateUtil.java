@@ -526,12 +526,13 @@ public class DateUtil {
         return date;
     }
 
+    public static Date millisToDate(Long millis){
+        Date date = new Date();
+        date.setTime(millis);
+        return date;
+    }
+
     public static void main(String[] args) throws Exception {
-        String endDate = DateUtil.getNowDate();
-        String benginDate = "";
-        long l = DateUtil.plusDays(DateUtil.parseToDate(endDate).getTime(), -7);
-        benginDate = DateUtil.millisToDateTime(l,"yyyy-MM-dd");
-        System.out.println(benginDate);
     }
 
 }

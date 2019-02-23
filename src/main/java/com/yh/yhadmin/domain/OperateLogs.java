@@ -37,4 +37,14 @@ public class OperateLogs extends Model {
     @Column(columnDefinition = "TEXT COMMENT '请求参数'")
     private String optParams;
 
+    public OperateLogs(String optName, String optUser, String optUserId, String optIp, String optDesc) {
+        this.optName = optName;
+        this.optUser = optUser;
+        this.optUserId = optUserId;
+        this.optIp = optIp;
+        this.optDesc = optDesc;
+    }
+
+    public OperateLogs() {
+    }
 }

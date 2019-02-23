@@ -1,15 +1,20 @@
 package com.yh.yhadmin.service.impl;
 
 import com.yh.yhadmin.domain.AdminUser;
+import com.yh.yhadmin.domain.WebConfig;
 import com.yh.yhadmin.domain.query.Pager;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
+import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.repository.AdminUserRepository;
+import com.yh.yhadmin.repository.WebConfigRepository;
 import com.yh.yhadmin.service.AdminUserService;
+import com.yh.yhadmin.service.WebConfigService;
 import com.yh.yhadmin.util.StaticUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,6 +27,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Autowired
     AdminUserRepository adminUserRepository;
+
+    @Autowired
+    WebConfigService webConfigService;
 
     @Override
     public Object findAll(Pager pager) {
@@ -65,6 +73,10 @@ public class AdminUserServiceImpl implements AdminUserService {
             }
         }
         AdminUser saved = adminUserRepository.saveAndFlush(adminUser);
+        if(saved.getIsAdministrator() == CommonConstant.STATUS_OK){
+            String adminEmail = saved.getAdminEmail();
+            webConfigService.updateAdminEmail(adminEmail);
+        }
         adminUser.setPassWord(null);
         return saved;
     }
@@ -83,5 +95,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public AdminUser findByUP(String u, String p) {
         return adminUserRepository.findByUserNameAndPassWord(u,StaticUtil.md5Hex(p));
+    }
+
+    @Override
+    @Async
+    public void updateLoginTime(AdminUser adminUser) {
+        adminUserRepository.saveAndFlush(adminUser);
     }
 }

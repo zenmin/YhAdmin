@@ -50,6 +50,9 @@ public class WebConfig extends Model {
     @Column(columnDefinition = "int(1) default 1 COMMENT '是否显示库存'")
     private Integer showStock;
 
+    @Column(columnDefinition = "int(11) default 10 COMMENT '库存低于多少时邮件提醒'")
+    private Integer kmNotice;
+
     @Column(columnDefinition = "varchar(255) COMMENT '模板路径'")
     private String wbeStyle;
 
@@ -58,6 +61,9 @@ public class WebConfig extends Model {
 
     @Column(columnDefinition = "varchar(255) COMMENT '网站背景图'")
     private String bgImg;
+
+    @Column(columnDefinition = "varchar(255) COMMENT '超级管理员邮箱'")
+    private String adminEmail;
 
     public WebConfig(String id) {
         super.setId(id);

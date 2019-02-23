@@ -13,6 +13,7 @@ import com.yh.yhadmin.service.CardPasswordService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,9 +35,9 @@ public class CardPasswordServiceImpl implements CardPasswordService {
     CardPasswordNativeRepository cardPasswordNativeRepository;
 
     @Override
-    public List<CardPassword> findByStatusIsFalse(Pager pager) {
-        Pageable pageable = new PageRequest(pager.getStart(), pager.getSize(), Sort.Direction.ASC, "goodsId");
-        return cardPasswordRepository.findByStatusIsFalse(pageable);
+    public Page<CardPassword> findByStatusIsFalseAndGoodsId(String goodsId,Pager pager) {
+        Pageable pageable = new PageRequest(pager.getStart(), pager.getSize(), Sort.Direction.ASC, "createDate");
+        return cardPasswordRepository.findByStatusIsFalseAndGoodsId(goodsId,pageable);
     }
 
     @Override
@@ -88,6 +89,14 @@ public class CardPasswordServiceImpl implements CardPasswordService {
             throw new CommonException(DefinedCode.PARAMS_ERROR, "参数异常！");
         }
         return true;
+    }
+
+    @Override
+    @Transactional
+    @HandlerMethod(optName = "卡密管理",optDesc = "卡密售出 系统更新卡密信息")
+    @Async
+    public void saveAll(List<CardPassword> cardPasswords) {
+        cardPasswordRepository.saveAll(cardPasswords);
     }
 
 }

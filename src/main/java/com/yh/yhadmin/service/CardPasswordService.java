@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface CardPasswordService {
 
-    List<CardPassword> findByStatusIsFalse(Pager pageable);
+    Page<CardPassword> findByStatusIsFalseAndGoodsId(String goodsId,Pager pageable);
 
     Page<CardPassword> findAll(Pager pager);
 
@@ -23,4 +23,7 @@ public interface CardPasswordService {
     Page<CardPassword> findByCondition(CardPassword cardPassword,Pager pager);
 
     boolean deleteBatch(Integer type);
+
+    void saveAll(List<CardPassword> cardPasswords);
+
 }

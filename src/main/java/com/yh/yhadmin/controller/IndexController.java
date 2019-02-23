@@ -46,11 +46,11 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/login")
-    public Object login(String username, String password, String token) {
+    public Object login(String username, String password, String token,HttpServletRequest request) {
         if (StringUtils.isNotBlank(token)) {
             return loginService.info(token);
         } else {
-            return loginService.login(username, password);
+            return loginService.login(username, password,request);
         }
     }
 
@@ -60,8 +60,8 @@ public class IndexController {
     }
 
     @RequestMapping("/logOut")
-    public ResponseEntity loginOut(String token) {
-        return ResponseEntity.success(loginService.loginOut(token));
+    public ResponseEntity loginOut(String token,HttpServletRequest request) {
+        return ResponseEntity.success(loginService.loginOut(token,request));
     }
 
     /**

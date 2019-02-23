@@ -38,6 +38,8 @@ public class SmsUtil {
         //加载配置
         Object o = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.PHONE_TYPE.getValue());
         SmsVo smsVo = (SmsVo) o;
+        if(smsVo == null)
+            return false;
         ACCESS_KEY_ID = smsVo.getApp_id();
         ACCESS_KEY_SECRET = smsVo.getApp_key();
         signName = smsVo.getSmsSignName();
