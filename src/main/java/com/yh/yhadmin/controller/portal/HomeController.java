@@ -98,15 +98,15 @@ public class HomeController {
      * @param page
      * @return 到模板下的某个视图
      */
-    @RequestMapping("/webtemps/{temp}/{page}")
-    public String toPage(@PathVariable String temp, @PathVariable String page,Model model) {
-        WebConfig all = webConfigService.findAll();
-        model.addAttribute("config",all);
-        String style = interfaceConfigService.findByType(CommonConstant.ALL_INTERFACE_CONFIG.get(4)).toString();
-        model.addAttribute("tempPath",style.substring(0,style.lastIndexOf("/")));
-        model.addAttribute("tempDefaultPath",CommonConstant.DEFAULT_TEMP_STATIC_PATH);
-        return "/webtemps/" + temp + "/" + page;
-    }
+//    @RequestMapping("/webtemps/{temp}/{page}")
+//    public String toPage(@PathVariable String temp, @PathVariable String page,Model model) {
+//        WebConfig all = webConfigService.findAll();
+//        model.addAttribute("config",all);
+//        String style = interfaceConfigService.findByType(CommonConstant.ALL_INTERFACE_CONFIG.get(4)).toString();
+//        model.addAttribute("tempPath",style.substring(0,style.lastIndexOf("/")));
+//        model.addAttribute("tempDefaultPath",CommonConstant.DEFAULT_TEMP_STATIC_PATH);
+//        return "/webtemps/" + temp + "/" + page;
+//    }
 
     /**
      * @param goods
