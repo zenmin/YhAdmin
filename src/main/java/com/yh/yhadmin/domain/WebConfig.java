@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @Describle
@@ -64,6 +65,9 @@ public class WebConfig extends Model {
 
     @Column(columnDefinition = "varchar(255) COMMENT '超级管理员邮箱'")
     private String adminEmail;
+
+    @Transient
+    private String adminQQ;
 
     public WebConfig(String id) {
         super.setId(id);

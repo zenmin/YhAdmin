@@ -22,4 +22,6 @@ public interface AdminUserService {
 
     void updateLoginTime(AdminUser adminUser);
 
+    AdminUser findAdmin();
+
 }

@@ -1,5 +1,6 @@
 package com.yh.yhadmin.controller.portal;
 
+import com.yh.yhadmin.domain.AdminUser;
 import com.yh.yhadmin.domain.Category;
 import com.yh.yhadmin.domain.Goods;
 import com.yh.yhadmin.domain.WebConfig;
@@ -52,6 +53,9 @@ public class HomeController {
     @Autowired
     UserInfoUtil userInfoUtil;
 
+    @Autowired
+    AdminUserService adminUserService;
+
     @RequestMapping({"/", "index", "index.html", "index.php", "index.jsp"})
     public String toHome(Model model){
         // 验证授权
@@ -64,6 +68,8 @@ public class HomeController {
         if(webConfig.getWebStatus() == CommonConstant.STATUS_ERROR)
             return "redirect:http://baidu.com";
         // 全局配置
+        AdminUser admin = adminUserService.findAdmin();
+        webConfig.setAdminQQ(admin.getQq());
         model.addAttribute("config",webConfig);
         // 支付接口开关
         Object pay = interfaceConfigService.findByType(CommonConstant.ALL_INTERFACE_CONFIG.get(3));

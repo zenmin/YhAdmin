@@ -13,6 +13,9 @@ import com.yh.yhadmin.service.WebConfigService;
 import com.yh.yhadmin.util.StaticUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Service;
  * @Date 2019/2/19 18:46
  */
 @Service
+@CacheConfig(cacheNames = "AdminUserServiceImpl")
 public class AdminUserServiceImpl implements AdminUserService {
 
     @Autowired
@@ -51,6 +55,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public Object save(AdminUser adminUser) {
         //检查用户名是否存在
         AdminUser byUserName = adminUserRepository.findByUserName(adminUser.getUserName());
@@ -104,5 +109,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Async
     public void updateLoginTime(AdminUser adminUser) {
         adminUserRepository.saveAndFlush(adminUser);
+    }
+
+    @Override
+    @Cacheable
+    public AdminUser findAdmin() {
+        return adminUserRepository.findByIsAdministrator(1);
     }
 }
