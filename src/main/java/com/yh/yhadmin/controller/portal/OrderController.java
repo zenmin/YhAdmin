@@ -240,8 +240,8 @@ public class OrderController {
         model.addAttribute("config", webConfig);
         // 首页风格
         String style = interfaceConfigService.findByType(CommonConstant.ALL_INTERFACE_CONFIG.get(4)).toString();
-        model.addAttribute("tempPath", style.substring(0, style.lastIndexOf("/")));
-        model.addAttribute("tempDefaultPath", CommonConstant.DEFAULT_TEMP_STATIC_PATH);
+        model.addAttribute("tempPath", "/"+style.substring(0, style.lastIndexOf("/")));
+        model.addAttribute("tempDefaultPath", "/" + CommonConstant.DEFAULT_TEMP_STATIC_PATH);
         if (StringUtils.isNotBlank(orderNo)) {
             model.addAttribute("orderNo", orderNo);
             Orders byOrderNo = ordersService.findByOrderNoOrUser(orderNo,IpHelper.getRequestIpAddr(request));
