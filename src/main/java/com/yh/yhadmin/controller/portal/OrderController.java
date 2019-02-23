@@ -87,20 +87,20 @@ public class OrderController {
         // 验证订单编号
         boolean b = StaticUtil.checkNum(orderNo);
         if (!b) {
-            model.addAttribute("templates/error", "参数异常，已记录IP，请勿触碰法律红线！");
+            model.addAttribute("error", "参数异常，已记录IP，请勿触碰法律红线！");
             return "errorPage";
         }
         Orders orders = ordersService.findByOrderNo(orderNo);
         if (orders == null) {
-            model.addAttribute("templates/error", "订单有误！");
+            model.addAttribute("error", "订单有误！");
             return "errorPage";
         }
         if (orders.getStatus() == CommonConstant.STATUS_OK) {
-            model.addAttribute("templates/error", "订单已完成！");
+            model.addAttribute("error", "订单已完成！");
             return "errorPage";
         }
         if (orders.getPayStatus() == 2) {
-            model.addAttribute("templates/error", "支付超时，请重新下单！");
+            model.addAttribute("error", "支付超时，请重新下单！");
             return "errorPage";
         }
 
@@ -146,7 +146,7 @@ public class OrderController {
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("templates/error", "支付接口异常，请稍后再试！");
+            model.addAttribute("error", "支付接口异常，请稍后再试！");
             return "index";
         }
         return null;
@@ -231,7 +231,7 @@ public class OrderController {
         if (StringUtils.isNotBlank(orderNo)) {
             boolean b = StaticUtil.checkNum(orderNo);
             if (!b) {
-                model.addAttribute("templates/error", "你提交的参数异常，已记录IP，请勿触碰法律红线！");
+                model.addAttribute("error", "你提交的参数异常，已记录IP，请勿触碰法律红线！");
                 return "errorPage";
             }
         }

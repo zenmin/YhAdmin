@@ -56,7 +56,7 @@ public class HomeController {
     public String toHome(Model model){
         // 验证授权
         if(!userInfoUtil.checkAuth(authCode)){
-            model.addAttribute("templates/error","你的程序尚未授权，请联系卖家授权！你的授权码为：" + StaticUtil.compCode());
+            model.addAttribute("error","你的程序尚未授权，请联系卖家授权！你的授权码为：" + StaticUtil.compCode());
             return "errorPage";
         }
         WebConfig webConfig = webConfigService.findAll();
@@ -120,7 +120,7 @@ public class HomeController {
     public String toAdmin(Model model){
         // 验证授权
         if(!userInfoUtil.checkAuth(authCode)){
-            model.addAttribute("templates/error","你的程序尚未授权，请联系卖家授权！你的授权码为：" + StaticUtil.compCode());
+            model.addAttribute("error","你的程序尚未授权，请联系卖家授权！你的授权码为：" + StaticUtil.compCode());
             return "errorPage";
         }
         return "admin";
