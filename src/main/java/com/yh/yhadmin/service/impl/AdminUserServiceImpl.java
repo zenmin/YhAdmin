@@ -63,6 +63,9 @@ public class AdminUserServiceImpl implements AdminUserService {
             adminUser.setPassWord(StaticUtil.md5Hex(adminUser.getPassWord()));
         }else{
             //更新
+            if(byUserName.getIsAdministrator() == 1 && adminUser.getStatus() == 0){
+                throw new CommonException(DefinedCode.AUTHERROR,"禁止将超级管理员设置为禁用！");
+            }
             adminUser.setUserName(byUserName.getUserName());
             adminUser.setCreateDate(byUserName.getCreateDate());
             adminUser.setIsAdministrator(byUserName.getIsAdministrator());
