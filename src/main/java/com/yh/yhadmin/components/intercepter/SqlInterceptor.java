@@ -1,9 +1,12 @@
 package com.yh.yhadmin.components.intercepter;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
+import com.yh.yhadmin.util.UserInfoUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @Describle This Class Is 防止sql注入拦截器
@@ -12,8 +15,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SqlInterceptor implements HandlerInterceptor {
 
+    @Autowired
+    UserInfoUtil userInfoUtil;
+
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)  {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+        // 程序验证
+        boolean b = userInfoUtil.checkAuth(null);
+        if(!b){
+            response.sendRedirect("/");
+        }
         String inj_str = "'|and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare|;|or|-|+|,";
         String requestURI = request.getRequestURI();
         String params = requestURI.substring(requestURI.lastIndexOf("/")+1);

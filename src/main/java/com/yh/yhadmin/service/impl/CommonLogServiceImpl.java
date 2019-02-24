@@ -42,7 +42,8 @@ public class CommonLogServiceImpl implements CommonLogService {
     public Object getByCondition(CommonLog commonLog, Pager pager) {
         commonLog.setCreateDate(null);
         commonLog.setDate(null);
-        Example<CommonLog> of = Example.of(commonLog);
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("requestURL", ExampleMatcher.GenericPropertyMatchers.contains());
+        Example<CommonLog> of = Example.of(commonLog,exampleMatcher);
         PageRequest pageRequest = new PageRequest(pager.getStart(), pager.getSize(), Sort.Direction.DESC, "createDate");
         return commonLogRepository.findAll(of,pageRequest);
     }

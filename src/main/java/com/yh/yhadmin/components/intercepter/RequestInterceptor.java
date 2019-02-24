@@ -39,7 +39,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         // 程序验证
         boolean b = userInfoUtil.checkAuth(null);
         if(!b){
-            return false;
+            throw new CommonException(DefinedCode.NOTAUTH,"程序未授权，请联系卖家授权！");
         }
         // cacheManager验证用户登录与否
         userInfoUtil.getUserInfo(token);

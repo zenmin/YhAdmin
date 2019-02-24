@@ -51,7 +51,7 @@ public class InterfaceConfig extends Model {
     @Column(columnDefinition = "varchar(10000) COMMENT '邮件标题'")
     private String mailTitle;
 
-    @Column(columnDefinition = "varchar(10000) COMMENT '邮件内容'")
+    @Column(columnDefinition = "text COMMENT '邮件内容'")
     private String mailContent;
 
     @Column(columnDefinition = "int(11) COMMENT '支付宝支付开关'")
