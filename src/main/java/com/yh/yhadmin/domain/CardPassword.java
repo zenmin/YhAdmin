@@ -1,5 +1,6 @@
 package com.yh.yhadmin.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yh.yhadmin.domain.base.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,6 +37,7 @@ public class CardPassword extends Model {
     private Boolean status;
 
     @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:ss:mm")
     private Date useDate;   //提取时间
 
     @Column

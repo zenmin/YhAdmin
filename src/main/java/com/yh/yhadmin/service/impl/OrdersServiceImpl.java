@@ -144,7 +144,7 @@ public class OrdersServiceImpl implements OrdersService {
             double allPrice = StaticUtil.computePrice(goodsVoHome.getPrice(), number1, saleRate);
             // 生成订单
             String orderNo = StaticUtil.uniqueKeyByTime(new Date());
-            Orders orders = new Orders(orderNo, CommonConstant.STATUS_ERROR, goodsVoHome.getId(), goodsVoHome.getPrice(), allPrice, orderVo.getNumber(), orderVo.getPayType(), CommonConstant.STATUS_ERROR, orderVo.getCoupon(), orderVo.getIp(), orderVo.getUserContact(), orderVo.getIsSendMsg(), orderVo.getIsSendEmail(), orderVo.getEmail(), new Date(),goodsVoHome.getName());
+            Orders orders = new Orders(orderNo, CommonConstant.STATUS_ERROR, goodsVoHome.getId(), goodsVoHome.getPrice(), allPrice, orderVo.getNumber(), orderVo.getPayType(), CommonConstant.STATUS_ERROR, orderVo.getCoupon(), orderVo.getIp(), orderVo.getUserContact(), orderVo.getIsSendMsg(), orderVo.getIsSendEmail(), orderVo.getEmail(), new Date(),goodsVoHome.getName(),StaticUtil.md5Hex(StaticUtil.uniqueKey()));
             Orders save = ordersRepository.save(orders);
             orderVo.setAllPrice(allPrice);
             orderVo.setId(orderNo);

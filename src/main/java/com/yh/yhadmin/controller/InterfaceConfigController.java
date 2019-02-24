@@ -14,11 +14,10 @@ import com.yh.yhadmin.util.MapConvertUtil;
 import com.yh.yhadmin.util.SmsUtil;
 import com.yh.yhadmin.util.StaticUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -44,6 +43,10 @@ public class InterfaceConfigController {
     @Autowired
     ApplicationContext applicationContext;
 
+    @Value("${temp.path}")
+    private String tempPath;
+
+
     @RequestMapping("/getAll")
     public ResponseEntity findAll() {
         return ResponseEntity.success(interfaceConfigService.findAll());
@@ -61,14 +64,18 @@ public class InterfaceConfigController {
         if (type == CommonConstant.InterfaceConfig.INDEX_STYLE.getCode()) {
             List<Map<String, String>> temps = Lists.newArrayList();
             //取resource下所有模板
-            ClassPathResource classPathResource = new ClassPathResource("templates/webtemps");
-            File file = classPathResource.getFile();
-            File[] files = file.listFiles(File::isDirectory);
-            for (File f : files) {
+            Set<String> set = new LinkedHashSet<>();
+            if (tempPath.indexOf(",") != -1) {
+                String[] split = tempPath.split(",");
+                set.addAll(Arrays.asList(split));
+            } else {
+                set.add(tempPath);
+            }
+            for (String f : set) {
                 Map<String, String> map = new HashMap<>();
-                String path = "webtemps/" + f.getName();
+                String path = "webtemps/" + f;
                 map.put("path", path + "/index");
-                map.put("name", f.getName());
+                map.put("name", f);
                 map.put("img", path + "/index.jpg");
                 temps.add(map);
             }

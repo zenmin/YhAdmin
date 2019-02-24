@@ -135,6 +135,7 @@ public class OrderController {
         map.put("price", price);
         map.put("type", type);
         map.put("token", token);
+        map.put("param", orders.getOrderKey());
         map.put("notify_url", notify_url);
         map.put("return_url", return_url);
         String urlParams = StaticUtil.getUrlParamsByMap(map);
@@ -156,14 +157,22 @@ public class OrderController {
      * @return 码支付回调 设置订单状态
      */
     @RequestMapping("/order/callback")
+    @ResponseBody
     public String createOrder(OrderCallBackDo orderCallBackDo) {
         if (orderCallBackDo == null) {
-            return "redirect:/";
+            return "errorPage";
         }
         try {
             // 订单号
             String orderNo = orderCallBackDo.getPay_id();
             Orders orders = ordersService.findByOrderNo(orderNo);
+            // 验证orderKey 防止hack恶意调接口
+            String orderKey = orders.getOrderKey();
+            if (!orderKey.equals(orderCallBackDo.getParam().trim()))
+                return "errorPage";
+            // 验证订单状态
+            if (orders.getStatus() == CommonConstant.STATUS_OK)
+                return "errorPage";
             // 判断是否支付成功
             String pay_no = orderCallBackDo.getPay_no();
             if (StringUtils.isBlank(pay_no)) {
@@ -178,8 +187,8 @@ public class OrderController {
                 if (Double.valueOf(money) < orders.getAllPrice()) {
                     return null;
                 }
-
                 orders.setPayStatus(CommonConstant.PAY_STATUS_OK);
+                orders.setPayId(pay_no);
                 orders.setStatus(CommonConstant.STATUS_OK);
                 orders.setLastModifyDate(DateUtil.millisToDate(Long.valueOf(orderCallBackDo.getPay_time())));
                 orders.setPayPrice(Double.valueOf(orderCallBackDo.getMoney()));
@@ -217,14 +226,14 @@ public class OrderController {
             emailUtil.sendErrorToAdmin("支付接口回调失败", paramsErr, content);
         }
 
-        return null;
+        return "/";
     }
 
     /**
      * @return 到订单查询页面
      */
     @GetMapping({"/order/query/{orderNo}", "/order/query"})
-    public String orderQuery(@PathVariable(required = false) String orderNo, Model model,HttpServletRequest request) {
+    public String orderQuery(@PathVariable(required = false) String orderNo, Model model, HttpServletRequest request) {
         //取webStyle
         String byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(CommonConstant.InterfaceConfig.INDEX_STYLE.getCode())).toString().replace("index", "");
         // 验证订单编号
@@ -240,11 +249,11 @@ public class OrderController {
         model.addAttribute("config", webConfig);
         // 首页风格
         String style = interfaceConfigService.findByType(CommonConstant.ALL_INTERFACE_CONFIG.get(4)).toString();
-        model.addAttribute("tempPath", "/"+style.substring(0, style.lastIndexOf("/")));
+        model.addAttribute("tempPath", "/" + style.substring(0, style.lastIndexOf("/")));
         model.addAttribute("tempDefaultPath", "/" + CommonConstant.DEFAULT_TEMP_STATIC_PATH);
         if (StringUtils.isNotBlank(orderNo)) {
             model.addAttribute("orderNo", orderNo);
-            Orders byOrderNo = ordersService.findByOrderNoOrUser(orderNo,IpHelper.getRequestIpAddr(request));
+            Orders byOrderNo = ordersService.findByOrderNoOrUser(orderNo, IpHelper.getRequestIpAddr(request));
             model.addAttribute("order", byOrderNo);
         } else {
             model.addAttribute("order", null);
@@ -258,7 +267,7 @@ public class OrderController {
      */
     @GetMapping("/order/query/callback/{orderNo}")
     public String orderQueryCallBack(@PathVariable String orderNo) {
-        return "redirect:/order/query/"+orderNo;
+        return "redirect:/order/query/" + orderNo;
     }
 
     @Async
@@ -303,7 +312,7 @@ public class OrderController {
         if (kmNotice > 0) {
             if (count < kmNotice) {
                 // 低于警戒线  邮件提醒
-                emailUtil.sendMsgToAdmin("商品卡密低于库存警戒值，请及时加卡", "商品： " + goodsName + " 目前库存邮件低与您设置的警戒值，请及时加卡！");
+                emailUtil.sendMsgToAdmin("商品卡密低于库存警戒值，请及时加卡", "商品： <b>" + goodsName + "</b> 目前库存已经低与您设置的警戒值，请及时加卡！");
             }
         }
     }

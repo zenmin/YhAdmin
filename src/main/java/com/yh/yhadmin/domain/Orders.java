@@ -26,6 +26,9 @@ public class Orders extends Model {
     @Column
     private String orderNo;
 
+    @Column
+    private String orderKey;
+
     @Column(columnDefinition = "int(11) default 0 COMMENT '1已完成 0未完成'")
     private Integer status;
 
@@ -87,7 +90,7 @@ public class Orders extends Model {
     @Transient
     private String endTime;
 
-    public Orders(String orderNo, Integer status, String goodsId, Double price, Double allPrice, Integer num, String payWay, Integer payStatus, String couponNo, String ip, String userContact, Integer isSendMsg, Integer isSendEmail, String email, Date lastModifyDate,String goodsName) {
+    public Orders(String orderNo, Integer status, String goodsId, Double price, Double allPrice, Integer num, String payWay, Integer payStatus, String couponNo, String ip, String userContact, Integer isSendMsg, Integer isSendEmail, String email, Date lastModifyDate,String goodsName,String orderKey) {
         this.orderNo = orderNo;
         this.status = status;
         this.goodsId = goodsId;
@@ -104,6 +107,7 @@ public class Orders extends Model {
         this.email = email;
         this.lastModifyDate = lastModifyDate;
         this.goodsName = goodsName;
+        this.orderKey = orderKey;
     }
 
     public Orders() {

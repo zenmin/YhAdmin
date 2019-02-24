@@ -64,7 +64,7 @@ public class EmailUtil {
             mimeMessageHelper.setTo(receiveUser);     //收件人地址不对  会抛出550 Invalid Addresses
             mimeMessageHelper.setText(content, true);     //表明这是一个html片段
             mimeMessageHelper.setSubject(title);
-            mimeMessageHelper.setFrom("741703967@qq.com");
+            mimeMessageHelper.setFrom(mailVo.getMailAccount());
             mimeMessageHelper.setValidateAddresses(false);
             // 添加邮件附件
             // mimeMessageHelper.addAttachment("cs.png",new File("C:\\Users\\74170\\Pictures\\FLAMING MOUNTAIN.png"));
