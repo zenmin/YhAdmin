@@ -253,10 +253,13 @@ public class OrderController {
         model.addAttribute("tempDefaultPath", "/" + CommonConstant.DEFAULT_TEMP_STATIC_PATH);
         if (StringUtils.isNotBlank(orderNo)) {
             model.addAttribute("orderNo", orderNo);
-            Orders byOrderNo = ordersService.findByOrderNoOrUser(orderNo, IpHelper.getRequestIpAddr(request));
-            model.addAttribute("order", byOrderNo);
+            List<Orders> byOrderNo = ordersService.findByOrderNoOrUser(orderNo);
+            if(byOrderNo.size()>0)
+                model.addAttribute("orderList", byOrderNo);
+            else
+                model.addAttribute("orderList", null);
         } else {
-            model.addAttribute("order", null);
+            model.addAttribute("orderList", null);
         }
         return byType + "query";
     }

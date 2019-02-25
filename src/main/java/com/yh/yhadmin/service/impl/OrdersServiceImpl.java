@@ -176,7 +176,7 @@ public class OrdersServiceImpl implements OrdersService {
      * @return 通过订单编号或联系方式查询
      */
     @Override
-    public Orders findByOrderNoOrUser(String orderNo,String ip) {
-        return ordersNativeRepository.findByOrderOrUser(orderNo,ip);
+    public List<Orders> findByOrderNoOrUser(String orderNo) {
+        return ordersNativeRepository.findByOrderOrUser(orderNo);
     }
 }

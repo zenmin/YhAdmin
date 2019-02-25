@@ -30,5 +30,5 @@ public interface OrdersService {
 
     Orders saveAll(Orders orders);
 
-    Orders findByOrderNoOrUser(String orderNo,String ip);
+    List<Orders> findByOrderNoOrUser(String orderNo);
 }

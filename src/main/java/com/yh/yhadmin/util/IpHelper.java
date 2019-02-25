@@ -73,10 +73,22 @@ public class IpHelper {
                 String s = Integer.toHexString(mac[i] & 0xFF);
                 sb.append(s.length() == 1 ? 0 + s : s);
             }
-            return sb.toString().trim().toUpperCase()+"|";
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
+            return sb.toString().trim().toUpperCase() + "|";
+        } catch (Exception e) {
+            // 获取不到取本机mac
+            try {
+                String localHostRealIp = IpHelper.getLocalHostRealIp();
+                return localHostRealIp + "|";
+            } catch (Exception e1) {
+                // 获取不到真实IP
+                try {
+                    String localIpAddr = IpHelper.getLocalIpAddr();
+                    return localIpAddr + "|";
+                } catch (Exception e2) {
+                    // 获取不到内网Ip
+                    return "127.0.0.1";
+                }
+            }
         }
     }
 
@@ -115,32 +127,15 @@ public class IpHelper {
 
     /**
      * 获取本机真实外网ip
-     *
-     * @return [0] ip地址，[1] 网络运营
      */
-    public static String[] getLocalHostRealIp() {
+    public static String getLocalHostRealIp() {
+        String ip = "";
         try {
-            String strUrl = "http://1212.ip138.com/ic.asp";
-            URL url = new URL(strUrl);
-            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream(), "GB2312"));
-            StringBuffer sb = new StringBuffer();
-            String tmp = "";
-            while ((tmp = br.readLine()) != null) {
-                sb.append(tmp);
-            }
-            String content = sb.toString();
-            content = content.substring(content.indexOf("<center>") + 8, content.indexOf("</center>"));
-            String ipData = content.substring(0, content.indexOf(" ")).trim();
-            String addrData = content.substring(content.indexOf(" ") + 1, content.length()).trim();
-            int start = ipData.indexOf("[");
-            int end = ipData.indexOf("]");
-            String ip = ipData.substring(start + 1, end);
-            String city = addrData.substring(addrData.indexOf("：") + 1, addrData.length());
-            br.close();
-            return new String[]{ip, city};
+            String s = HttpClientUtil.sendGet("http://myip.ipip.net/");
+            ip = s.substring(s.indexOf("IP：")+3,s.indexOf("来自于")).trim();
         } catch (Exception e) {
-            return null;
         }
+        return ip.equals("") ? null : ip;
     }
 
     /**
