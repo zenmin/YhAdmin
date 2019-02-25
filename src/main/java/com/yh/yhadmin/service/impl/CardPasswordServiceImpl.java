@@ -35,7 +35,7 @@ public class CardPasswordServiceImpl implements CardPasswordService {
     CardPasswordNativeRepository cardPasswordNativeRepository;
 
     @Override
-    public Page<CardPassword> findByStatusIsFalseAndGoodsId(String goodsId,Pager pager) {
+    public synchronized Page<CardPassword> findByStatusIsFalseAndGoodsId(String goodsId,Pager pager) {
         Pageable pageable = new PageRequest(pager.getStart(), pager.getSize(), Sort.Direction.ASC, "createDate");
         return cardPasswordRepository.findByStatusIsFalseAndGoodsId(goodsId,pageable);
     }

@@ -29,13 +29,16 @@ public class AdminUserVo {
 
     private Integer status;
 
-    public AdminUserVo(String id,String name, String token, String phone, String qq, Integer status) {
+    private Boolean isAdministrator;
+
+    public AdminUserVo(String id,String name, String token, String phone, String qq, Integer status,Boolean isAdministrator) {
         this.id = id;
         this.name = name;
         this.token = token;
         this.phone = phone;
         this.qq = qq;
         this.status = status;
+        this.isAdministrator = isAdministrator;
     }
 
     public AdminUserVo() {

@@ -6,17 +6,13 @@ import com.yh.yhadmin.service.IndexService;
 import com.yh.yhadmin.service.LoginService;
 import com.yh.yhadmin.util.DateUtil;
 import com.yh.yhadmin.util.IpHelper;
-import com.yh.yhadmin.util.StaticUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -60,9 +56,9 @@ public class IndexController {
         return loginService.info(token);
     }
 
-    @RequestMapping("/logOut")
-    public ResponseEntity loginOut(String token,HttpServletRequest request) {
-        return ResponseEntity.success(loginService.loginOut(token,request));
+    @PostMapping("/logOut")
+    public ResponseEntity loginOut(HttpServletRequest request) {
+        return ResponseEntity.success(loginService.loginOut(request));
     }
 
     /**

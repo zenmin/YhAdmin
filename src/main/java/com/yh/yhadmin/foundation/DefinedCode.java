@@ -26,6 +26,8 @@ public class DefinedCode {
 
     public static final int NOTCANUSE = 802;      // 优惠券过期
 
+    public static final int NOADMIN = 996;
+
     public static final int NOTAUTH = 997;
 
     public static final int AUTHERROR = 996;

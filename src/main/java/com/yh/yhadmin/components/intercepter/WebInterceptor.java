@@ -22,12 +22,19 @@ public class WebInterceptor extends WebMvcConfigurerAdapter {
         return new SqlInterceptor();
     }
 
+    @Bean
+    AuthInterceptor authInterceptor(){
+        return new AuthInterceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(requestInterceptor())
                 .addPathPatterns("/api/**").excludePathPatterns("/api/index/login","/api/index/logOut");
 
         registry.addInterceptor(sqlInterceptor()).addPathPatterns("/order/**");
+
+        registry.addInterceptor(authInterceptor()).addPathPatterns("/api/webConfig/save","/api/admin/save");
     }
 
     //注册JsonpFilter

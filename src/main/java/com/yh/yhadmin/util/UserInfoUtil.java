@@ -1,6 +1,5 @@
 package com.yh.yhadmin.util;
 
-import com.yh.yhadmin.domain.AdminUser;
 import com.yh.yhadmin.domain.vo.AdminUserVo;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
@@ -10,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.HashMap;
-
 /**
  * @Describle This Class Is
  * @Author ZengMin
@@ -40,15 +36,16 @@ public class UserInfoUtil {
     }
 
     /**
-     * @param token
      * @return 移除用户登录信息
      */
     @Async
-    public void removeSession(String token){
-        Cache userinfo = cacheManager.getCache(token);
+    @Scheduled(cron = "0 0 0/6 * * ?")  // 每六小时清除登录信息
+    public void removeSession(){
+        Cache userinfo = cacheManager.getCache(CommonConstant.CAHE_NAME);
+        userinfo.clear();
         Cache userinfoId = cacheManager.getCache(CommonConstant.CAHE_NAME_ID);
-        userinfo.put(token,null);
-        userinfoId.put(userinfo.get("id").get().toString(),null);
+        userinfoId.clear();
+        System.out.println("已清除");
     }
 
     /**

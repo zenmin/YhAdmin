@@ -58,7 +58,7 @@ public class LoginServiceImpl implements LoginService {
         }else {
             // 未登录 生成token
             String token = StaticUtil.getToken();
-            adminUserVo = new AdminUserVo(adminUser.getId(),adminUser.getRealName(), token, adminUser.getPhone(), adminUser.getQq(), adminUser.getStatus());
+            adminUserVo = new AdminUserVo(adminUser.getId(),adminUser.getRealName(), token, adminUser.getPhone(), adminUser.getQq(), adminUser.getStatus(),adminUser.getIsAdministrator() == CommonConstant.STATUS_OK);
             userInfoUtil.addSession(token,adminUserVo);
         }
         //更新最后一次登录时间和IP
@@ -81,11 +81,13 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public boolean loginOut(String token,HttpServletRequest request) {
+    public boolean loginOut(HttpServletRequest request) {
+        String token = request.getHeader("token");
         String ipAddr = IpHelper.getRequestIpAddr(request);
         AdminUserVo adminUser = userInfoUtil.getUserInfo(token);
-        operateLogsService.saveLogs(new OperateLogs("系统登录",adminUser.getName(),adminUser.getId(),ipAddr,"管理员登录"));
-        userInfoUtil.removeSession(token);
+        if(adminUser == null)
+            return true;
+        operateLogsService.saveLogs(new OperateLogs("系统登录",adminUser.getName(),adminUser.getId(),ipAddr,"管理员退出"));
         return true;
     }
 }
