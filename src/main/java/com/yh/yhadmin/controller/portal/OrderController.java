@@ -264,6 +264,18 @@ public class OrderController {
         return byType + "query";
     }
 
+    @GetMapping("/order/queryd")
+    public String toDefaultOrderQqery(Model model) {
+        WebConfig webConfig = webConfigService.findAll();
+        // 全局配置
+        model.addAttribute("config", webConfig);
+        // 首页风格
+        String style = interfaceConfigService.findByType(CommonConstant.ALL_INTERFACE_CONFIG.get(4)).toString();
+        model.addAttribute("tempPath", "/" + style.substring(0, style.lastIndexOf("/")));
+        model.addAttribute("tempDefaultPath", "/" + CommonConstant.DEFAULT_TEMP_STATIC_PATH);
+        return "webtemps/default/query";
+    }
+
     /**
      * @param orderNo
      * @return 回调跳转

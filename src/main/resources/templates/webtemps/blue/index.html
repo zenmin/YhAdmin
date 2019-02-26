@@ -1,10 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title th:text="${config.mainTitle + ' - ' + config.subTitle}"></title>
+    <meta name="keywords" th:content="${config.keyWords}">
+    <meta name="description" th:content="${config.titleDesc}">
+    <link th:href="${tempPath + '/static/font-awesome.min.css'} " rel="stylesheet" type="text/css">
+    <link th:href="${tempPath + '/static/newmobile.css' }" rel="stylesheet" type="text/css">
+    <link th:href="${tempPath + '/static/thickbox.css' }" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" th:href="${tempPath + '/static/style.css' }">
+
+    <link rel="stylesheet" th:href="${tempDefaultPath + '/assets/need/layer.css' }" id="layuicss-skinlayercss">
 </head>
-<body>
-blue
+
+<body ms-controller="myController" class=""><!-- top -->
+<div class="pay_top"><p th:utext="${config.mainNotice}"></p><br></div><!-- 查询 客服 -->
+<div class="top_btn"><a th:href="@{/order/query}" target="_blank"><i
+        class="iconfont"></i>
+    订单查询</a><a target="_blank" th:href="${'http://wpa.qq.com/msgrd?v=3&uin='+config.adminQQ+'&site=qq&menu=yes'} "><i class="iconfont"></i>
+    联系客服</a></div>
+<div class="choose_goods"><span class="choose_title">1. 选择商品</span>
+    <div class="s_box"><span>商品分类</span>
+        <select name="tp_id" id="tp_tid" required="" onchange="getPoint(this);">
+            <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+        </select>
+    </div>
+    <div class="s_box"><span>商品名称</span><select name="gid" id="gid" onchange="getPrice_zongzi(this)">
+    </select></div>
+    <p><span class="s_left">商品描述</span><span class="s_right" id="ginfo"></span></p>
+
+    <p class="pinfo2"><span class="s_left">商品单价</span><span><span name="need" id="need" style="color: red;">￥0.00</span>元</span>
+    </p>
+    <p class="pinfo2" style=" " th:if="${config.showStock == 1}">
+        <span class="s_left">商品库存</span>
+        <span>剩余<span name="kc" id="kc" style="color: red;">0</span>个</span>
+    </p>
+    <p th:if="${config.showStock == 1}">
+        <span class="s_left">购买数量</span><span class="s_right">
+        <font color="green" id="goodInvent" style="float: left"></font><input type="number" onblur="checknum_zongzi()"  name="number" id="number"
+            value="1"  required="required" min="1" style="height: 40px;"></span>
+    </p>
+    <p><span class="s_left">联系方式</span><span class="s_right">
+        <input name="lx" id="lx" type="text" style="height: 40px;width: 100%;" required="required" placeholder="必填，QQ号或手机号，将作为购买者凭证"></span></p>
+
+    <p><span class="s_left">优惠券</span><span class="s_right">
+        <input name="coupon" id="coupon" type="text" style="height: 40px;width: 100%;" placeholder="有则输入，提交订单后抵扣"></span></p>
+
+    <p id="pullDiv" style="display: none;"><span class="s_left">提取密码</span><span class="s_right">
+        <input name="pullPwd" id="pullPwd" type="text" style="height: 40px;width: 100%;" placeholder="该商品需要你输入提取密码"></span></p>
+
+    <p><span class="s_left">发送短信</span><span class="s_right">
+        <select name="tp_id" id="isSendMsg" onchange="checkMsg()">
+            <option th:value="0">否</option>
+            <option th:value="1">是</option>
+        </select></span></p>
+
+    <p><span class="s_left">发送邮件</span><span class="s_right" onchange="showEmail()">
+        <select name="tp_id" id="isSendEmail" >
+            <option th:value="0">否</option>
+            <option th:value="1">是</option>
+        </select>
+        </span></p>
+
+    <p style="display: none;" id="emailDiv"><span class="s_left">邮箱地址</span><span class="s_right">
+        <input name="email" id="email" type="text" style="height: 40px;width: 100%;" placeholder="必填，卡密将会发送至此邮箱"></span></p>
+
+
+    </div>
+<!-- 应付总额 -->
+<div class="price" id="payinfo">
+    应付总额 <span class="red tprice" id="allprice"></span> 元
+
+</div>
+<input type="hidden" name="pay_type">
+<div id="buy_border">
+    <div class="step">2. 选择支付方式</div>
+    <div id="step_two">
+        <div class="paylist">
+            <label th:if="${ps.switch_alipay == 1}">
+                <div class="box" title="alipay" data-code="alipay">
+                    <img th:src="${tempPath + '/static/alipay.png' }"  width="238" height="60" style="vertical-align: middle">
+                    <span id="alipay_span" class="pay_span" type="alipay"></span>
+                </div>
+        </label>
+            <label th:if="${ps.switch_qq == 1}">
+                <div class="box" title="qqpay" data-code="qqpay"><img th:src="${tempPath + '/static/qqpay.png'}" width="238"
+                                                                  height="60" style="vertical-align: middle"><span
+                    id="qqpay_span" class="pay_span" type="qqpay"></span></div>
+        </label><label th:if="${ps.switch_wx == 1}">
+            <div class="box" title="wxpay" data-code="wxpay"><img th:src="${tempPath + '/static/wxpay.png'}" width="238"
+                                                                  height="60" style="vertical-align: middle"><span
+                    id="wxpay_span" class="pay_span" type="wxpay"></span></div>
+        </label>
+            <div style="clear: left;"></div>
+        </div>
+    </div>
+</div>
+<input onclick="zongzimsub()" id="submitOrder" type="button" value="提交订单" class="next_btn">
+<script th:src="${tempDefaultPath + '/assets/jquery.min.js'}" type="text/javascript" charset="utf-8"></script>
+<script th:src="${tempPath + '/static/mui.min.js'} " type="text/javascript" charset="utf-8"></script>
+<script th:src="${tempPath + '/static/avalon.min.js'} " type="text/javascript" charset="utf-8"></script>
+<script th:src="${tempDefaultPath + '/assets/layer.js'} "></script>
+<script th:src="${tempPath + '/static/ayangw.js'} "></script>
+<script>
+    getPoint($("#tp_tid"));var vm=avalon.define({$id:"myController",goodslist:[],goodsinfo:[],goods_number:1});function showEmail(){if($("#isSendEmail").val()==1){$("#emailDiv").show()}else{$("#emailDiv").hide()}}$(function(){$(".box").click(function(){var c=$(this).attr("title");var b=$(".pay_span");for(var a=0;a<b.length;a++){var e=$(b[a]).attr("id");$("#"+e).attr("title","false");$("#"+e).css({"background-image":"url(/imgs/wt6.png)","background-size":"100% 100%"})}$("#"+c+"_span").attr("title","true");$("#"+c+"_span").attr("display","inline-block");$("#"+c+"_span").css({"background-image":"url(/imgs/right.png)","background-size":"100% 100%"})})});function checkMsg(){var a=$("#isSendMsg").val();if(a=="1"){layer.open({content:"请保证联系方式为手机号",skin:"msg",time:2})}}function zongzimsub(){var r=$("#kc").attr("alt");if(r<=0){layer.open({content:"该商品库存不足，无法购买！",skin:"msg",time:2});return}var h=$("#gid").val();var n=$("#gid option:selected").attr("id");var k=$("#need").val();var c=$("#gid option:selected").attr("title");var g=$("#lx").val();var o="";var q="";var t=$(".pay_span");for(var f=0;f<t.length;f++){var j=$(t[f]).attr("id");var v=$("#"+j).attr("title");if(v=="true"){o=$("#"+j).attr("type");break}}if(o=="alipay"){q="支付宝"}if(o=="qqpay"){q="QQ钱包"}if(o=="wxpay"){q="微信"}var l=d();var e=parseInt($("#number").val());var p=checkLx(g);if(r<e){layer.open({content:"选择数量大于库存数量！",skin:"msg",time:2});return}if(e<=0){layer.open({content:"选择数量请大于0件！",skin:"msg",time:2});return}if(g.length<8||p==false||g==" "){layer.open({content:"联系方式为8~11为数字！",skin:"msg",time:2});return}if(o==null||o==""){layer.open({content:"请选择您的付款方式！",skin:"msg",time:2});return}if(n==""||c==""||n==null||c==null){layer.open({content:"当前商品无法创建订单！",skin:"msg",time:2});return}$("#sub").val("请稍等，正在提交...");c=c*e;var u=layer.open({type:2,content:"加载中..."});var m={"tradeno":"","gid":n,"price":c,"qq":"","payType":o,"number":e,"userContact":g,"coupon":$("#coupon").val(),"phone":"","isSendMsg":$("#isSendMsg").val(),"isSendEmail":$("#isSendEmail").val(),"email":$("#email").val(),"pullPwd":$("#pullPwd").val()};console.log(m);$.ajax({type:"POST",url:"/order/createOrder",dataType:"json",data:m,success:function(s){$("#sub").val("提交订单");layer.close(u);if(s.code==100){s=s.data;var b=s.payType;if(b=="wxpay"){b="微信支付"}if(b=="alipay"){b="支付宝支付"}if(b=="qqpay"){b="QQ支付"}var a="";if(s.coupon!=""){a="'<br>优惠券折扣：' + data.coupon + '%'"}var i="<span style='color:#000;display: inline-block;text-align: left'>"+"订单编号："+s.id+"<br>商品名称："+s.goodsName+"<br>商品单价："+s.price+"￥"+a+"<br>购买数量："+s.number+"<br>联系方式："+s.userContact+"<br>支付方式："+b+"<br>应付款：<font style='font-size:18px' color=red>"+s.allPrice+"</font>￥"+"</span>";layer.open({title:"请核对订单信息",content:i,btn:["立即付款","暂不付款"],yes:function(w){window.location.href="/order/pay/"+s.id}})}else{layer.close(u);layer.open({content:s.msg,skin:"msg",time:2});return false}},error:function(a){$("#sub").val("提交订单");layer.close(u);layer.open({content:"系统错误",skin:"msg",time:2});return false}})};
+</script>
+<div class="layui-layer-move"></div>
 </body>
 </html>

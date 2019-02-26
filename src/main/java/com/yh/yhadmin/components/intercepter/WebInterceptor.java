@@ -37,13 +37,4 @@ public class WebInterceptor extends WebMvcConfigurerAdapter {
         registry.addInterceptor(authInterceptor()).addPathPatterns("/api/webConfig/save","/api/admin/save");
     }
 
-    //注册JsonpFilter
-    // @Bean  前后端未分离情况下关闭
-    public FilterRegistrationBean jsonpFilter(){
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(new JsonPFilter());   //设置拦截器
-        filterRegistrationBean.setUrlPatterns(Arrays.asList("/*")); //拦截路径
-        return filterRegistrationBean;
-    }
-
 }

@@ -112,7 +112,7 @@ public class OrdersServiceImpl implements OrdersService {
             if (content.size() == 0)
                 throw new CommonException(DefinedCode.NOTFOUND, "商品已经不存在，请刷新页面！");
             GoodsVo goodsVoHome = content.get(0);
-            if (goodsVoHome.getKmCount() <= 0)
+            if (goodsVoHome.getKmCount() < orderVo.getNumber())
                 throw new CommonException(DefinedCode.NOSTOCK, "库存不足！");
             if (orderVo.getNumber() > goodsVoHome.getKmCount())
                 throw new CommonException(DefinedCode.NOSTOCK, "下单数量大于库存！");

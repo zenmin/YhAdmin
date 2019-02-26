@@ -100,7 +100,7 @@ public class StaticUtil {
     }
 
     public static String compCode(){
-        String localMacAddr = IpHelper.getLocalMacAddr()+ CommonConstant.AUTH_KEY;
+        String localMacAddr = IpHelper.getLocalMacAddr() + CommonConstant.AUTH_KEY;
         return String.valueOf(Math.abs(localMacAddr.hashCode()));
 
     }

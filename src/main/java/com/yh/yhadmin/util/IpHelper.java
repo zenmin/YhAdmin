@@ -3,13 +3,12 @@ package com.yh.yhadmin.util;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.URL;
+import java.util.Properties;
 
 @Slf4j
 public class IpHelper {
@@ -61,24 +60,24 @@ public class IpHelper {
      */
     public static String getLocalMacAddr() {
         try {
-            InetAddress inetAddress = InetAddress.getLocalHost();
-            byte[] mac = NetworkInterface.getByInetAddress(inetAddress).getHardwareAddress();
-            //下面代码是把mac地址拼装成String
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < mac.length; i++) {
-                if (i != 0) {
-                    sb.append("-");
-                }
-                //mac[i] & 0xFF 是为了把byte转化为正整数
-                String s = Integer.toHexString(mac[i] & 0xFF);
-                sb.append(s.length() == 1 ? 0 + s : s);
-            }
-            return sb.toString().trim().toUpperCase() + "|";
+            String localHostRealIp = IpHelper.getLocalHostRealIp();
+            return localHostRealIp + "|";
         } catch (Exception e) {
             // 获取不到取本机mac
             try {
-                String localHostRealIp = IpHelper.getLocalHostRealIp();
-                return localHostRealIp + "|";
+                InetAddress inetAddress = InetAddress.getLocalHost();
+                byte[] mac = NetworkInterface.getByInetAddress(inetAddress).getHardwareAddress();
+                //下面代码是把mac地址拼装成String
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < mac.length; i++) {
+                    if (i != 0) {
+                        sb.append("-");
+                    }
+                    //mac[i] & 0xFF 是为了把byte转化为正整数
+                    String s = Integer.toHexString(mac[i] & 0xFF);
+                    sb.append(s.length() == 1 ? 0 + s : s);
+                }
+                return sb.toString().trim().toUpperCase() + "|";
             } catch (Exception e1) {
                 // 获取不到真实IP
                 try {
@@ -90,6 +89,11 @@ public class IpHelper {
                 }
             }
         }
+    }
+
+    public static void main(String args[]){
+        Properties properties = System.getProperties();
+        System.out.println(properties);
     }
 
     /**

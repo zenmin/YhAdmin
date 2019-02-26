@@ -1,5 +1,11 @@
 package com.yh.yhadmin.components.filter;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -9,26 +15,24 @@ import java.io.IOException;
  * @Author ZengMin
  * @Date 2019/2/17 22:28
  */
-public class JsonPFilter implements Filter {
+@Configuration
+public class JsonPFilter {
+    /**
+     * 跨域配置
+     * 页面访问会先发起一个OPTIONS的试探请求
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true); // 允许cookies跨域
+        config.addAllowedOrigin("*");// #允许向该服务器提交请求的URI，*表示全部允许
+        config.addAllowedHeader("*");// #允许访问的头信息,*表示全部
+        config.setMaxAge(18000L);// 预检请求的缓存时间（秒），即在这个时间段里，对于相同的跨域请求不会再预检了
+        config.addAllowedMethod("*");// 允许提交请求的方法，*表示全部允许
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
 
-    @Override
-    public void destroy() {
-    }
-
-    @Override
-    public void doFilter(ServletRequest req, ServletResponse res,
-                         FilterChain chain) throws IOException, ServletException {
-        HttpServletResponse response = (HttpServletResponse) res;
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-        response.setHeader("Access-Control-Max-Age", "3600");
-        response.addHeader("Access-Control-Allow-Headers", "Authentication,Origin, X-Requested-With, Content-Type, Accept,token");
-        chain.doFilter(req, res);
-
-    }
-
-    @Override
-    public void init(FilterConfig arg0) {
     }
 
 }
