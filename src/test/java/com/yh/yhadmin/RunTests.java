@@ -8,11 +8,16 @@ import com.yh.yhadmin.repository.CouponRepository;
 import com.yh.yhadmin.repository.GoodsRepository;
 import com.yh.yhadmin.service.CardPasswordService;
 import com.yh.yhadmin.util.StaticUtil;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.io.IOException;
 import java.text.NumberFormat;
 
 @RunWith(SpringRunner.class)
@@ -70,6 +75,7 @@ public class RunTests {
 
     @Test
     public void test3() {
+
     }
 }
 

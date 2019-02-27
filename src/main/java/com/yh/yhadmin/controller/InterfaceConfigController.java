@@ -3,19 +3,15 @@ package com.yh.yhadmin.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Lists;
 import com.yh.yhadmin.domain.InterfaceConfig;
-import com.yh.yhadmin.domain.vo.MailVo;
-import com.yh.yhadmin.domain.vo.SmsVo;
-import com.yh.yhadmin.domain.vo.TemplateVo;
+import com.yh.yhadmin.domain.vo.*;
 import com.yh.yhadmin.foundation.ResponseEntity;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.service.InterfaceConfigService;
-import com.yh.yhadmin.util.EmailUtil;
-import com.yh.yhadmin.util.MapConvertUtil;
-import com.yh.yhadmin.util.SmsUtil;
-import com.yh.yhadmin.util.StaticUtil;
+import com.yh.yhadmin.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
@@ -46,6 +42,9 @@ public class InterfaceConfigController {
     @Value("${temp.path}")
     private String tempPath;
 
+    @Autowired
+    UserInfoUtil userInfoUtil;
+
 
     @RequestMapping("/getAll")
     public ResponseEntity findAll() {
@@ -59,7 +58,7 @@ public class InterfaceConfigController {
     }
 
     @RequestMapping("/getByCondition")
-    public ResponseEntity getByCondition(Integer type) throws IOException {
+    public ResponseEntity getByCondition(Integer type, @RequestHeader String token) {
         Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(type));
         if (type == CommonConstant.InterfaceConfig.INDEX_STYLE.getCode()) {
             List<Map<String, String>> temps = Lists.newArrayList();
@@ -80,6 +79,18 @@ public class InterfaceConfigController {
                 temps.add(map);
             }
             return ResponseEntity.success(new TemplateVo(byType.toString(), temps));
+        }
+
+        if(type == CommonConstant.InterfaceConfig.PAY_TYPE.getCode()){
+            AdminUserVo userInfo = userInfoUtil.getUserInfo(token);
+            Boolean isAdministrator = userInfo.getIsAdministrator();
+            // 不是超级管理员 不返回支付接口信息
+            if(!isAdministrator){
+                PayConfigVo p = (PayConfigVo) byType;
+                p.setApp_id("********");
+                p.setApp_key("********");
+                return ResponseEntity.success(p);
+            }
         }
         return ResponseEntity.success(byType);
     }

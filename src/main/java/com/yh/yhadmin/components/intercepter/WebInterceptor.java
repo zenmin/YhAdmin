@@ -34,7 +34,7 @@ public class WebInterceptor extends WebMvcConfigurerAdapter {
 
         registry.addInterceptor(sqlInterceptor()).addPathPatterns("/order/**");
 
-        registry.addInterceptor(authInterceptor()).addPathPatterns("/api/webConfig/save","/api/admin/save");
+        registry.addInterceptor(authInterceptor()).addPathPatterns("/api/webConfig/save","/api/admin/save","/api/interfaceConfig/save");
     }
 
 }

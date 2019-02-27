@@ -45,7 +45,6 @@ public class UserInfoUtil {
         userinfo.clear();
         Cache userinfoId = cacheManager.getCache(CommonConstant.CAHE_NAME_ID);
         userinfoId.clear();
-        System.out.println("已清除");
     }
 
     /**
