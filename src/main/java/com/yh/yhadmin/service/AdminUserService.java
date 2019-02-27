@@ -24,4 +24,5 @@ public interface AdminUserService {
 
     AdminUser findAdmin();
 
+    boolean updatePwd(String id, String oldPwd, String newPwd);
 }

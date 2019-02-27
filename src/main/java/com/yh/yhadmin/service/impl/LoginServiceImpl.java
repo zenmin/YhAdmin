@@ -54,7 +54,8 @@ public class LoginServiceImpl implements LoginService {
         // 判断用户是否登录
         Object userInfoByUserId = userInfoUtil.getUserInfoByUserId(adminUser.getId());
         if(userInfoByUserId != null){
-            adminUserVo = (AdminUserVo) userInfoByUserId;
+            AdminUserVo oldUser = (AdminUserVo) userInfoByUserId;
+            adminUserVo = new AdminUserVo(adminUser.getId(),adminUser.getRealName(), oldUser.getToken(), adminUser.getPhone(), adminUser.getQq(), adminUser.getStatus(),adminUser.getIsAdministrator() == CommonConstant.STATUS_OK);
         }else {
             // 未登录 生成token
             String token = StaticUtil.getToken();

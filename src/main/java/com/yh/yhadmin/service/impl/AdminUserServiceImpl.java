@@ -116,4 +116,16 @@ public class AdminUserServiceImpl implements AdminUserService {
     public AdminUser findAdmin() {
         return adminUserRepository.findByIsAdministrator(1);
     }
+
+    @Override
+    public boolean updatePwd(String id, String oldPwd, String newPwd) {
+        // 验证原密码
+        AdminUser one = adminUserRepository.getOne(id);
+        String passWord = one.getPassWord();
+        if(!passWord.equals(StaticUtil.md5Hex(oldPwd)))
+            throw new CommonException(DefinedCode.PASSWORDERROR,"原密码错误！");
+        one.setPassWord(StaticUtil.md5Hex(newPwd));
+        AdminUser adminUser = adminUserRepository.saveAndFlush(one);
+        return adminUser != null;
+    }
 }

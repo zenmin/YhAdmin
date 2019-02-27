@@ -2,12 +2,18 @@ package com.yh.yhadmin.controller;
 
 import com.yh.yhadmin.domain.AdminUser;
 import com.yh.yhadmin.domain.query.Pager;
+import com.yh.yhadmin.domain.vo.AdminUserVo;
+import com.yh.yhadmin.foundation.CommonException;
+import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.foundation.ResponseEntity;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.service.AdminUserService;
 import com.yh.yhadmin.util.StaticUtil;
+import com.yh.yhadmin.util.UserInfoUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +28,9 @@ public class AdminUserController {
 
     @Autowired
     AdminUserService adminUserService;
+
+    @Autowired
+    UserInfoUtil userInfoUtil;
 
     @RequestMapping("/getAll")
     public ResponseEntity findAll(Pager pager){
@@ -44,6 +53,17 @@ public class AdminUserController {
         }
         return ResponseEntity.success(adminUserService.save(adminUser));
     }
+
+    @PostMapping("/updatePwd")
+    public ResponseEntity updatePwd(String oldPwd, String newPwd, String newPwd2,@RequestHeader String token){
+        // 验证输入
+        if(!newPwd.equals(newPwd2))
+            throw new CommonException(DefinedCode.PASSWORDERROR,"两次密码不一致！");
+        AdminUserVo userInfo = userInfoUtil.getUserInfo(token);
+        String id = userInfo.getId();
+        return ResponseEntity.success(adminUserService.updatePwd(id,oldPwd,newPwd));
+    }
+
 
     @RequestMapping("/delete")
     public ResponseEntity delete(String id){
