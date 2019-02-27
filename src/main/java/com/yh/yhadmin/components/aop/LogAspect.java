@@ -51,13 +51,12 @@ public class LogAspect {
 
     @Around("@annotation(handlerMethod) && pointCut()")
     public Object execAspect(ProceedingJoinPoint joinPoint, HandlerMethod handlerMethod) throws Throwable {
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
-        HttpServletRequest request = servletRequestAttributes.getRequest();
         try {
+            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+            ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+            HttpServletRequest request = servletRequestAttributes.getRequest();
             this.saveLogs(joinPoint, request, servletRequestAttributes);
         }catch (Exception e){
-            e.printStackTrace();
             return joinPoint.proceed();
         }
         return joinPoint.proceed();

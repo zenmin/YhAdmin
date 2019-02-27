@@ -160,7 +160,7 @@ public class OrderController {
     @ResponseBody
     public String createOrder(OrderCallBackDo orderCallBackDo) {
         if (orderCallBackDo == null) {
-            return "errorPage";
+            return "";
         }
         try {
             // 订单号
@@ -285,7 +285,6 @@ public class OrderController {
         return "redirect:/order/query/" + orderNo;
     }
 
-    @Async
     public void sendMsg(Orders save) throws JsonProcessingException {
         // 检查是否发送邮件或者短信通知
         if (save.getIsSendEmail() == CommonConstant.STATUS_OK) {
