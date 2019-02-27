@@ -57,6 +57,15 @@ public class InterfaceConfigController {
         return ResponseEntity.success(save != null);
     }
 
+    /**
+     * @param interfaceConfig
+     * @return 单独保存模板  不过interceptor
+     */
+    @RequestMapping("/saveTemplate")
+    public ResponseEntity saveTemplate(InterfaceConfig interfaceConfig) {
+        return this.save(interfaceConfig);
+    }
+
     @RequestMapping("/getByCondition")
     public ResponseEntity getByCondition(Integer type, @RequestHeader String token) {
         Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(type));

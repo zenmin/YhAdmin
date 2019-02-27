@@ -22,7 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     UserInfoUtil userInfoUtil;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws JsonProcessingException {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("token");
         // cacheManager验证用户登录与否
         AdminUserVo userInfo = userInfoUtil.getUserInfo(token);
