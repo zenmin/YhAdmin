@@ -6,7 +6,7 @@
 #                                      | |    | |  | |  / ____ \  | |__| | | |  | |  _| |_  | |\  |                                     #
 #                                      |_|    |_|  |_| /_/    \_\ |_____/  |_|  |_| |_____| |_| \_|                                     #
 #                                                                                                                                       #
-#                                             Version:${application.version}       Author:${yhadmin.author}                                                      #
+#                                             Version:${application.version}       Author:${yhadmin.author}                                                             #
 #                                                                                                                                       #
 #                                                         ${AnsiColor.BRIGHT_GREEN}系统启动中...${AnsiColor.BRIGHT_WHITE}                                                                 #
 #                                                                                                                                       #
