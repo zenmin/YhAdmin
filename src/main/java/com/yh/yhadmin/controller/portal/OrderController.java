@@ -188,7 +188,7 @@ public class OrderController {
                 orders.setPayStatus(CommonConstant.PAY_STATUS_OK);
                 orders.setPayId(pay_no);
                 orders.setStatus(CommonConstant.STATUS_OK);
-                orders.setLastModifyDate(DateUtil.millisToDate(Long.valueOf(orderCallBackDo.getPay_time())));
+                orders.setLastModifyDate(new Date());
                 orders.setPayPrice(Double.valueOf(orderCallBackDo.getMoney()));
 
                 // 取出订单数量的卡密 设置进去
@@ -205,7 +205,7 @@ public class OrderController {
                 if (list.size() > 0) {
                     cs = StaticUtil.joinQuota(list);
                 } else {
-                    cs = "库存不足，请联系客服！";
+                    cs = "无 （库存不足，请联系客服）";
                 }
                 orders.setCardPwds(cs);
                 cardPasswordService.saveAll(cardPasswords);
