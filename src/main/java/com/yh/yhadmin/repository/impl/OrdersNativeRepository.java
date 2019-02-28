@@ -117,9 +117,9 @@ public class OrdersNativeRepository {
      * @return 前台查询最近一个月订单
      */
     public List<Orders> findByOrderOrUser(String orderNo) {
-        String sql = "select * from orders where orderNo = ? or userContact like ? order by lastModifyDate desc limit 31";
+        String sql = "select * from orders where orderNo = ? or userContact = ? order by lastModifyDate desc limit 31";
         log.info(sql);
-        List<Orders> query = jdbcTemplate.query(sql,new Object[]{orderNo, "%"+orderNo+"%"},new BeanPropertyRowMapper<>(Orders.class));
+        List<Orders> query = jdbcTemplate.query(sql, new Object[]{orderNo, orderNo}, new BeanPropertyRowMapper<>(Orders.class));
         return query;
     }
 }
