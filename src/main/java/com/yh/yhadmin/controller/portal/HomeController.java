@@ -79,7 +79,7 @@ public class HomeController {
         model.addAttribute("tempPath",style.substring(0,style.lastIndexOf("/")));
         model.addAttribute("tempDefaultPath",CommonConstant.DEFAULT_TEMP_STATIC_PATH);
         //商品分类
-        List<Category> categories = categoryService.findAll();
+        List<Category> categories = categoryService.getByCondition(null,CommonConstant.STATUS_OK);
         model.addAttribute("categories",categories);
         return style;
     }
