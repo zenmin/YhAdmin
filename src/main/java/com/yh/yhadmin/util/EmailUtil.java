@@ -30,6 +30,13 @@ public class EmailUtil {
     @Autowired
     WebConfigService webConfigService;
 
+    /**
+     * 发送邮件主方法 不要直接调
+     * @param userTitle
+     * @param receiveUser
+     * @param content
+     */
+    @Async
     public void sendMail(String userTitle,String receiveUser, String content) {
         try {
             String username = "";
@@ -38,7 +45,7 @@ public class EmailUtil {
             String title = "";
 
             Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.MAIL_TYPE.getValue());
-            MailVo mailVo = (MailVo) byType;
+            MailVo mailVo = (MailVo) byType;//new MailVo(1,"smtp.qq.com","283339824@qq.com","sycuadpizhwmbgdg","标题","内容！");
             username = mailVo.getMailAccount();
             password = mailVo.getMailPwd();
             host = mailVo.getMailSMTP();
@@ -68,6 +75,7 @@ public class EmailUtil {
             // 添加邮件附件
             // mimeMessageHelper.addAttachment("cs.png",new File("C:\\Users\\74170\\Pictures\\FLAMING MOUNTAIN.png"));
             javaMailSender.send(mimeMailMessage);
+            log.info("邮件发送成功!");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("邮件发送失败");
@@ -75,6 +83,8 @@ public class EmailUtil {
 
     }
 
+
+    @Async
     public void sendErrorToAdmin(String title, String params, String erorMessage) {
         // 给超级管理员发送邮件
         WebConfig all = webConfigService.findAll();
@@ -88,10 +98,10 @@ public class EmailUtil {
         }
     }
 
-
+    @Async
     public void sendMsgToAdmin(String title, String content) {
         // 给超级管理员发送邮件
-        WebConfig all = webConfigService.findAll();
+        WebConfig all = webConfigService.findAll();;
         String adminEmail = all.getAdminEmail();
         if (StringUtils.isBlank(adminEmail)) {
             log.error("未配置管理员邮箱，取消发送信息！");

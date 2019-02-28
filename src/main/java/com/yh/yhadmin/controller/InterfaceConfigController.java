@@ -1,6 +1,5 @@
 package com.yh.yhadmin.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Lists;
 import com.yh.yhadmin.domain.InterfaceConfig;
 import com.yh.yhadmin.domain.vo.*;
@@ -14,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -102,31 +100,6 @@ public class InterfaceConfigController {
             }
         }
         return ResponseEntity.success(byType);
-    }
-
-    @RequestMapping("/testInterface")
-    public ResponseEntity testInterface(Integer type) throws JsonProcessingException {
-        if (type == 1) {
-            Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(type));
-            SmsVo smsVo = (SmsVo) byType;
-            String smsTemplate = smsVo.getSmsTemplate();
-            Map<String, Object> map = new HashMap<>();
-            map.put(smsTemplate, "123456");
-            String s = MapConvertUtil.objectMapper.writeValueAsString(map);
-            smsUtil.sendSms("15228766049", s);
-        }
-
-        if (type == 2) {
-            String km = "1wd12edwef";
-            String orderNo = StaticUtil.uniqueKeyByTime(new Date());
-            Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(type));
-            MailVo mailVo = (MailVo) byType;
-            String mailContent = mailVo.getMailContent();
-            String content = StaticUtil.convertMailContent(mailContent, km, orderNo);
-            mailUtil.sendMail(null,"15228766049@163.com", content);
-        }
-
-        return ResponseEntity.success(true);
     }
 
 }

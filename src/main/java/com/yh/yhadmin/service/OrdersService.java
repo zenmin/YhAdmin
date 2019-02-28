@@ -31,4 +31,9 @@ public interface OrdersService {
     Orders saveAll(Orders orders);
 
     List<Orders> findByOrderNoOrUser(String orderNo);
+
+    void sendMsg(Orders save);
+
+    void checkKmCount(String goodsName, Long count);
+
 }

@@ -1,32 +1,28 @@
 package com.yh.yhadmin.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yh.yhadmin.components.annotation.HandlerMethod;
-import com.yh.yhadmin.domain.Coupon;
-import com.yh.yhadmin.domain.Goods;
-import com.yh.yhadmin.domain.Orders;
-import com.yh.yhadmin.domain.vo.GoodsVo;
-import com.yh.yhadmin.domain.vo.OrderVo;
-import com.yh.yhadmin.domain.vo.OrdersCencus;
+import com.yh.yhadmin.domain.*;
+import com.yh.yhadmin.domain.vo.*;
 import com.yh.yhadmin.domain.query.Pager;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.repository.OrdersRepository;
 import com.yh.yhadmin.repository.impl.OrdersNativeRepository;
-import com.yh.yhadmin.service.CouponService;
-import com.yh.yhadmin.service.GoodsService;
-import com.yh.yhadmin.service.InterfaceConfigService;
-import com.yh.yhadmin.service.OrdersService;
-import com.yh.yhadmin.util.StaticUtil;
+import com.yh.yhadmin.service.*;
+import com.yh.yhadmin.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Describle
@@ -52,6 +48,18 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Autowired
     InterfaceConfigService interfaceConfigService;
+
+    @Autowired
+    WebConfigService webConfigService;
+
+    @Autowired
+    EmailUtil emailUtil;
+
+    @Autowired
+    SmsUtil smsUtil;
+
+    @Autowired
+    CardPasswordService cardPasswordService;
 
     public Page<Orders> findAll(Pager pager) {
         return ordersNativeRepository.getAll(pager, null);
@@ -172,5 +180,58 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public List<Orders> findByOrderNoOrUser(String orderNo) {
         return ordersNativeRepository.findByOrderOrUser(orderNo);
+    }
+
+    @Override
+    @Async
+    public void sendMsg(Orders save) {
+        // 检查是否发送邮件或者短信通知
+        if (save.getIsSendEmail() == CommonConstant.STATUS_OK) {
+            Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(CommonConstant.InterfaceConfig.MAIL_TYPE.getCode()));
+            MailVo mailVo = (MailVo) byType;
+            String mailContent = mailVo.getMailContent();
+            String content = StaticUtil.convertMailContent(mailContent, save.getCardPwds(), save.getOrderNo());
+            emailUtil.sendMail(null, save.getEmail(), content);
+        }
+        // 是否发送短信
+        if (save.getIsSendMsg() == CommonConstant.STATUS_OK) {
+            Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(CommonConstant.InterfaceConfig.PHONE_TYPE.getCode()));
+            SmsVo smsVo = (SmsVo) byType;
+            String smsTemplate = smsVo.getSmsTemplate();
+            Map<String, Object> map = new HashMap<>();
+            if (smsTemplate.indexOf(",") == -1) {
+                map.put(smsTemplate, save.getCardPwds());
+            } else {
+                String[] split = smsTemplate.split(",");
+                for (String key : split) {
+                    if (CommonConstant.ALL_SENDSMS_CONFIG.get(0).equals(key)) {
+                        map.put(key, save.getCardPwds());
+                    }
+                    if (CommonConstant.ALL_SENDSMS_CONFIG.get(1).equals(key)) {
+                        map.put(key, save.getOrderNo());
+                    }
+                }
+            }
+            String content = "";
+            try {
+                content = MapConvertUtil.objectMapper.writeValueAsString(map);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            smsUtil.sendSms(save.getUserContact(), content);
+        }
+    }
+
+    @Override
+    @Async
+    public void checkKmCount(String goodsName, Long count) {
+        WebConfig webConfig = webConfigService.findAll();
+        Integer kmNotice = webConfig.getKmNotice();
+        if (kmNotice > 0) {
+            if (count < kmNotice) {
+                // 低于警戒线  邮件提醒
+                emailUtil.sendMsgToAdmin("商品卡密低于库存警戒值，请及时加卡", "商品： <b>" + goodsName + "</b> 目前库存已经低与您设置的警戒值，请及时加卡！");
+            }
+        }
     }
 }

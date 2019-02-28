@@ -14,6 +14,7 @@ import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.service.InterfaceConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 
@@ -29,8 +30,8 @@ public class SmsUtil {
     @Autowired
     InterfaceConfigService interfaceConfigService;
 
-
-    public boolean sendSms(String phone,String param) {
+    @Async
+    public void sendSms(String phone,String param) {
         String ACCESS_KEY_ID = "";
         String ACCESS_KEY_SECRET = "";
         String signName = "";
@@ -39,7 +40,7 @@ public class SmsUtil {
         Object o = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.PHONE_TYPE.getValue());
         SmsVo smsVo = (SmsVo) o;
         if(smsVo == null)
-            return false;
+            throw new CommonException(DefinedCode.ERROR,"短信配置为空！");
         ACCESS_KEY_ID = smsVo.getApp_id();
         ACCESS_KEY_SECRET = smsVo.getApp_key();
         signName = smsVo.getSmsSignName();
@@ -71,8 +72,7 @@ public class SmsUtil {
             //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
             //        request.setOutId("yourOutId");
             //请求失败这里会抛ClientException异常
-            String s = acsClient.getAcsResponse(request).getCode();
-            return s.equals("OK");
+            acsClient.getAcsResponse(request).getCode();
         } catch (ClientException e) {
             log.error("短信发送失败！");
             throw new CommonException(DefinedCode.ERROR, "短信发送失败！");

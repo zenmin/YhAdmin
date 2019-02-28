@@ -14,13 +14,11 @@ import com.yh.yhadmin.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -156,11 +154,11 @@ public class OrderController {
     /**
      * @return 码支付回调 设置订单状态
      */
-    @RequestMapping("/order/callback")
     @ResponseBody
-    public String createOrder(OrderCallBackDo orderCallBackDo) {
+    @RequestMapping("/order/callback")
+    public String orderCallback(OrderCallBackDo orderCallBackDo) {
         if (orderCallBackDo == null) {
-            return "";
+            return "error";
         }
         try {
             // 订单号
@@ -169,10 +167,10 @@ public class OrderController {
             // 验证orderKey 防止hack恶意调接口
             String orderKey = orders.getOrderKey();
             if (!orderKey.equals(orderCallBackDo.getParam().trim()))
-                return "errorPage";
+                return null;
             // 验证订单状态
             if (orders.getStatus() == CommonConstant.STATUS_OK)
-                return "error";
+                return null;
             // 判断是否支付成功
             String pay_no = orderCallBackDo.getPay_no();
             if (StringUtils.isBlank(pay_no)) {
@@ -185,7 +183,7 @@ public class OrderController {
                 //验证金额  支付金额小于订单金额
                 String money = orderCallBackDo.getMoney();
                 if (Double.valueOf(money) < orders.getAllPrice()) {
-                    return "error";
+                    return null;
                 }
                 orders.setPayStatus(CommonConstant.PAY_STATUS_OK);
                 orders.setPayId(pay_no);
@@ -203,17 +201,23 @@ public class OrderController {
                     c.setUseUser(orders.getUserContact());
                     list.add(c.getCardNo());
                 });
-                String cs = StaticUtil.joinQuota(list);
+                String cs = "";
+                if (list.size() > 0) {
+                    cs = StaticUtil.joinQuota(list);
+                } else {
+                    cs = "库存不足，请联系客服！";
+                }
                 orders.setCardPwds(cs);
                 cardPasswordService.saveAll(cardPasswords);
                 Orders save = ordersService.saveAll(orders);
                 if (save != null) {
                     // 发送邮件或短信
-                    this.sendMsg(save);
+                    ordersService.sendMsg(save);
                     // 检查库存
-                    this.checkKmCount(save.getGoodsName(), page.getTotalElements() - save.getNum());
+                    ordersService.checkKmCount(save.getGoodsName(), page.getTotalElements() - save.getNum());
                 }
             }
+            return "ok";
         } catch (Exception e) {
             e.printStackTrace();
             String paramsErr = "";
@@ -225,8 +229,7 @@ public class OrderController {
             String content = e.getMessage() + " " + e.getStackTrace()[0];
             emailUtil.sendErrorToAdmin("支付接口回调失败", paramsErr, content);
         }
-
-        return "ok";
+        return "error";
     }
 
     /**
@@ -254,7 +257,7 @@ public class OrderController {
         if (StringUtils.isNotBlank(orderNo)) {
             model.addAttribute("orderNo", orderNo);
             List<Orders> byOrderNo = ordersService.findByOrderNoOrUser(orderNo);
-            if(byOrderNo.size()>0)
+            if (byOrderNo.size() > 0)
                 model.addAttribute("orderList", byOrderNo);
             else
                 model.addAttribute("orderList", null);
@@ -283,53 +286,6 @@ public class OrderController {
     @GetMapping("/order/query/callback/{orderNo}")
     public String orderQueryCallBack(@PathVariable String orderNo) {
         return "redirect:/order/query/" + orderNo;
-    }
-
-    @Async
-    public void sendMsg(Orders save) throws JsonProcessingException {
-        // 检查是否发送邮件或者短信通知
-        if (save.getIsSendEmail() == CommonConstant.STATUS_OK) {
-            Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(CommonConstant.InterfaceConfig.MAIL_TYPE.getCode()));
-            MailVo mailVo = (MailVo) byType;
-            String mailContent = mailVo.getMailContent();
-            String content = StaticUtil.convertMailContent(mailContent, save.getCardPwds(), save.getOrderNo());
-            emailUtil.sendMail(null, save.getEmail(), content);
-        }
-        // 是否发送短信
-        if (save.getIsSendMsg() == CommonConstant.STATUS_OK) {
-            Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(CommonConstant.InterfaceConfig.PHONE_TYPE.getCode()));
-            SmsVo smsVo = (SmsVo) byType;
-            String smsTemplate = smsVo.getSmsTemplate();
-            Map<String, Object> map = new HashMap<>();
-            if (smsTemplate.indexOf(",") == -1) {
-                map.put(smsTemplate, save.getCardPwds());
-            } else {
-                String[] split = smsTemplate.split(",");
-                for (String key : split) {
-                    if (CommonConstant.ALL_SENDSMS_CONFIG.get(0).equals(key)) {
-                        map.put(key, save.getCardPwds());
-                    }
-                    if (CommonConstant.ALL_SENDSMS_CONFIG.get(1).equals(key)) {
-                        map.put(key, save.getOrderNo());
-                    }
-                }
-            }
-            String content = MapConvertUtil.objectMapper.writeValueAsString(map);
-            smsUtil.sendSms(save.getUserContact(), content);
-        }
-    }
-
-
-    @Async
-    public void checkKmCount(String goodsName, Long count) {
-        WebConfig webConfig = webConfigService.findAll();
-        Integer kmNotice = webConfig.getKmNotice();
-        if (kmNotice > 0) {
-            if (count < kmNotice) {
-                // 低于警戒线  邮件提醒
-                emailUtil.sendMsgToAdmin("商品卡密低于库存警戒值，请及时加卡", "商品： <b>" + goodsName + "</b> 目前库存已经低与您设置的警戒值，请及时加卡！");
-            }
-        }
     }
 
 }

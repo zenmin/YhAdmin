@@ -23,7 +23,7 @@ public class SqlInterceptor implements HandlerInterceptor {
         // 程序验证
         boolean b = userInfoUtil.checkAuth(null);
         if(!b){
-            response.sendRedirect("/");
+            return false;
         }
         String inj_str = "'|and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare|;|or|-|+|,";
         String requestURI = request.getRequestURI();
