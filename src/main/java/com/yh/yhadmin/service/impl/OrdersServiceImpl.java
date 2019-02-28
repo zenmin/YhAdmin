@@ -1,12 +1,10 @@
 package com.yh.yhadmin.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yh.yhadmin.components.annotation.HandlerMethod;
 import com.yh.yhadmin.domain.Coupon;
 import com.yh.yhadmin.domain.Goods;
 import com.yh.yhadmin.domain.Orders;
 import com.yh.yhadmin.domain.vo.GoodsVo;
-import com.yh.yhadmin.domain.vo.MailVo;
 import com.yh.yhadmin.domain.vo.OrderVo;
 import com.yh.yhadmin.domain.vo.OrdersCencus;
 import com.yh.yhadmin.domain.query.Pager;
@@ -19,7 +17,6 @@ import com.yh.yhadmin.service.CouponService;
 import com.yh.yhadmin.service.GoodsService;
 import com.yh.yhadmin.service.InterfaceConfigService;
 import com.yh.yhadmin.service.OrdersService;
-import com.yh.yhadmin.util.EmailUtil;
 import com.yh.yhadmin.util.StaticUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -52,9 +49,6 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Autowired
     CouponService couponService;
-
-    @Autowired
-    EmailUtil emailUtil;
 
     @Autowired
     InterfaceConfigService interfaceConfigService;

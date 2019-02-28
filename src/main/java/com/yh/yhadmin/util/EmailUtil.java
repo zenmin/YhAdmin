@@ -30,7 +30,6 @@ public class EmailUtil {
     @Autowired
     WebConfigService webConfigService;
 
-    @Async
     public void sendMail(String userTitle,String receiveUser, String content) {
         try {
             String username = "";

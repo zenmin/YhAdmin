@@ -172,7 +172,7 @@ public class OrderController {
                 return "errorPage";
             // 验证订单状态
             if (orders.getStatus() == CommonConstant.STATUS_OK)
-                return "errorPage";
+                return "error";
             // 判断是否支付成功
             String pay_no = orderCallBackDo.getPay_no();
             if (StringUtils.isBlank(pay_no)) {
@@ -185,7 +185,7 @@ public class OrderController {
                 //验证金额  支付金额小于订单金额
                 String money = orderCallBackDo.getMoney();
                 if (Double.valueOf(money) < orders.getAllPrice()) {
-                    return null;
+                    return "error";
                 }
                 orders.setPayStatus(CommonConstant.PAY_STATUS_OK);
                 orders.setPayId(pay_no);
@@ -226,7 +226,7 @@ public class OrderController {
             emailUtil.sendErrorToAdmin("支付接口回调失败", paramsErr, content);
         }
 
-        return "/";
+        return "ok";
     }
 
     /**
@@ -285,6 +285,7 @@ public class OrderController {
         return "redirect:/order/query/" + orderNo;
     }
 
+    @Async
     public void sendMsg(Orders save) throws JsonProcessingException {
         // 检查是否发送邮件或者短信通知
         if (save.getIsSendEmail() == CommonConstant.STATUS_OK) {
