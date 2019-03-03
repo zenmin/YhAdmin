@@ -22,7 +22,7 @@ a { text-decoration: none; text-align: center;}
 .choose_goods,
 .choose_pay { width: 92%; margin: 0 auto; border-radius: 10px; background: #fff; overflow: hidden; margin-top: 12px;}
 .choose_title { display: block; height: 45px; font-size: 16px; line-height: 45px; color: #fff; padding-left: 12px; background: #10a9f0;}
-.choose_goods p { line-height: 40px; padding: 0 12px; font-size: 14px; height: 40px; border-bottom: 1px solid #f8f8f8;}
+.choose_goods p { padding: 0 12px; font-size: 14px; height: 40px; border-bottom: 1px solid #f8f8f8;}
 .choose_goods p:last-child { border-bottom: none;}
 .s_left { float: left; width: 25%; font-size: 14px;}
 .s_right { float: right; width: 75%; overflow: hidden; text-align: right; word-break: keep-all; display: block;}

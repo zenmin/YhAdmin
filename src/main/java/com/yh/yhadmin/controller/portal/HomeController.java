@@ -5,6 +5,8 @@ import com.yh.yhadmin.domain.Category;
 import com.yh.yhadmin.domain.Goods;
 import com.yh.yhadmin.domain.WebConfig;
 import com.yh.yhadmin.domain.vo.GoodsVoHome;
+import com.yh.yhadmin.domain.vo.MailVo;
+import com.yh.yhadmin.domain.vo.SmsVo;
 import com.yh.yhadmin.foundation.ResponseEntity;
 import com.yh.yhadmin.foundation.constant.CommonConstant;
 import com.yh.yhadmin.service.*;
@@ -71,6 +73,13 @@ public class HomeController {
         AdminUser admin = adminUserService.findAdmin();
         webConfig.setAdminQQ(admin.getQq());
         model.addAttribute("config",webConfig);
+        // 短信和邮件开关
+        Object byType = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(CommonConstant.InterfaceConfig.PHONE_TYPE.getCode()));
+        SmsVo smsVo = (SmsVo) byType;
+        webConfig.setSmsSwitch(smsVo.getStatus());
+        Object byType1 = interfaceConfigService.findByType(CommonConstant.InterfaceConfig.getValue(CommonConstant.InterfaceConfig.MAIL_TYPE.getCode()));
+        MailVo mailVo = (MailVo) byType1;
+        webConfig.setEmailSwitch(mailVo.getStatus());
         // 支付接口开关
         Object pay = interfaceConfigService.findByType(CommonConstant.ALL_INTERFACE_CONFIG.get(3));
         model.addAttribute("ps",pay);

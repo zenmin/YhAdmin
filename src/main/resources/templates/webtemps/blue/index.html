@@ -49,13 +49,13 @@
     <p id="pullDiv" style="display: none;"><span class="s_left">提取密码</span><span class="s_right">
         <input name="pullPwd" id="pullPwd" type="text" style="height: 40px;width: 100%;" placeholder="该商品需要你输入提取密码"></span></p>
 
-    <p><span class="s_left">发送短信</span><span class="s_right">
+    <p th:if="${config.smsSwitch == 1}"><span class="s_left">发送短信</span><span class="s_right">
         <select name="tp_id" id="isSendMsg" onchange="checkMsg()">
             <option th:value="0">否</option>
             <option th:value="1">是</option>
         </select></span></p>
 
-    <p><span class="s_left">发送邮件</span><span class="s_right" onchange="showEmail()">
+    <p th:if="${config.emailSwitch == 1}"><span class="s_left">发送邮件</span><span class="s_right" onchange="showEmail()">
         <select name="tp_id" id="isSendEmail" >
             <option th:value="0">否</option>
             <option th:value="1">是</option>

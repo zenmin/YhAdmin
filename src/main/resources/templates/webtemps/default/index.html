@@ -92,7 +92,7 @@
 			<div class="weui-cell__bd"><input class="weui-input" id="pullPwd" type="text" placeholder="本商品需要您请输入提取密码"></div>
 		</div>
 
-		<div class="weui-cell" id="sengMsgDiv" >
+		<div class="weui-cell" id="sengMsgDiv" th:if="${config.smsSwitch == 1}">
 			<div class="weui-cell__hd"><label class="weui-label">发送短信</label></div>
 			<div class="weui-cell__bd">
 				<select class="weui-input" name="sendMsg" id="sendMsg" type="text" placeholder="" onchange="changePhone()">
@@ -102,7 +102,7 @@
 			</div>
 		</div>
 
-		<div class="weui-cell" id="">
+		<div class="weui-cell" id="" th:if="${config.emailSwitch == 1}">
 			<div class="weui-cell__hd"><label class="weui-label">发送邮件</label></div>
 			<div class="weui-cell__bd">
 				<select class="weui-input" name="sendEmail" type="text" id="sendEmail" placeholder="" onchange="changeEmail()">

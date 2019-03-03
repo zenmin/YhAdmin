@@ -69,6 +69,13 @@ public class WebConfig extends Model {
     @Transient
     private String adminQQ;
 
+    @Transient
+    private Integer emailSwitch;
+
+    @Transient
+    private Integer smsSwitch;
+
+
     public WebConfig(String id) {
         super.setId(id);
     }
