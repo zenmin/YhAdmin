@@ -9,9 +9,13 @@ import com.yh.yhadmin.util.IpHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,6 +28,7 @@ import java.util.Properties;
  */
 @RestController
 @RequestMapping("/api/index")
+@CacheConfig(cacheNames = "IndexController")
 public class IndexController {
 
     @Value("${application.version}")
@@ -91,11 +96,11 @@ public class IndexController {
     }
 
     @RequestMapping("/version")
+    @Cacheable
     public ResponseEntity getVersion(HttpServletRequest request) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("version", version);
         map.put("ip", IpHelper.getRequestIpAddr(request));
-        map.put("time", DateUtil.getNowTime());
         map.put("host", request.getHeader("host"));
         map.put("port", request.getServerPort());
         map.put("serverinfo", request.getServletContext().getServerInfo());
