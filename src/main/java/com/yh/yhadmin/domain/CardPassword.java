@@ -46,6 +46,12 @@ public class CardPassword extends Model {
     @Transient
     private String goodsName;
 
+    @Transient
+    private String cname;
+
+    @Transient
+    private String cid;
+
     public CardPassword(String cardNo, String goodsId, String createUser, String createUserId, Boolean status, Date useDate, String useUser) {
         this.cardNo = cardNo;
         this.goodsId = goodsId;
@@ -57,6 +63,10 @@ public class CardPassword extends Model {
     }
 
     public CardPassword() {
+    }
+
+    public CardPassword(String id) {
+        super.setId(id);
     }
 
     public CardPassword(String cardNo, String goodsId, String createUser, String createUserId, Boolean status) {

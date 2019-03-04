@@ -28,4 +28,6 @@ public class GoodsVoHome extends Model {
     private String cname;
 
     private long kmCount;
+
+    private Integer sort;
 }

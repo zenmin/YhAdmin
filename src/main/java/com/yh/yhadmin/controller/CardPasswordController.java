@@ -27,7 +27,6 @@ public class CardPasswordController {
     @Autowired
     CardPasswordService cardPasswordService;
 
-
     @RequestMapping("/getAll")
     public ResponseEntity findAll(Pager pager){
         return ResponseEntity.success(cardPasswordService.findAll(pager));
@@ -47,26 +46,16 @@ public class CardPasswordController {
 
     @RequestMapping("/delete")
     public ResponseEntity delete(String id){
-        List<CardPassword> list = Lists.newArrayList();
-        if(id.indexOf(",") != -1){
-            String[] split = id.split(",");
-            List<String> strings = Arrays.asList(split);
-            strings.stream().forEach( o -> {
-                CardPassword cardPassword = new CardPassword();
-                cardPassword.setId(o);
-                list.add(cardPassword);
-            });
-        }else{
-            CardPassword cardPassword = new CardPassword();
-            cardPassword.setId(id);
-            list.add(cardPassword);
-        }
-        return ResponseEntity.success(cardPasswordService.delete(list));
+        return ResponseEntity.success(cardPasswordService.delete(id));
     }
 
     @RequestMapping("/deleteBatch")
-    public ResponseEntity delete(Integer type){
-        return ResponseEntity.success(cardPasswordService.deleteBatch(type));
+    public ResponseEntity delete(Integer type,String ids,String cid ,String goodsId){
+        if(type != null){
+            return ResponseEntity.success(cardPasswordService.deleteBatch(type,cid,goodsId));
+        }else {
+            return ResponseEntity.success(cardPasswordService.deleteBatchTwo(ids));
+        }
     }
 
 

@@ -18,12 +18,13 @@ public interface CardPasswordService {
 
     Object save(CardPassword cardPassword);
 
-    boolean delete(List<CardPassword> id);
+    boolean delete(String id);
 
     Page<CardPassword> findByCondition(CardPassword cardPassword,Pager pager);
 
-    boolean deleteBatch(Integer type);
+    boolean deleteBatch(Integer type,String cid ,String goodsId);
 
     void saveAll(List<CardPassword> cardPasswords);
 
+    boolean deleteBatchTwo(String ids);
 }

@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,8 +65,8 @@ public class CardPasswordServiceImpl implements CardPasswordService {
     @HandlerMethod(optName = "卡密管理",optDesc = "删除卡密")
     @Override
     @Transactional
-    public boolean delete(List<CardPassword> id) {
-        cardPasswordRepository.deleteAll(id);
+    public boolean delete(String id) {
+        cardPasswordRepository.deleteById(id);
         return true;
     }
 
@@ -78,13 +79,9 @@ public class CardPasswordServiceImpl implements CardPasswordService {
     @HandlerMethod(optName = "卡密管理",optDesc = "批量删除卡密")
     @Override
     @Transactional
-    public boolean deleteBatch(Integer type) {
-        if (type == CommonConstant.DELETE_TYPE_ALL) {
-            cardPasswordRepository.deleteAll();
-        } else if (type == CommonConstant.DELETE_TYPE_TRUE) {
-            cardPasswordRepository.deleteByStatus(true);
-        } else if (type == CommonConstant.DELETE_TYPE_FALSE) {
-            cardPasswordRepository.deleteByStatus(false);
+    public boolean deleteBatch(Integer type,String cid ,String goodsId) {
+        if (type >= 0 && type <= 2) {
+            cardPasswordNativeRepository.deleteBatch(type,cid,goodsId);
         } else {
             throw new CommonException(DefinedCode.PARAMS_ERROR, "参数异常！");
         }
@@ -97,6 +94,23 @@ public class CardPasswordServiceImpl implements CardPasswordService {
     @Async
     public void saveAll(List<CardPassword> cardPasswords) {
         cardPasswordRepository.saveAll(cardPasswords);
+    }
+
+    @HandlerMethod(optName = "卡密管理",optDesc = "批量删除卡密")
+    @Override
+    @Transactional
+    public boolean deleteBatchTwo(String ids) {
+        List<CardPassword> list = Lists.newArrayList();
+        if(ids.indexOf(",") == -1){
+            list.add(new CardPassword(ids));
+        }else {
+            String[] split = ids.split(",");
+            for (String id : split){
+                list.add(new CardPassword(id));
+            }
+        }
+        cardPasswordRepository.deleteAll(list);
+        return true;
     }
 
 }

@@ -22,7 +22,7 @@ public class Goods extends Model {
     @Column
     private String name;
 
-    @Column
+    @Column(columnDefinition = "text COMMENT '商品描述'")
     private String goodsDesc;
 
     @Column
@@ -42,6 +42,9 @@ public class Goods extends Model {
 
     @Column
     private String pullPwd;
+
+    @Column(columnDefinition = "int(11) default 0 COMMENT '排序'")
+    private Integer sort;
 
     public Goods(String name, String goodsDesc, String img, String cid, Integer status, Double price, Boolean needPwd, String pullPwd) {
         this.name = name;

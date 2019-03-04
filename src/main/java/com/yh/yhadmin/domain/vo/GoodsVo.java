@@ -42,4 +42,6 @@ public class GoodsVo extends Model {
     private String cname;
 
     private long kmCount;
+
+    private Integer sort;
 }

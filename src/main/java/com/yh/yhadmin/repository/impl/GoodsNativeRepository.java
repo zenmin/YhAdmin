@@ -26,7 +26,7 @@ public class GoodsNativeRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<GoodsVo> findAllAndCateGory(Pager pager) {
-        String sql = "SELECT g.*,c.name as cname,(SELECT count(1) FROM cardpassword c where c.goodsId = g.id  and c.status = 0) as kmCount from goods g LEFT JOIN category c on g.cid = c.id ORDER BY g.createDate desc LIMIT ?,?";
+        String sql = "SELECT g.*,c.name as cname,(SELECT count(1) FROM cardpassword c where c.goodsId = g.id  and c.status = 0) as kmCount from goods g LEFT JOIN category c on g.cid = c.id ORDER BY g.sort asc LIMIT ?,?";
         List<GoodsVo> goodsVos = jdbcTemplate.query(sql,new Object[]{pager.getStart()*pager.getSize(),pager.getSize()} ,new BeanPropertyRowMapper<>(GoodsVo.class));
         return goodsVos;
     }
@@ -41,7 +41,7 @@ public class GoodsNativeRepository {
             sql.append(" and g.status = " + goods.getStatus());
         if (goods.getId() != null)
             sql.append(" and g.id = '" + goods.getId() + "'");
-        sql.append(" ORDER BY g.createDate desc LIMIT ?,?");
+        sql.append(" ORDER BY g.sort asc LIMIT ?,?");
         List<GoodsVo> goodsVos = jdbcTemplate.query(sql.toString(), new Object[]{pager.getStart() * pager.getSize(), pager.getSize()}, new BeanPropertyRowMapper<>(GoodsVo.class));
         log.info(sql.toString());
         return goodsVos;
@@ -57,7 +57,7 @@ public class GoodsNativeRepository {
             sql.append(" and g.status = " + goods.getStatus());
         if (goods.getId() != null)
             sql.append(" and g.id = '" + goods.getId() + "'");
-        sql.append(" ORDER BY g.createDate");
+        sql.append(" ORDER BY g.sort asc ");
         List<GoodsVoHome> goodsVos = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(GoodsVoHome.class));
         log.info(sql.toString());
         return goodsVos;
