@@ -56,7 +56,7 @@ public class CardPasswordServiceImpl implements CardPasswordService {
         String[] split = cardNo.split("\n");
         for (String c : split){
             if(StringUtils.isNotBlank(c))
-                cardPasswords.add(new CardPassword(c,cardPassword.getGoodsId(),null,null,false));
+                cardPasswords.add(new CardPassword(c,cardPassword.getGoodsId(),cardPassword.getCreateUser(),cardPassword.getCreateUserId(),false));
         }
         List<CardPassword> cardPasswords1 = cardPasswordRepository.saveAll(cardPasswords);
         return cardPasswords1 != null;

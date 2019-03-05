@@ -3,12 +3,15 @@ package com.yh.yhadmin.controller;
 import com.google.common.collect.Lists;
 import com.yh.yhadmin.domain.CardPassword;
 import com.yh.yhadmin.domain.query.Pager;
+import com.yh.yhadmin.domain.vo.AdminUserVo;
 import com.yh.yhadmin.foundation.CommonException;
 import com.yh.yhadmin.foundation.DefinedCode;
 import com.yh.yhadmin.foundation.ResponseEntity;
 import com.yh.yhadmin.service.CardPasswordService;
+import com.yh.yhadmin.util.UserInfoUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +30,9 @@ public class CardPasswordController {
     @Autowired
     CardPasswordService cardPasswordService;
 
+    @Autowired
+    UserInfoUtil userInfoUtil;
+
     @RequestMapping("/getAll")
     public ResponseEntity findAll(Pager pager){
         return ResponseEntity.success(cardPasswordService.findAll(pager));
@@ -38,9 +44,12 @@ public class CardPasswordController {
     }
 
     @RequestMapping("/save")
-    public ResponseEntity saveOrUpdate(CardPassword cardPassword){
+    public ResponseEntity saveOrUpdate(CardPassword cardPassword, @RequestHeader String token){
         if(StringUtils.isBlank(cardPassword.getCardNo().trim()) || StringUtils.isBlank(cardPassword.getGoodsId()))
             throw new CommonException(DefinedCode.PARAMSERROR,"卡密或商品不能为空！");
+        AdminUserVo userInfo = userInfoUtil.getUserInfo(token);
+        cardPassword.setCreateUser(userInfo.getName());
+        cardPassword.setCreateUserId(userInfo.getId());
         return ResponseEntity.success(cardPasswordService.save(cardPassword));
     }
 
