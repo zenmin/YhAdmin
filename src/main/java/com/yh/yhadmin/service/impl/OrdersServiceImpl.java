@@ -138,7 +138,7 @@ public class OrdersServiceImpl implements OrdersService {
                 // 设置一次性优惠券无效
                 byCouponNO.setUseDate(new Date());
                 byCouponNO.setUseUser(orderVo.getUserContact());
-                orderVo.setCoupon(byCouponNO.getSaleRate().toString());
+                orderVo.setCoupon(byCouponNO.getCouponNo());
             }
         try {
             Integer number1 = orderVo.getNumber();
