@@ -136,8 +136,10 @@ public class OrdersServiceImpl implements OrdersService {
                     throw new CommonException(DefinedCode.DATEDIS, "优惠券已过期！");
                 saleRate = byCouponNO == null ? 100 : byCouponNO.getSaleRate();
                 // 设置一次性优惠券无效
-                byCouponNO.setUseDate(new Date());
-                byCouponNO.setUseUser(orderVo.getUserContact());
+                if(byCouponNO.getValidLong() == CommonConstant.STATUS_ERROR){
+                    byCouponNO.setUseDate(new Date());
+                    byCouponNO.setUseUser(orderVo.getUserContact());
+                }
                 orderVo.setCoupon(byCouponNO.getCouponNo());
             }
         try {
