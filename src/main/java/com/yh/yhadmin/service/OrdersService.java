@@ -22,7 +22,7 @@ public interface OrdersService {
 
      Page<Orders> getByCondition(Orders orders,Pager pager);
 
-     List<OrdersCencus> getCencus();
+    OrdersCencus getCencus();
 
     OrderVo createOrder(OrderVo orderVo);
 

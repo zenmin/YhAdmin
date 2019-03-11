@@ -2,6 +2,9 @@ package com.yh.yhadmin.domain.vo;
 
 import lombok.Data;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Describle
  * @Author Li lei
@@ -12,13 +15,18 @@ import lombok.Data;
 @Data
 public class OrdersCencus {
 
-    private String total;//订单总数
+    private Integer allCount;            // 订单总数
 
-    private String complete;//交易完成
+    private Integer successCount;        // 交易完成
 
-    private String total_today;//今日总数
+    private Double allPrice;            // 成交金额
 
-    private String total_card;//卡密总数
+    private Integer allCardPwds;         // 卡密总数
 
-    private String Surplus;//剩余卡密
+    private Integer successCardPwds;     // 售出卡密
+
+    private Integer consumerCount;       // 下单用户总数
+
+    private List<Map<String,Object>> payAlias; // 支付方式分析
+
 }

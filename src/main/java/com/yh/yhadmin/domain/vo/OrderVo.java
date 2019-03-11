@@ -23,7 +23,7 @@ public class OrderVo {
 
     private String goodsId;     // 商品id
 
-    private String goodsName;     // 商品id
+    private String goodsName;     // 商品名称
 
     private String payType;     // 支付方式
 

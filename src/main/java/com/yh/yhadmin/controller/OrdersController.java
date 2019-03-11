@@ -5,6 +5,7 @@ import com.yh.yhadmin.domain.query.Pager;
 import com.yh.yhadmin.foundation.ResponseEntity;
 import com.yh.yhadmin.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +37,7 @@ public class OrdersController {
         return ResponseEntity.success(ordersService.getByCondition(orders, pager));
     }
 
-    @RequestMapping("/getcCensus")
+    @PostMapping("/getcCensus")
     public ResponseEntity getcCensus() {
         return ResponseEntity.success(ordersService.getCencus());
     }

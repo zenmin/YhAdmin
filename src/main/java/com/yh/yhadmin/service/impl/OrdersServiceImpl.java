@@ -75,9 +75,9 @@ public class OrdersServiceImpl implements OrdersService {
         return ordersNativeRepository.getAll(pager, orders);
     }
 
-    public List<OrdersCencus> getCencus() {
-        List<OrdersCencus> list = ordersNativeRepository.getCencusByJDBC();
-        return list;
+    public OrdersCencus getCencus() {
+        OrdersCencus cencusByJDBC = ordersNativeRepository.getCencusByJDBC();
+        return cencusByJDBC;
     }
 
     /**
