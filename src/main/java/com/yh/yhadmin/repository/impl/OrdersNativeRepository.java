@@ -103,7 +103,7 @@ public class OrdersNativeRepository {
     public IndexInfoVo getIndexInfo() {
         String indexSql = "SELECT count( DISTINCT ( ip ) ) AS orderUsers, ( SELECT count( 1 ) FROM cardpassword WHERE STATUS = 0 ) AS cardPwds, ( SELECT IFNULL( ROUND( sum( allPrice ), 2 ), 0 ) FROM orders WHERE date( createDate ) = CURRENT_DATE and `status` = 1) AS nowPrice, ( SELECT count( 1 ) FROM orders WHERE date( createDate ) = CURRENT_DATE ) AS orderNum FROM orders";
         IndexInfoVo indexInfoVo = jdbcTemplate.queryForObject(indexSql, new BeanPropertyRowMapper<>(IndexInfoVo.class));
-        String sevenOrdersSql = "SELECT count( 1 ) AS num, IFNULL(ROUND(SUM(allPrice),2),0.00) as price, date( createDate ) AS date FROM orders where `status` = 1 GROUP BY date ORDER BY date ASC LIMIT 7";
+        String sevenOrdersSql = "SELECT * from(SELECT count( 1 ) AS num, IFNULL(ROUND(SUM(allPrice),2),0.00) as price, date( createDate ) AS date FROM orders where `status` = 1 GROUP BY date ORDER BY date desc LIMIT 7)as _ ORDER BY date asc";
         List<Map<String, Object>> hashMaps = jdbcTemplate.queryForList(sevenOrdersSql);
         indexInfoVo.setSevenOrders(hashMaps);
         return indexInfoVo;
@@ -121,7 +121,7 @@ public class OrdersNativeRepository {
         String paysql = "SELECT count(1) as value,payWay as name FROM `orders` where `status` = 1 GROUP BY payWay";
         List<Map<String, Object>> maps = jdbcTemplate.queryForList(paysql);
         indexInfoVo.setPayAlias(maps);
-        String finishOrderSql = "SELECT count(1) as count,date(createDate) as date FROM `orders` where `status` = 1 GROUP BY date order by date asc LIMIT 7";
+        String finishOrderSql = "SELECT * from( SELECT count(1) as count,date(createDate) as date FROM `orders` where `status` = 1 GROUP BY date order by date desc LIMIT 7) as _ order by date asc";
         List<Map<String, Object>> maps1 = jdbcTemplate.queryForList(finishOrderSql);
         indexInfoVo.setFinishOrderAlias(maps1);
         return indexInfoVo;
