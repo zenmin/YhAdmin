@@ -157,7 +157,7 @@ public class OrderController {
     @ResponseBody
     @RequestMapping("/order/callback")
     public String orderCallback(OrderCallBackDo orderCallBackDo) {
-        if (orderCallBackDo == null) {
+        if (StringUtils.isBlank(orderCallBackDo.getPay_id())) {
             return "error";
         }
         try {
@@ -167,10 +167,10 @@ public class OrderController {
             // 验证orderKey 防止hack恶意调接口
             String orderKey = orders.getOrderKey();
             if (!orderKey.equals(orderCallBackDo.getParam().trim()))
-                return null;
+                return "error";
             // 验证订单状态
             if (orders.getStatus() == CommonConstant.STATUS_OK)
-                return null;
+                return "error";
             // 判断是否支付成功
             String pay_no = orderCallBackDo.getPay_no();
             if (StringUtils.isBlank(pay_no)) {
@@ -183,7 +183,7 @@ public class OrderController {
                 //验证金额  支付金额小于订单金额
                 String money = orderCallBackDo.getMoney();
                 if (Double.valueOf(money) < orders.getAllPrice()) {
-                    return null;
+                    return "error";
                 }
                 orders.setPayStatus(CommonConstant.PAY_STATUS_OK);
                 orders.setPayId(pay_no);
